@@ -24,13 +24,13 @@ module.exports = {
     : '/',
   css: {
     loaderOptions: {
-      // postcss: { // 配置px2rem
-      //   plugins: [
-      //     require('postcss-px2rem')({
-      //       remUnit: 37.5
-      //     })
-      //   ]
-      // },
+      postcss: { // 配置px2rem
+        plugins: [
+          require('postcss-px2rem')({
+            remUnit: 37.5
+          })
+        ]
+      },
       sass: {
         data: `
           @import "./src/assets/styles/variables.scss";
