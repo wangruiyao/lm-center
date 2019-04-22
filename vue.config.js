@@ -87,7 +87,7 @@ module.exports = {
       .set('components', resolve('src/components'))
       .set('plugins', resolve('src/plugins'))
       .set('utils', resolve('src/utils'))
-      .set('projects', resolve('src/projects'))
+      .set('views', resolve('src/views'))
       .set('core', resolve('src/core'))
       .set('store', resolve('src/store'))
       .set('router', resolve('src/router'))
