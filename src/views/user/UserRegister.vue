@@ -1,10 +1,15 @@
 <template>
-  <div id="user-register">注册</div>
+  <div id="user-register">
+    <lm-input></lm-input>
+  </div>
 </template>
 
 <script>
+  const LmInput = resolve => require(['components/lmInput/LmInput'], resolve)
+  // import LmInput from "components/lmInput/LmInput";
   export default {
-    name: "UserRegister"
+    name: "UserRegister",
+    components: {LmInput}
   }
 </script>
 
