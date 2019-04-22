@@ -3,6 +3,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+// 导入组件库
+// import { Indicator, Toast  } from 'mint-ui'
+// window.toast = Toast
+// window.indicator = Indicator
+
 Vue.config.productionTip = false
 
 new Vue({
