@@ -24,7 +24,7 @@ export default [{
       meta: {
         title: '用户注册'
       },
-      component:  r => require.ensure([], () => r(require('../../views/user/UserRegister')), 'userRegister')
+      component:  r => require.ensure([], () => r(require('../../views/user/UserRegister/UserRegister')), 'userRegister')
     }
   ]
 }]

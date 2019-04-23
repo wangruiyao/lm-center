@@ -1,15 +1,18 @@
 <template>
-  <div>
-    <h3>空白布局</h3>
-    <hr/>
+  <div id="blank-layout">
     <router-view />
   </div>
 </template>
 
-<style></style>
+<style lang="scss" scoped>
+  #blank-layout {
+    background: #ffffff;
+    min-height: 667px;
+  }
+</style>
 
 <script>
 export default {
-  name: 'BlankLayout'
+  name: 'BlankLayout',
 }
 </script>
