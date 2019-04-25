@@ -2,8 +2,8 @@
 <template>
   <div id="main-work">
     <div class="main-work-tip">
-      <span>选择我的主营项</span>
-      <span>只可单选，为您提供共精确的营销服务指导</span>
+      <span class="main-work-tip-title">我的主营项</span>
+      <span>为您提供共精确的营销服务</span>
     </div>
     <div class="main-work-buttonlist">
       <div class="main-work-button"
@@ -47,7 +47,14 @@
 
 <style lang="scss" scoped>
   #main-work {
+    font-size: 12px;
     width: 315px;
+    margin: 28px 0;
+  }
+  .main-work-tip-title {
+    font-size: 16px;
+    color: $red-color;
+    margin-right: 3px;
   }
   .main-work-buttonlist {
     @include flex-row();

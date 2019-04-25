@@ -50,8 +50,11 @@ module.exports = {
     // historyApiFallback: true, // history模式开启
     proxy: {
       '/api': {
-        target: 'http://yapi.imeete.com/mock/320',
-        changeOrigin: true
+        target: 'http://api.enms.cn:7001/mock/run',
+        changeOrigin: true,
+        pathRewrite:{
+          '^/api':''
+        }
       }
     },
     historyApiFallback: {

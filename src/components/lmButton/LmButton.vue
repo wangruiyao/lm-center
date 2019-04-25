@@ -1,6 +1,6 @@
 <template>
   <div id="button"
-       :class="isActive ? 'lm-active-button' : 'lm-button'" >
+       :class="isActive ? actType : 'lm-button'">
     <slot></slot>
   </div>
 </template>
@@ -12,6 +12,10 @@
       isActive: {
         type: Boolean,
         default: false
+      },
+      actType: {
+        type: String,
+        default: 'active-red'
       }
     }
   }
@@ -19,7 +23,6 @@
 
 <style lang="scss" scoped>
   #button {
-
     @include flex-row(center);
     border-radius: 20px;
     width: 100%;
@@ -29,8 +32,10 @@
     color: #666;
     border: solid $button-border-color 1px;
   }
-  .lm-active-button {
-    @include btn-active;
+  .active-red {
+    @include btn-active-red;
   }
-
+  .active-blue {
+    @include btn-active-blue;
+  }
 </style>

@@ -25,7 +25,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title
   } else {
-    document.title = 'my-menu'
+    document.title = '连萌平台'
   }
 
   next()

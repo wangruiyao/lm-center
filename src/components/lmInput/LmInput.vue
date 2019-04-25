@@ -4,12 +4,14 @@
     <div class="lm-input-container-border">
       <div class="lm-input-container">
         <slot></slot>
+        <div v-if="isReadOnly" class="lm-input-masker" @click.prevent="handleInputClick"></div>
         <input class="lm-input-input"
                :type="localInputType"
                v-model="inputInfo"
                :style="{color: (errTip !== ''&& errTip !== undefined) ? ' #ff0018': ''}"
                :placeholder="placeHolder"
-               @blur="handleInputBlur"/>
+               @blur="handleInputBlur"
+               />
         <div @click="changePasswordType()">
           <lm-icon v-if="inputType === 'password'"
                    :icon-class="passwordIcon"></lm-icon>
@@ -28,6 +30,10 @@
     name: "LmInput",
     components: {LmIcon, ErrTips},
     props: {
+      'isReadOnly': {
+        type: Boolean,
+        default: false
+      },
       'inputType': {
         type: String,
         default: 'text'
@@ -52,12 +58,16 @@
         passwordIcon: 'icon-yanjing1'
       }
     },
-    mounted() {
-      console.log(this.errTip)
-    },
+    mounted() {},
     methods: {
+      setInputVal(newVal) {
+        this.inputInfo = newVal
+      },
       handleInputBlur() {
         this.$emit('handleInputBlur', this.inputInfo)
+      },
+      handleInputClick() {
+        this.$emit('handleInputClick')
       },
       changePasswordType() {
         if (this.localInputType === 'password') {
@@ -88,12 +98,19 @@
     @include input-border-bgd;
     padding: 1px;
     .lm-input-container {
+      position: relative;
       @include flex-row(flex-start);
       height: $input-height;
       background: #fff;
       border-radius:20px;
       overflow: hidden;
       padding: 0 10px;
+      .lm-input-masker {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+      }
       input {
         width: 100%;
         height: 100%;
