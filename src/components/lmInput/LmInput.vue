@@ -16,6 +16,9 @@
           <lm-icon v-if="inputType === 'password'"
                    :icon-class="passwordIcon"></lm-icon>
         </div>
+        <div class="err-tip-slot">
+          <slot name="errTip"></slot>
+        </div>
 
       </div>
     </div>
@@ -117,6 +120,11 @@
       }
       .lm-input-icon {
         @include input-icon()
+      }
+      .err-tip-slot {
+        color: rgba(255, 0, 24, 0.4);;
+        position: absolute;
+        left: 100px;
       }
     }
   }

@@ -1,6 +1,7 @@
 <template>
   <div id="button"
-       :class="isActive ? actType : 'lm-button'">
+       :class="isActive ? actType : 'lm-button'"
+       @click="handleButtonClick">
     <slot></slot>
   </div>
 </template>
@@ -16,6 +17,11 @@
       actType: {
         type: String,
         default: 'active-red'
+      }
+    },
+    methods: {
+      handleButtonClick() {
+        this.$emit('click')
       }
     }
   }

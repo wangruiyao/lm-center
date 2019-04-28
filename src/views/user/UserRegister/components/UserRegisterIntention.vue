@@ -49,7 +49,7 @@
   #main-work {
     font-size: 12px;
     width: 315px;
-    margin: 28px 0;
+    margin: 28px 0 0;
   }
   .main-work-tip-title {
     font-size: 16px;

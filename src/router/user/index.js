@@ -25,6 +25,14 @@ export default [{
         title: '用户注册'
       },
       component:  r => require.ensure([], () => r(require('../../views/user/UserRegister/UserRegister')), 'userRegister')
+    },
+    {
+      path: 'enlist',
+      name: 'userEnlist',
+      meta: {
+        title: '连萌招募'
+      },
+      component:  r => require.ensure([], () => r(require('../../views/user/userEnlist/UserEnlist')), 'userEnlist')
     }
   ]
 }]

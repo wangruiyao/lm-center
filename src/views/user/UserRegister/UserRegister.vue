@@ -43,20 +43,7 @@
       </lm-input>
 
       <!-- 验证码 -->
-      <div class="register-form-yz">
-        <div class="register-form-yz-code">
-          <lm-input class="phonenumber"
-                    :place-holder="inputSetting.yzcode.placeholder"
-                    :err-tip="inputSetting.yzcode.errTip"
-                    :inputType="inputSetting.yzcode.inputType"
-                    >
-            <lm-icon :icon-class="inputSetting.yzcode.iconClass"></lm-icon>
-          </lm-input>
-        </div>
-        <div class="register-form-yz-btn">
-          <lm-button :is-active="true">{{inputSetting.yzcode.buttonTitle}}</lm-button>
-        </div>
-      </div>
+      <lm-verified-code @codeInputBlur="getVerifiedCode"></lm-verified-code>
 
     </div>
 
@@ -64,6 +51,17 @@
     <user-register-main-work @handleCheckIntention="checkIntention"></user-register-main-work>
 
     <!-- 登录按钮 -->
+    <div class="user-register-aggrement">
+      <div class="aggrement-checkbox">
+        <mt-checklist
+              v-model="isCheckAggrement"
+              :options="['']">
+      </mt-checklist>
+      </div>
+
+      我已阅读，并同意<span class="aggrement">《连萌注册协议》</span>
+    </div>
+
     <div class="user-register" @click="register">
       <lm-button :is-active="true" :actType="`active-blue`">立即注册</lm-button>
     </div>
@@ -80,9 +78,10 @@
   const LmCityPicker = resolve => require(['components/lmCityPicker/LmCityPicker'], resolve);
 
   import {userisexist} from 'api/user'
+  import LmVerifiedCode from "../../../components/lmVerifiedCode/LmVerifiedCode";
   export default {
     name: "UserRegister",
-    components: {UserRegisterMainWork, LmButton, LmCityPicker, LmLogo, LmIcon, LmInput},
+    components: {LmVerifiedCode, UserRegisterMainWork, LmButton, LmCityPicker, LmLogo, LmIcon, LmInput},
     data() {
       return {
         registerParams: {
@@ -96,6 +95,7 @@
           ,channel: ''  // 用户渠道,
           ,developer: ''  // 发展人账号
         },
+        isCheckAggrement: [],  // 是否同意协议
         logoStyle: 'row',
         inputSetting: { //输入框设置
           username: {
@@ -131,12 +131,13 @@
 
       }
     },
+    mounted() {},
     methods: {
       // 表单验证
-      checkUserName(userName) {
+      checkUserName(userName) { // 用户名
         const re =  /^[0-9a-zA-Z]*$/g;
         if(!re.test(userName) || userName.length < 8) {
-          this.inputSetting.username.errTip = '账号格式错误';
+          this.inputSetting.username.errTip = '账号格式错误 请输入8位及以上数字字母组合';
           this.registerParams.username = '';
         }else {
           const params = {
@@ -144,14 +145,26 @@
           };
           this.checkUserisexist(params)
         }
-        // console.log(userName)
-        // this.inputSetting.username.errTip = '用户名已存在'
       }
-      ,checkPassword(password){
+      ,checkPassword(password){ // 密码
+        const reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+        if(!reg.test(password) && password.length >= 8) {
+          this.inputSetting.password.errTip = '';
+          this.registerParams.password = password;
+        } else {
+          this.registerParams.password = '';
+          this.inputSetting.password.errTip = '密码格式错误 请输入8位及以上数字字母组合';
+        }
 
       }
       , checkNumber(number) {
-
+        if(!(/^1(3|4|5|7|8)\d{9}$/.test(number))){
+          this.inputSetting.phonenumber.errTip = '手机格式错误';
+          this.registerParams.mobile = ''
+        } else {
+          this.registerParams.mobile = number;
+          this.inputSetting.phonenumber.errTip = '';
+        }
       },
       // 显示选择城市
       cityInputClick() {
@@ -159,13 +172,24 @@
       },
       checkCity(city) {
         const cityNameList = city.province.name + ' - ' + city.city.name + ' - ' +  city.country.name
-        this.$refs.citypickerInput.setInputVal(cityNameList)
+        this.$refs.citypickerInput.setInputVal(cityNameList);
+        this.registerParams.province = city.province.code;
+        this.registerParams.city = city.city.code;
+        this.registerParams.country = city.country.code;
+
+      },
+      // 取验证码
+      getVerifiedCode(val) {
+        alert(val)
       },
       //选择主营项
       checkIntention(intention) {
+        this.registerParams.intention = intention;
       },
+      // 提交注册
       register() {
-        // alert(1)
+        console.log(this.isCheckAggrement.length)
+        // console.log(this.registerParams)
       },
       // 判断用户名是否存在
       checkUserisexist(params) {
@@ -197,22 +221,25 @@
     .register-form {
       width: 315px;
       /*验证码*/
-      .register-form-yz {
-        @include flex-row();
-        .register-form-yz-code {
-          width: 55%;
-        }
-        .register-form-yz-btn {
-          margin-bottom: 28px;
-          width: 40%;
-          height: $input-height +1px;
-        }
+    }
+    .user-register-aggrement {
+      @include flex-row(center);
+      font-size: 12px !important;
+      .aggrement-checkbox {
+        width: 50px;
+        height: 50px;
+        overflow: hidden;
+      }
+      .aggrement {
+        color: $button-border-color;
       }
     }
     .user-register {
       font-size: 18px;
       width: 315px;
       height: $input-height;
+      letter-spacing: 4px;
+
     }
     .back-login {
       width: 315px;
