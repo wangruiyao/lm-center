@@ -117,7 +117,7 @@
           },
           phonenumber: {
             placeholder: '手机号码',
-            iconClass: 'icon-login3',
+            iconClass: 'icon-dianhua',
             errTip: '',
             inputType: 'number'
           },

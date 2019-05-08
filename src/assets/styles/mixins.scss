@@ -42,3 +42,21 @@
   background-image: -webkit-linear-gradient(35deg, rgb(71, 201, 255) 0%, rgb(85, 137, 255) 99%);
   background-image: -ms-linear-gradient(35deg, rgb(71, 201, 255) 0%, rgb(85, 137, 255) 99%);
 }
+
+@mixin blue-gradient {
+  background-image: -moz-linear-gradient(0deg, rgb(121, 82, 254) 0%, rgb(78, 195, 247) 100%);
+  background-image: -webkit-linear-gradient(0deg, rgb(121, 82, 254) 0%, rgb(78, 195, 247) 100%);
+  background-image: -ms-linear-gradient(0deg, rgb(121, 82, 254) 0%, rgb(78, 195, 247) 100%);
+}
+
+@mixin red-gradient {
+  background-image: -moz-linear-gradient( 115deg, rgb(71,201,255) 0%, rgb(8,82,249) 99%);
+  background-image: -webkit-linear-gradient( 115deg, rgb(71,201,255) 0%, rgb(8,82,249) 99%);
+  background-image: -ms-linear-gradient( 115deg, rgb(71,201,255) 0%, rgb(8,82,249) 99%);
+}
+
+@mixin blue-gradiennt2 {
+  background-image: -moz-linear-gradient( 176deg, rgb(64,233,245) 0%, rgb(102,133,251) 52%, rgb(116,96,253) 75%, rgb(124,74,255) 99%);
+  background-image: -webkit-linear-gradient( 176deg, rgb(64,233,245) 0%, rgb(102,133,251) 52%, rgb(116,96,253) 75%, rgb(124,74,255) 99%);
+  background-image: -ms-linear-gradient( 176deg, rgb(64,233,245) 0%, rgb(102,133,251) 52%, rgb(116,96,253) 75%, rgb(124,74,255) 99%);
+}

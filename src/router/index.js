@@ -3,13 +3,16 @@ import Router from 'vue-router'
 
 //用户操作模块路由
 import user from './user'
+import mine from './mine'
 
 Vue.use(Router);
 
+
 const router = new Router({
-  scrollBehavior: () => ({ y: 0 }),
+  // scrollBehavior: () => ({ y: 0 }),
   routes: [
-    ...user
+    ...user,
+    ...mine
   ]
 });
 
@@ -27,7 +30,6 @@ router.beforeEach((to, from, next) => {
   } else {
     document.title = '连萌平台'
   }
-
   next()
 });
 

@@ -18,7 +18,7 @@ module.exports = {
     }
   },
   // outputDir: 'dist/' + (process.argv[3] === undefined ? DEFAULT_BUILD_MODULE : process.argv[3]),
-  outputDir: './public/dist',
+  outputDir: './dist',
   publicPath: process.env.NODE_ENV === 'production'
     ? './'
     : '/',
@@ -39,6 +39,7 @@ module.exports = {
       }
     }
   },
+  transpileDependencies: [],
   productionSourceMap: false, // 打包时忽略 .js.map文件
   pluginOptions: {
     'cube-ui': {
@@ -56,18 +57,6 @@ module.exports = {
           '^/api':''
         }
       }
-    },
-    historyApiFallback: {
-      rewrites: [
-        {
-          from: /\/broadband/,
-          to: '/broadband.html'
-        },
-        {
-          from: /\//,
-          to: '/index.html'
-        }
-      ]
     }
   },
   chainWebpack: (config) => {

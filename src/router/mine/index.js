@@ -1,22 +1,24 @@
 /*
- * 用户操作页面
- */
-import { BlankLayout, BasicLayout } from 'components/layouts'
+* 个人页面
+* */
+
+import { BasicLayout } from 'components/layouts'
+
 export default [{
-  path: '/user',
-  component: BlankLayout,
+  path: '/mine',
+  component: BasicLayout,
   children: [
     {
       path: '/',
-      redirect: 'login'
+      redirect: 'account'
     },
     {
-      path: 'login',
-      name: 'userLogin',
+      path: 'account',
+      name: 'mineAccount',
       meta: {
-        title: '用户登录'
+        title: '我的账号'
       },
-      component:  r => require.ensure([], () => r(require('../../views/user/userLogin/UserLogin')), 'userLogin')
+      component:  r => require.ensure([], () => r(require('views/mine/mineAccount/MineAccount')), 'mineAccount')
     },
     {
       path: 'register',

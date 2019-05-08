@@ -42,7 +42,7 @@
       countDown() {
         return new Promise((resolve, reject) => {
           let clock = window.setInterval(() => {
-            this.section--
+            this.section--;
             if (this.section < 0) {
               clearInterval(clock);
               this.section = 5;
