@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import types from 'store/types'
+import store from 'store'
 
 //用户操作模块路由
 import user from './user'
@@ -32,6 +34,8 @@ router.beforeEach((to, from, next) => {
   } else {
     document.title = '连萌平台'
   }
+
+  store.commit(types.SET_HISTORY_PAGE, from);
   next()
 });
 

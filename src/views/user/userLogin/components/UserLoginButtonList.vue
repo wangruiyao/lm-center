@@ -19,7 +19,7 @@
     components: {LmButton},
     methods: {
       goUserRegister() {
-        this.$router.push('register')
+        goforward('userRegister')
       },
       handleLoginClick() {
         this.$emit('click')

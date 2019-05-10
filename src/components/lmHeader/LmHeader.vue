@@ -30,8 +30,9 @@
     },
     methods: {
       back() {
+        const histoyrPage = this.$store.state.historyPage;
         this.$store.commit(types.SET_PAGE_STATION, 'back');
-        this.$router.back(-1);
+        this.$router.replace({name: histoyrPage})
       }
     }
   }
@@ -39,7 +40,7 @@
 
 <style lang="scss" scoped>
   #lm-header {
-    position: absolute;
+    position: fixed;
     background: #fff;
     @include flex-row();
     height: $header-height;
@@ -49,6 +50,7 @@
     color: #424242;
     font-weight: 900;
     top: 0;
+    z-index: 999;
   }
   .header-back, .header-right-icon {
     width: 40px;

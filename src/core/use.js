@@ -11,8 +11,16 @@ window.ajax = ajax;
 import {RSA} from 'utils/RSA'
 Vue.prototype.$RSA = RSA;
 
+// 引入页面跳转方法
+import {go, goback} from 'utils/basicMethods'
+window.goforward = go;
+window.goback = goback;
+
 // import mint-ui component
 import { Popup, Picker, Checklist, Toast, Swipe, SwipeItem } from 'mint-ui'
+import { InfiniteScroll } from 'mint-ui';
+
+Vue.use(InfiniteScroll);
 
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);

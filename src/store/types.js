@@ -2,11 +2,13 @@
 * 内定义常量，使用常量替代mutation事件类型
 * */
 
-const SET_PAGE_STATION = 'SET_PAGE_STATION';
-const USER_UPDATE_INFO = 'USER_UPDATE_INFO';
+const SET_PAGE_STATION = 'SET_PAGE_STATION';    // 切换页面动画状态
+const USER_UPDATE_INFO = 'USER_UPDATE_INFO';    // 更新用户信息
+const SET_HISTORY_PAGE = 'SET_HISTORY_PAGE';    // 记录上一页地址
 
 
 export default {
   USER_UPDATE_INFO,
-  SET_PAGE_STATION
+  SET_PAGE_STATION,
+  SET_HISTORY_PAGE
 }

@@ -1,71 +1,77 @@
 <template>
-  <div id="user-register" class="user-register lm-container">
-    <!-- Logo -->
-    <lm-logo :flex-type="logoStyle"></lm-logo>
+  <div id="user-register" class="user-register lm-container-blank">
+    <lm-scroll ref="wrapper"
+               :pullup="true"
 
-    <!-- 注册表单 -->
-    <div class="register-form">
-      <!--用户名-->
-      <lm-input class="username"
-                :place-holder="inputSetting.username.placeholder"
-                :err-tip="inputSetting.username.errTip"
-                @handleInputBlur="checkUserName">
-        <lm-icon :icon-class="inputSetting.username.iconClass"></lm-icon>
-      </lm-input>
+    >
 
-      <!--密码-->
-      <lm-input class="password"
-                :place-holder="inputSetting.password.placeholder"
-                :err-tip="inputSetting.password.errTip"
-                :inputType="inputSetting.password.inputType"
-                @handleInputBlur="checkPassword">
-        <lm-icon :icon-class="inputSetting.password.iconClass"></lm-icon>
-      </lm-input>
+      <!-- Logo -->
+      <lm-logo :flex-type="logoStyle"></lm-logo>
 
-      <!-- 城市 -->
-      <lm-input class="username"
-                ref="citypickerInput"
-                :place-holder="inputSetting.city.placeholder"
-                :err-tip="inputSetting.city.errTip"
-                :is-read-only=true
-                @handleInputClick="cityInputClick">
-        <lm-icon :icon-class="inputSetting.city.iconClass"></lm-icon>
-      </lm-input>
-      <lm-city-picker ref="citypicker" @handleCheckCity="checkCity"></lm-city-picker>
+      <!-- 注册表单 -->
+      <div class="register-form">
+        <!--用户名-->
+        <lm-input class="username"
+                  :place-holder="inputSetting.username.placeholder"
+                  :err-tip="inputSetting.username.errTip"
+                  @handleInputBlur="checkUserName">
+          <lm-icon :icon-class="inputSetting.username.iconClass"></lm-icon>
+        </lm-input>
 
-      <!--手机号码-->
-      <lm-input class="phonenumber"
-                :place-holder="inputSetting.phonenumber.placeholder"
-                :err-tip="inputSetting.phonenumber.errTip"
-                :inputType="inputSetting.phonenumber.inputType"
-                @handleInputBlur="checkNumber">
-        <lm-icon :icon-class="inputSetting.phonenumber.iconClass"></lm-icon>
-      </lm-input>
+        <!--密码-->
+        <lm-input class="password"
+                  :place-holder="inputSetting.password.placeholder"
+                  :err-tip="inputSetting.password.errTip"
+                  :inputType="inputSetting.password.inputType"
+                  @handleInputBlur="checkPassword">
+          <lm-icon :icon-class="inputSetting.password.iconClass"></lm-icon>
+        </lm-input>
 
-      <!-- 验证码 -->
-      <lm-verified-code @codeInputBlur="getVerifiedCode"></lm-verified-code>
+        <!-- 城市 -->
+        <lm-input class="username"
+                  ref="citypickerInput"
+                  :place-holder="inputSetting.city.placeholder"
+                  :err-tip="inputSetting.city.errTip"
+                  :is-read-only=true
+                  @handleInputClick="cityInputClick">
+          <lm-icon :icon-class="inputSetting.city.iconClass"></lm-icon>
+        </lm-input>
+        <lm-city-picker ref="citypicker" @handleCheckCity="checkCity"></lm-city-picker>
 
-    </div>
+        <!--手机号码-->
+        <lm-input class="phonenumber"
+                  :place-holder="inputSetting.phonenumber.placeholder"
+                  :err-tip="inputSetting.phonenumber.errTip"
+                  :inputType="inputSetting.phonenumber.inputType"
+                  @handleInputBlur="checkNumber">
+          <lm-icon :icon-class="inputSetting.phonenumber.iconClass"></lm-icon>
+        </lm-input>
 
-    <!-- 选择主营项 -->
-    <user-register-main-work @handleCheckIntention="checkIntention"></user-register-main-work>
+        <!-- 验证码 -->
+        <lm-verified-code @codeInputBlur="getVerifiedCode"></lm-verified-code>
 
-    <!-- 登录按钮 -->
-    <div class="user-register-aggrement">
-      <div class="aggrement-checkbox">
-        <mt-checklist
-              v-model="isCheckAggrement"
-              :options="['']">
-      </mt-checklist>
       </div>
 
-      我已阅读，并同意<span class="aggrement">《连萌注册协议》</span>
-    </div>
+      <!-- 选择主营项 -->
+      <user-register-main-work @handleCheckIntention="checkIntention"></user-register-main-work>
 
-    <div class="user-register" @click="register">
-      <lm-button :is-active="true" :actType="`active-blue`">立即注册</lm-button>
-    </div>
-    <div class="back-login">返回登录</div>
+      <!-- 登录按钮 -->
+      <div class="user-register-aggrement">
+        <div class="aggrement-checkbox">
+          <mt-checklist
+                v-model="isCheckAggrement"
+                :options="['']">
+        </mt-checklist>
+        </div>
+
+        我已阅读，并同意<span class="aggrement">《连萌注册协议》</span>
+      </div>
+
+      <div class="user-register" @click="register">
+        <lm-button :is-active="true" :actType="`active-blue`">立即注册</lm-button>
+      </div>
+      <div class="back-login" @click="backLogin">返回登录</div>
+    </lm-scroll>
   </div>
 </template>
 
@@ -79,9 +85,10 @@
 
   import {userisexist} from 'api/user'
   import LmVerifiedCode from "../../../components/lmVerifiedCode/LmVerifiedCode";
+  import LmScroll from "../../../components/lmScroll/LmScroll";
   export default {
     name: "UserRegister",
-    components: {LmVerifiedCode, UserRegisterMainWork, LmButton, LmCityPicker, LmLogo, LmIcon, LmInput},
+    components: {LmScroll, LmVerifiedCode, UserRegisterMainWork, LmButton, LmCityPicker, LmLogo, LmIcon, LmInput},
     data() {
       return {
         registerParams: {
@@ -209,6 +216,9 @@
         }).catch(data => {
           console.warn(data)
         })
+      },
+      backLogin() {
+        goback('userLogin')
       }
 
     }

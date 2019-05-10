@@ -1,5 +1,5 @@
 <template>
-  <div id="user-login" class="lm-container">
+  <div id="user-login" class="lm-container-blank">
     <!-- 登录页logo -->
     <lm-logo></lm-logo>
 
@@ -40,8 +40,7 @@
         this.loginWay = type;
       },
       login() {
-        this.$store.commit(types.SET_PAGE_STATION, 'open');
-        this.$router.replace({name: 'userLoginCheckAccount'})
+        goforward('userLoginCheckAccount')
       }
     }
   }

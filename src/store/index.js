@@ -14,12 +14,13 @@ import users from './modules/user'
 // import common from './modules/common'
 
 const state = {
-  pageState: 'turn-on',  // turn-on 为页面入栈，turn-off 是页面出栈
+  historyPage: '/',
   pageInAnimate: 'slideInRight',
   pageOutAnimate: 'slideOutLeft'
 };
 
 const mutations  = {
+  /* 更改页面切换状态 */
   [types.SET_PAGE_STATION](state, states) {   // open: 打开新页面, back: 返回上一页
     if(states === 'open') {
       state.pageInAnimate = 'slideInRight';
@@ -28,6 +29,11 @@ const mutations  = {
       state.pageInAnimate = 'slideInLeft';
       state.pageOutAnimate = 'slideOutRight';
     }
+  },
+
+  /* 更改上一页 */
+  [types.SET_HISTORY_PAGE](state, historyPage) {
+    state.historyPage = historyPage.name;
   }
 };
 // 导出 store 对象
