@@ -13,6 +13,7 @@ Vue.prototype.$RSA = RSA;
 
 // import mint-ui component
 import { Popup, Picker, Checklist, Toast, Swipe, SwipeItem } from 'mint-ui'
+
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
 Vue.component(Popup.name, Popup);

@@ -310,3 +310,20 @@ textarea::-webkit-input-placeholder {
 .mint-cell-wrapper {
   background-image: none !important;
 }
+
+.lm-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  box-shadow:-3px 0 8px -4px #999;
+  padding-top: $header-height;
+}
+
+.lm-container-blank {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  box-shadow:-3px 0 8px -4px #999;
+}

@@ -1,13 +1,23 @@
 <template>
   <div id="login-swiper">
       <user-login-swipe-button
-              @toggleLogin="toggleLoginType"></user-login-swipe-button>
-      <user-login-by-account
-              v-if="loginType === 'account'"
-              @getUserName="getUserName"
-              @getPassword="getPassword"></user-login-by-account>
-      <user-login-by-number
-              v-if="loginType === 'number'"></user-login-by-number>
+              @toggleLogin="toggleLoginType">
+
+      </user-login-swipe-button>
+      <transition enter-active-class="slideInLeft" leave-active-class="slideOutLeft">
+        <user-login-by-account
+                v-if="loginType === 'account'"
+                @getUserName="getUserName"
+                @getPassword="getPassword">
+
+        </user-login-by-account>
+      </transition>
+      <transition enter-active-class="slideInRight" leave-active-class="slideOutRight">
+        <user-login-by-number
+                v-if="loginType === 'number'">
+
+        </user-login-by-number>
+      </transition>
   </div>
 </template>
 

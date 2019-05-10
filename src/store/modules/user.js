@@ -1,4 +1,4 @@
-import {USER_UPDATE_INFO} from '../types'
+import types from '../types'
 import  {userlogin} from 'api/user'
 
 const state = {
@@ -13,7 +13,7 @@ let getters = {
 };
 
 const mutations = {
-  [USER_UPDATE_INFO](state, params) {
+  [types.USER_UPDATE_INFO](state, params) {
     state.userInfo = params
   }
 };

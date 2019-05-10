@@ -1,11 +1,13 @@
 <template>
-  <div>
+  <div id="basicLayout">
     basicLayout
     <router-view />
   </div>
 </template>
 
-<style></style>
+<style lang="scss" scoped>
+
+</style>
 
 <script>
 export default {

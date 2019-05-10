@@ -1,15 +1,17 @@
 <template>
   <div id="login-by-Number">
-    <!-- 手机号码 -->
-    <lm-input class="number"
-              :place-holder="inputSetting.number.placeholder"
-              :err-tip="inputSetting.number.errTip"
-              :inputType="inputSetting.number.inputType"
-              @handleInputBlur="checkNumber">
-      <lm-icon :icon-class="inputSetting.number.iconClass"></lm-icon>
-    </lm-input>
-    <!-- 验证码 -->
-    <lm-verified-code @codeInputBlur="getVerifiedCode"></lm-verified-code>
+    <div class="login-by-Number-inner">
+      <!-- 手机号码 -->
+      <lm-input class="number"
+                :place-holder="inputSetting.number.placeholder"
+                :err-tip="inputSetting.number.errTip"
+                :inputType="inputSetting.number.inputType"
+                @handleInputBlur="checkNumber">
+        <lm-icon :icon-class="inputSetting.number.iconClass"></lm-icon>
+      </lm-input>
+      <!-- 验证码 -->
+      <lm-verified-code @codeInputBlur="getVerifiedCode"></lm-verified-code>
+    </div>
   </div>
 </template>
 
@@ -51,5 +53,12 @@
 </script>
 
 <style lang="scss" scoped>
+  #login-by-Number {
+    position: absolute;
+    width: 100%;
+  }
+  .login-by-Number-inner{
+    width: 315px;
+  }
 
 </style>

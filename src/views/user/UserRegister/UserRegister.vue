@@ -1,5 +1,5 @@
 <template>
-  <div id="user-register" class="user-register">
+  <div id="user-register" class="user-register lm-container">
     <!-- Logo -->
     <lm-logo :flex-type="logoStyle"></lm-logo>
 

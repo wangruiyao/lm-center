@@ -1,7 +1,9 @@
 <template>
   <div id="login-button-list">
     <div class="login-button">
-      <lm-button :is-active="true" :actType="`active-blue`">登录</lm-button>
+      <lm-button :is-active="true"
+                 :actType="`active-blue`"
+                 @click="handleLoginClick">登录</lm-button>
     </div>
     <div class="login-other-button">
       <span>找回密码</span>
@@ -18,6 +20,9 @@
     methods: {
       goUserRegister() {
         this.$router.push('register')
+      },
+      handleLoginClick() {
+        this.$emit('click')
       }
     }
   }
@@ -26,7 +31,7 @@
 <style lang="scss" scoped>
   #login-button-list {
     width: 315px;
-    margin-top: 60px;
+    margin-top: 140px;
     .login-button {
       height: $input-height;
     }

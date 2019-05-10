@@ -19,6 +19,14 @@ export default [{
       component:  r => require.ensure([], () => r(require('../../views/user/userLogin/UserLogin')), 'userLogin')
     },
     {
+      path: 'checkAccount',
+      name: 'userLoginCheckAccount',
+      meta: {
+        title: '选择账号登录'
+      },
+      component: r => require.ensure([], () => r(require('views/user/userLoginCheckAccount/UserLoginCheckAccount')), 'userLogin'),
+    },
+    {
       path: 'register',
       name: 'userRegister',
       meta: {

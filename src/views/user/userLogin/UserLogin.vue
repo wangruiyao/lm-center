@@ -1,5 +1,5 @@
 <template>
-  <div id="user-login">
+  <div id="user-login" class="lm-container">
     <!-- 登录页logo -->
     <lm-logo></lm-logo>
 
@@ -7,12 +7,13 @@
     <user-login-swipe @getLoginWay="getLoginWay"></user-login-swipe>
 
     <!-- 登录按钮 -->
-    <user-login-button-list></user-login-button-list>
+    <user-login-button-list @click="login"></user-login-button-list>
 
   </div>
 </template>
 
 <script>
+  import types from 'store/types'
   import LmLogo from "../../../components/lmLogo/LmLogo";
   import UserLoginSwipe from "./components/UserLoginSwipe";
   import UserLoginButtonList from "./components/UserLoginButtonList";
@@ -37,6 +38,10 @@
     methods: {
       getLoginWay(type) {
         this.loginWay = type;
+      },
+      login() {
+        this.$store.commit(types.SET_PAGE_STATION, 'open');
+        this.$router.replace({name: 'userLoginCheckAccount'})
       }
     }
   }

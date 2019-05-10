@@ -2,11 +2,11 @@
 * 个人页面
 * */
 
-import { BasicLayout } from 'components/layouts'
+import { BlankLayout } from 'components/layouts'
 
 export default [{
   path: '/mine',
-  component: BasicLayout,
+  component: BlankLayout,
   children: [
     {
       path: '/',
@@ -21,20 +21,12 @@ export default [{
       component:  r => require.ensure([], () => r(require('views/mine/mineAccount/MineAccount')), 'mineAccount')
     },
     {
-      path: 'register',
-      name: 'userRegister',
+      path: 'personalData',
+      name: 'minePersonalData',
       meta: {
-        title: '用户注册'
+        title: '完善个人资料'
       },
-      component:  r => require.ensure([], () => r(require('../../views/user/UserRegister/UserRegister')), 'userRegister')
-    },
-    {
-      path: 'enlist',
-      name: 'userEnlist',
-      meta: {
-        title: '连萌招募'
-      },
-      component:  r => require.ensure([], () => r(require('../../views/user/userEnlist/UserEnlist')), 'userEnlist')
+      component:  r => require.ensure([], () => r(require('views/mine/minePersonalData/MinePersonalData')), 'personalData')
     }
 
   ]
