@@ -7,7 +7,11 @@
         <span class="lm-icon icon iconfont">&#xe61e;</span>
       </div>
     </lm-header>
-    <mine-account-list></mine-account-list>
+    <mine-account-list @avatarClick="handleAvatarEdit"
+                       @intentionClick="handleIntentionClick"></mine-account-list>
+    <!-- avatar -->
+    <MineAccountPopup :show-avatar="isShowAvatar" @closePop="handleAvatarEdit"></MineAccountPopup>
+    <MineIntentionPopup :show-intention="isShowIntention" @closePop="handleIntentionClick"></MineIntentionPopup>
 
   </div>
 </template>
@@ -16,9 +20,25 @@
   import LmHeader from "../../../components/lmHeader/LmHeader";
   import LmCell from "../../../components/lmCell/LmCell";
   import MineAccountList from "./components/MineAccountList";
+  import MineAccountPopup from "./components/MineAccountPopup";
+  import MineIntentionPopup from "./components/MineIntentionPopup";
   export default {
     name: "MineAccount",
-    components: {MineAccountList, LmCell, LmHeader}
+    components: {MineIntentionPopup, MineAccountPopup, MineAccountList, LmCell, LmHeader},
+    data() {
+      return {
+        isShowAvatar: false,
+        isShowIntention: false
+      }
+    },
+    methods: {
+      handleAvatarEdit(status) {
+        this.isShowAvatar = status;
+      },
+      handleIntentionClick(status) {
+        this.isShowIntention = status
+      }
+    }
   }
 </script>
 

@@ -5,8 +5,10 @@
     <div class="cell-title">
       {{title}}
     </div>
-    <div class="cell-info">
+    <div class="cell-info" v-if="cellType === 'info'">
       <slot name="cellInfo"></slot>
+      <slot name="cellInput"></slot>
+
     </div>
     <div class="cell-icon" @click="handleClick">
       <span class="lm-icon icon iconfont" v-if="!disable">&#xe66c;</span>
@@ -18,6 +20,10 @@
   export default {
     name: "LmCell",
     props: {
+      cellType: {
+        type: String,
+        default: 'info'
+      },
       title: {
         type: String
       },
@@ -39,17 +45,18 @@
     @include flex-row();
     padding: 0 20px;
     text-align: right;
+    background: #fff;
     border-bottom: solid $line-light 1px;
     div {
       display: inline-block;
     }
     .cell-title {
-      width: 30%;
+      width: 20%;
       text-align: left;
     }
     .cell-info {
       color: $line-deep;
-      width: 60%;
+      width: 70%;
     }
     .cell-icon {
       color: $line-deep;

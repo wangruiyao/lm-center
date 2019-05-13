@@ -1,6 +1,7 @@
 <template>
   <div id="home-center" class="lm-container-blank">
-    <div class="minePage" @click="goPage('/mine')">我的账户</div>
+    <div class="minePage" @click="goforward('mineAccount')">我的账户</div>
+    <div class="minePage" @click="goforward('minePersonalData')">完善个人信息</div>
   </div>
 </template>
 
@@ -11,9 +12,8 @@
     name: "HomeCenter",
     components: {LmHeader},
     methods: {
-      goPage(page) {
-        this.$store.commit(types.SET_PAGE_STATION, 'open');
-        this.$router.push(page)
+      goforward(page) {
+        goforward(page)
       }
     }
   }

@@ -3,10 +3,10 @@
     <!--基本信息-->
     <div class="info-container info-basic">
       <!-- 头像 -->
-      <div class="info-basic-item">
+      <div class="info-basic-item" @click="handleAvatarClick">
         <lm-cell :title="`头像`" :disable="false">
           <div class="info-basic-head" slot="cellInfo">
-            <img src="../../../../assets/images/logo.png">
+            <img :src="userInfo.avatar">
           </div>
         </lm-cell>
       </div>
@@ -25,17 +25,34 @@
           </div>
         </lm-cell>
       </div>
-      <div class="info-basic-item">
+      <div class="info-basic-item" @click="handleMobileClick">
         <lm-cell :title="`电话`" :disable="false">
           <div slot="cellInfo">
             {{userInfo.mobile}}
           </div>
         </lm-cell>
       </div>
-      <div class="info-basic-item">
+      <div class="info-basic-item" @click="handleIntentionClick">
         <lm-cell :title="`主营意向`" :disable="false">
           <div slot="cellInfo">
             {{userInfo.intention}}
+          </div>
+        </lm-cell>
+      </div>
+    </div>
+
+    <div class="info-container info-imprefect">
+      <div class="info-basic-item">
+        <lm-cell :title="`姓名`" :disable="canComplete" @click="handleCompleteInfoClick()" >
+          <div slot="cellInfo">
+            {{userInfo.name === '' ? '补充信息后方可领取佣金' : userInfo.name}}
+          </div>
+        </lm-cell>
+      </div>
+      <div class="info-basic-item">
+        <lm-cell :title="`身份证`" :disable="canComplete" @click="handleCompleteInfoClick()">
+          <div slot="cellInfo">
+            {{userInfo.pspt === '' ? '补充信息后方可领取佣金' : userInfo.pspt}}
           </div>
         </lm-cell>
       </div>
@@ -51,8 +68,9 @@
     components: {LmCell},
     data() {
       return {
+        canComplete: true,
         userInfo: {
-          "avatar": "http://www.cuonline.cn/skin/nmskin/img/ht_newsy_08.png",
+          "avatar": "/img/logo.1e05f0c9.png",
           "username": "zhonghuaming",
           "area": "山东省济南市历下区",
           "provience": "17",
@@ -77,9 +95,28 @@
           "point": "0",
           "gold": "0",
           "despoitflag": "0",
-          "name": "钟华铭",
-          "pspt": "370808198806154587"
+          "name": "",
+          "pspt": ""
         }
+      }
+    },
+    mounted() {
+      if(this.userInfo.name === '' && this.userInfo.pspt === '') {
+        this.canComplete = false
+      }
+    },
+    methods: {
+      handleAvatarClick() {   // 编辑头像弹出框
+        this.$emit('avatarClick', true)
+      },
+      handleIntentionClick(){ // 编辑主营意向
+        this.$emit('intentionClick', true)
+      },
+      handleMobileClick() { // 更改手机号码
+        goforward('mineChangeNumber');
+      },
+      handleCompleteInfoClick() {
+        goforward('minePersonalData')
       }
     }
   }
