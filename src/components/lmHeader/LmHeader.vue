@@ -30,9 +30,7 @@
     },
     methods: {
       back() {
-        const histoyrPage = this.$store.state.historyPage;
-        this.$store.commit(types.SET_PAGE_STATION, 'back');
-        this.$router.replace({name: histoyrPage})
+        goback()
       }
     }
   }

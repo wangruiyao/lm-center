@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import types from 'store/types'
-import store from 'store'
 
 //用户操作模块路由
 import user from './user'
 import mine from './mine'
 import home from './home'
+import store from 'store'
 
 Vue.use(Router);
 
@@ -34,8 +34,17 @@ router.beforeEach((to, from, next) => {
   } else {
     document.title = '连萌平台'
   }
-
-  store.commit(types.SET_HISTORY_PAGE, from);
+  const lastHistory = store.state.historyPage[store.state.historyPage.length - 2];
+  const toPage = to.name;
+  if(lastHistory !== toPage) {
+    const para = {
+      handle: 'forward',
+      page: toPage
+    };
+    store.commit(types.SET_HISTORY_PAGE, para);
+  } else {
+    store.commit(types.SET_HISTORY_PAGE, {handle: 'back'})
+  }
   next()
 });
 

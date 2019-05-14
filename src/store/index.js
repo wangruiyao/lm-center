@@ -14,9 +14,10 @@ import users from './modules/user'
 // import common from './modules/common'
 
 const state = {
-  historyPage: '/',
+  // historyPage: '/',
   pageInAnimate: 'slideInRight',
-  pageOutAnimate: 'slideOutLeft'
+  pageOutAnimate: 'slideOutLeft',
+  historyPage: []
 };
 
 const mutations  = {
@@ -33,7 +34,13 @@ const mutations  = {
 
   /* 更改上一页 */
   [types.SET_HISTORY_PAGE](state, historyPage) {
-    state.historyPage = historyPage.name;
+    // state.historyPage = historyPage.name;
+    if(historyPage.handle === 'forward'){ // 前进添加历史数组
+      state.historyPage.push(historyPage.page)
+    } else if(historyPage.handle === 'back') {  // 后退删除历史数组
+      state.historyPage.pop();
+    }
+
   }
 };
 // 导出 store 对象

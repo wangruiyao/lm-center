@@ -2,13 +2,15 @@ import router from 'router'
 import store from 'store'
 import types from 'store/types'
 
-export function go(page, params) {
+export function go(page, params) {  // 前进
   store.commit(types.SET_PAGE_STATION, 'open');
-  console.log(params)
-  router.replace({name: page, params})
+  router.replace({name: page, params});
 }
 
-export function goback(page) {
+export function goback() {  // 后退
   store.commit(types.SET_PAGE_STATION, 'back');
-  router.replace({name: page})
+  let pageName = store.state.historyPage[store.state.historyPage.length - 2];
+  console.log(pageName);
+  router.replace({name: pageName})
+
 }
