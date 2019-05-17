@@ -16,7 +16,8 @@ export default [{
       path: 'center',
       name: 'homeCenter',
       meta: {
-        title: '连萌首页'
+        title: '连萌首页',
+        isLogin: true
       },
       component:  r => require.ensure([], () => r(require('views/home/homeCenter/HomeCenter')), 'homeCenter')
     }

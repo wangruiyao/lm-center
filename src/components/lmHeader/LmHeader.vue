@@ -3,7 +3,7 @@
     <!-- 返回 -->
     <div class="header-back"
          @click="back">
-      <span class="lm-icon icon iconfont">&#xe611;</span>
+      <span class="lm-icon icon iconfont" v-show="showBack">&#xe611;</span>
     </div>
 
     <!-- 标题 -->
@@ -24,6 +24,10 @@
     name: "LmHeader",
     components: {},
     props: {
+      showBack: {
+        type: Boolean,
+        default: true
+      },
       title: {
         type: String
       }

@@ -7,10 +7,10 @@
 
     <div class="account-container">
       <div class="account-info">
-        <div class="username">{{username}}</div>
+        <div class="username">{{userInfo.username}}</div>
         <div class="userInfo">
-          <span>{{vip}}</span>
-          <span>{{type}}</span>
+          <span>{{userInfo.vip}}</span>
+          <span>{{userInfo.usertypedesc}}</span>
         </div>
       </div>
       <div class="check-btn-bgm"></div>
@@ -25,18 +25,9 @@
   export default {
     name: "AccountItem",
     props: {
-      username: {
-        type: String
-      },
-      avatar: {
-        type: String,
-        default: '../../../../assets/images/default-avatar.png'
-      },
-      vip: {
-        type: String
-      },
-      type: {
-        type: String
+      userInfo: {
+        type: Object,
+        default: {}
       }
     },
     data() {

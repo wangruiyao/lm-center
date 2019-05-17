@@ -8,9 +8,10 @@
       </div>
     </lm-header>
     <mine-account-list @avatarClick="handleAvatarEdit"
-                       @intentionClick="handleIntentionClick"></mine-account-list>
+                       @intentionClick="handleIntentionClick"
+                       :user-info="userInfo"></mine-account-list>
     <!-- avatar -->
-    <MineAccountPopup :show-avatar="isShowAvatar" @closePop="handleAvatarEdit"></MineAccountPopup>
+    <MineAccountPopup :show-avatar="isShowAvatar" @closePop="handleAvatarEdit" @updateAvatar="updateAvatar"></MineAccountPopup>
     <MineIntentionPopup :show-intention="isShowIntention" @closePop="handleIntentionClick"></MineIntentionPopup>
 
   </div>
@@ -28,8 +29,12 @@
     data() {
       return {
         isShowAvatar: false,
-        isShowIntention: false
+        isShowIntention: false,
+        userInfo: {}
       }
+    },
+    mounted() {
+      this.userInfo = this.$store.state.users.userInfo;
     },
     methods: {
       handleAvatarEdit(status) {
@@ -37,6 +42,11 @@
       },
       handleIntentionClick(status) {
         this.isShowIntention = status
+      },
+      updateAvatar(avatarUrl) {  // 改变头像
+        // alert(avatarUrl)
+
+        console.log(avatarUrl)
       }
     }
   }

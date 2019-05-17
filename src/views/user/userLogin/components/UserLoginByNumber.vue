@@ -1,16 +1,20 @@
 <template>
   <div id="login-by-Number">
+
     <div class="login-by-Number-inner">
       <!-- 手机号码 -->
       <lm-input class="number"
                 :place-holder="inputSetting.number.placeholder"
-                :err-tip="inputSetting.number.errTip"
+                :err-tip="numberErr"
                 :inputType="inputSetting.number.inputType"
                 @handleInputBlur="checkNumber">
         <lm-icon :icon-class="inputSetting.number.iconClass"></lm-icon>
       </lm-input>
       <!-- 验证码 -->
-      <lm-verified-code @codeInputBlur="getVerifiedCode"></lm-verified-code>
+      <lm-verified-code
+              ref="verified"
+              :number="this.numberInfo"
+              @codeInputBlur="getVerifiedCode"></lm-verified-code>
     </div>
   </div>
 </template>
@@ -22,8 +26,16 @@
   export default {
     name: "UserLoginByNumber",
     components: {LmVerifiedCode, LmIcon, LmInput},
+    props: {
+      numberErr: {
+        type: String,
+        default: ''
+      }
+    },
     data() {
       return {
+        numberInfo: '',
+        codeInfo: '',
         inputSetting: {
           number: {
             placeholder: '手机号',
@@ -32,6 +44,7 @@
             inputType: 'number'
           },
           yzcode: {
+            isChange: false, // 是否修改过
             buttonTitle: '获取验证码',
             placeholder: '验证码',
             iconClass: 'icon-yanzhengma',
@@ -40,12 +53,24 @@
         }
       }
     },
+    watch: {
+      numberInfo(newNumber) {
+        if(this.codeInfo !== '') {
+          Toast('请重新获取验证码');
+        }
+
+        this.$refs.verified.reset();
+      }
+    },
     methods: {
-      checkNumber(userName) {
-        this.$emit('getusername')
+      checkNumber(number) {
+        this.numberInfo = number;
+        this.$emit('getNumber', number)
       },
       getVerifiedCode(code){
-        console.log(code)
+        this.codeInfo = code;
+        this.inputSetting.yzcode.isChange = true;
+        this.$emit('getCode', code);
       }
     }
 

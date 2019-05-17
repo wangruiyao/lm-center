@@ -80,6 +80,9 @@
           this.localInputType = 'password'
           this.passwordIcon = 'icon-yanjing1'
         }
+      },
+      reset() {
+        this.inputInfo = ''
       }
     }
   }

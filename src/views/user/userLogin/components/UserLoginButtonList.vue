@@ -6,7 +6,7 @@
                  @click="handleLoginClick">登录</lm-button>
     </div>
     <div class="login-other-button">
-      <span>找回密码</span>
+      <span @click="goPwdFind">找回密码</span>
       <span @click="goUserRegister">立即注册</span>
     </div>
   </div>
@@ -20,6 +20,9 @@
     methods: {
       goUserRegister() {
         goforward('userRegister')
+      },
+      goPwdFind() {
+        goforward('minePasswordFind')
       },
       handleLoginClick() {
         this.$emit('click')

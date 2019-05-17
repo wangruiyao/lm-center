@@ -14,7 +14,8 @@ export default [{
       path: 'login',
       name: 'userLogin',
       meta: {
-        title: '用户登录'
+        title: '用户登录',
+        isLogin: false
       },
       component:  r => require.ensure([], () => r(require('../../views/user/userLogin/UserLogin')), 'userLogin')
     },
@@ -22,7 +23,8 @@ export default [{
       path: 'checkAccount',
       name: 'userLoginCheckAccount',
       meta: {
-        title: '选择账号登录'
+        title: '选择账号登录',
+        isLogin: false
       },
       component: r => require.ensure([], () => r(require('views/user/userLoginCheckAccount/UserLoginCheckAccount')), 'userLogin'),
     },
@@ -30,7 +32,8 @@ export default [{
       path: 'register',
       name: 'userRegister',
       meta: {
-        title: '用户注册'
+        title: '用户注册',
+        isLogin: false
       },
       component:  r => require.ensure([], () => r(require('../../views/user/UserRegister/UserRegister')), 'userRegister')
     },
@@ -38,7 +41,8 @@ export default [{
       path: 'enlist',
       name: 'userEnlist',
       meta: {
-        title: '连萌招募'
+        title: '连萌招募',
+        isLogin: false
       },
       component:  r => require.ensure([], () => r(require('../../views/user/userEnlist/UserEnlist')), 'userEnlist')
     }

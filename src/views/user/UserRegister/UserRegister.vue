@@ -36,7 +36,7 @@
                   @handleInputClick="cityInputClick">
           <lm-icon :icon-class="inputSetting.city.iconClass"></lm-icon>
         </lm-input>
-        <lm-city-picker ref="citypicker" @handleCheckCity="checkCity"></lm-city-picker>
+
 
         <!--手机号码-->
         <lm-input class="phonenumber"
@@ -48,7 +48,8 @@
         </lm-input>
 
         <!-- 验证码 -->
-        <lm-verified-code @codeInputBlur="getVerifiedCode"></lm-verified-code>
+        <lm-verified-code
+                @codeInputBlur="getVerifiedCode" :number="registerParams.mobile"></lm-verified-code>
 
       </div>
 
@@ -72,6 +73,7 @@
       </div>
       <div class="back-login" @click="backLogin">返回登录</div>
     </lm-scroll>
+    <lm-city-picker ref="citypicker" @handleCheckCity="checkCity"></lm-city-picker>
   </div>
 </template>
 
@@ -169,6 +171,7 @@
           this.inputSetting.phonenumber.errTip = '手机格式错误';
           this.registerParams.mobile = ''
         } else {
+          alert(1)
           this.registerParams.mobile = number;
           this.inputSetting.phonenumber.errTip = '';
         }
@@ -218,7 +221,7 @@
         })
       },
       backLogin() {
-        goback('userLogin')
+        goback()
       }
 
     }
@@ -227,6 +230,7 @@
 
 <style lang="scss" scoped>
   .user-register {
+    background: #fff;
     @include flex-column(center);
     .register-form {
       width: 315px;

@@ -7,9 +7,9 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   #blank-layout {
-    background: #ffffff;
+    background: $bgd-color;
     min-height: 667px;
 
   }

@@ -6,7 +6,7 @@
       <div class="info-basic-item" @click="handleAvatarClick">
         <lm-cell :title="`头像`" :disable="false">
           <div class="info-basic-head" slot="cellInfo">
-            <img :src="userInfo.avatar">
+            <img :src="userInfo.avatar?userInfo.avatar:'../../../../assets/images/center/bzj_img_13.png'">
           </div>
         </lm-cell>
       </div>
@@ -66,38 +66,15 @@
   export default {
     name: "MineAccountList",
     components: {LmCell},
+    props: {
+      userInfo: {
+        type: Object,
+        default: {}
+      }
+    },
     data() {
       return {
-        canComplete: true,
-        userInfo: {
-          "avatar": "/img/logo.1e05f0c9.png",
-          "username": "zhonghuaming",
-          "area": "山东省济南市历下区",
-          "provience": "17",
-          "proviencedesc": "山东省",
-          "city": "0531",
-          "citydesc": "济南市",
-          "country": "053101",
-          "countrydesc": "历下区",
-          "mobile": "18612344321",
-          "intention": "通信业",
-          "vip": "vip0",
-          "vipdesc": "VIP",
-          "usertype": "UT00",
-          "usertypedesc": "线上能人",
-          "status": "US01",
-          "statusdesc": "正常",
-          "channelid": "11111",
-          "channelname": "钟华铭渠道",
-          "teamid": "22222",
-          "teamname": "团队",
-          "develop": "www",
-          "point": "0",
-          "gold": "0",
-          "despoitflag": "0",
-          "name": "",
-          "pspt": ""
-        }
+        canComplete: true
       }
     },
     mounted() {

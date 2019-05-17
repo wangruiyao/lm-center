@@ -26,8 +26,7 @@
     </div>
     <div class="button-container">
       <lm-button :is-active="true"
-                 :actType="`active-blue`"
-                 @click="updateUserInfo">登录</lm-button>
+                 :actType="`active-blue`">确定</lm-button>
     </div>
   </div>
 </template>

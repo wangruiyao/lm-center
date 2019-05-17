@@ -1,20 +1,16 @@
 import types from '../types'
-import  {userlogin} from 'api/user'
+import  {userlogin, userinfor} from 'api/user'
 
 const state = {
-  count: 5,
-  userInfo: {}
+  userInfo: sessionStorage.getItem('lmUserInfo') === null ? {} : JSON.parse(sessionStorage.getItem('lmUserInfo'))
 };
 
-let getters = {
-  count(state){
-    return state.count
-  }
-};
+let getters = {};
 
 const mutations = {
-  [types.USER_UPDATE_INFO](state, params) {
-    state.userInfo = params
+  [types.SET_USER_INFO](state, params) {
+    state.userInfo = params;
+    setSession('lmUserInfo', params)
   }
 };
 
@@ -33,6 +29,24 @@ const actions = {
   //       })
   //   })
   // }
+  userInfo({commit}) {
+    return new Promise((resolve, reject) => {
+      userinfor()
+        .then(data => {
+          resolve(data);
+          if(data.code === '0' && data.subcode === '10000') {
+            if(data.data !== undefined && data.data !== null) {
+              const userInfo = data.data;
+              commit(types.SET_USER_INFO, userInfo)
+            }
+          }
+
+        })
+        .catch(data => {
+          reject(data)
+        })
+    })
+  }
 };
 
 

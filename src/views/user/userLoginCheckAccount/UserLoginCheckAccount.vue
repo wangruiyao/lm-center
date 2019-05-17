@@ -14,10 +14,7 @@
       <div class="account-list">
         <account-item v-for="(item, idx) in accountList"
                       :key="idx"
-                      :username="item.username"
-                      :avatar="item.avatar"
-                      :vip="item.vipdesc"
-                      :type="item.usertypedesc">
+                      :user-info="item">
 
         </account-item>
       </div>
@@ -36,25 +33,17 @@
     components: {LmScroll, LmHeader, AccountItem},
     data() {
       return {
-        accountList: [
-          {
-            "avatar": "../../../../assets/images/default-avatar.png",
-            "username": "zhonghuaming",
-            "vip": "vip0",
-            "vipdesc": "VIP",
-            "usertype": "UT00",
-            "usertypedesc": "线上能人"
-          },
-          {
-            "avatar": "../../../../assets/images/default-avatar.png",
-            "username": "zhong",
-            "vip": "vip1",
-            "vipdesc": "VIP1",
-            "usertype": "UT00",
-            "usertypedesc": "线上能人"
-          }
-        ]
+        accountList: []
       }
+    },
+    mounted() {
+      if(this.$route.params.userInfo === undefined) {
+        Toast('未获取到用户信息，请重新登录');
+        goforward('userLogin')
+      } else {
+        this.accountList = this.$route.params.userInfo
+      }
+      console.log(this.$route.params.userInfo)
     }
   }
 </script>

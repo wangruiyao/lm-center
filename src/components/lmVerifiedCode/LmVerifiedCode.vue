@@ -2,7 +2,8 @@
 <template>
   <div id="lm-verified-code">
     <div class="register-form-yz-code">
-      <lm-input class="phonenumber"
+      <lm-input ref="code"
+                class="phonenumber"
                 :place-holder="placeholder"
                 :inputType="inputType"
                 @handleInputBlur="codeInputBlur"
@@ -24,6 +25,12 @@
   export default {
     name: "LmVerifiedCode",
     components: { LmButton, LmIcon, LmInput},
+    props: {
+      number: {
+        type: String,
+        default: ''
+      }
+    },
     data() {
       return {
         isTimmer: false,
@@ -36,8 +43,13 @@
     },
     methods: {
       handleCountClick() {
-        this.isTimmer = true;
-        this.countDown()
+        if(this.number === '') {
+          Toast('请输入手机号')
+        } else {
+          Toast(`短信已发送至：${this.number}`);
+          this.isTimmer = true;
+          this.countDown()
+        }
       },
       countDown() {
         return new Promise((resolve, reject) => {
@@ -53,6 +65,10 @@
       },
       codeInputBlur(val) {
         this.$emit('codeInputBlur', val)
+      },
+      reset() {
+        this.$refs.code.reset();
+        this.$emit('codeInputBlur', '')
       }
     }
   }

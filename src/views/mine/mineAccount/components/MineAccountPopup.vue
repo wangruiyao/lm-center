@@ -7,7 +7,7 @@
         <div class="pop-container headerImg">
           <div class="head-img">
             <input type="file" accept="image/*" @change="handleFile" class="hiddenInput"/>
-            <img :src="avatar">
+            <img :src="newAvatar">
           </div>
           <span>点击上传头像</span>
 
@@ -37,18 +37,28 @@
     },
     data() {
       return{
-        newAvatar: '',
-        userInfo: {
-          avatar: '/img/logo.1e05f0c9.png'
-        }
+        newAvatar: ''
       }
     },
     methods: {
       handleFile(e) {
-        // let $target = e.target || e.srcElement;
-        // let file = $target.files[0];
-        // var formData = new FormData();
-        // formData.append("file", file);
+        const _this = this;
+        let $target = e.target || e.srcElement;
+        let file = $target.files[0];
+        // console.log(file)
+        let reader = new FileReader();
+        reader.onloadstart = function(e) {
+          _this.$indicator.open();
+        };
+        reader.onload = function(e) {
+          _this.$indicator.close();
+          // console.log("读取成功：" + e.target.result);
+          const avatarUrl = e.target.result;
+          _this.newAvatar = avatarUrl;
+          // _this.$emit('updateAvatar', avatarUrl);
+
+        };
+        reader.readAsDataURL(file)
       },
       handleClosePop() {
         this.$emit('closePop', false)

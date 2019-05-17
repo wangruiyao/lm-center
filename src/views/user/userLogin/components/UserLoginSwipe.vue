@@ -8,13 +8,18 @@
         <user-login-by-account
                 v-if="loginType === 'account'"
                 @getUserName="getUserName"
-                @getPassword="getPassword">
+                @getPassword="getPassword"
+                :username-err="errTips.usernameErr"
+                :password-err="errTips.passwordErr">
 
         </user-login-by-account>
       </transition>
       <transition enter-active-class="slideInRight" leave-active-class="slideOutRight">
         <user-login-by-number
-                v-if="loginType === 'number'">
+                v-if="loginType === 'number'"
+                @getNumber="getNumber"
+                @getCode="getCode"
+                :number-err="errTips.numberErr">
 
         </user-login-by-number>
       </transition>
@@ -30,16 +35,31 @@
     components: {UserLoginSwipeButton, UserLoginByNumber, UserLoginByAccount},
     data() {
       return {
-        loginType: 'account'
+        loginType: 'account',
+        errTips: {
+          usernameErr: '',
+          passwordErr: '',
+          numberErr: ''
+        }
       }
     },
     methods: {
       toggleLoginType(type) { // 切换登录方式
         this.loginType = type;
+        this.errTips = {
+          usernameErr: '',
+          passwordErr: '',
+          numberErr: ''
+        };
         this.$emit('getLoginWay', type)
       },
       getUserName(username) { // 用户名密码登录 ---用户名
         if( this.loginType === 'account') {
+          if(username === '') {
+            this.errTips.usernameErr = '请输入用户名'
+          } else {
+            this.errTips.usernameErr = ''
+          }
           this.$emit('getUserName', username)
         } else {
           return false;
@@ -47,12 +67,44 @@
       },
       getPassword(password) { // 用户名密码登录 ---密码
         if( this.loginType === 'account') {
+          if(password === '') {
+            this.errTips.passwordErr = '请输入登录密码'
+          } else {
+            this.errTips.passwordErr = ''
+          }
           this.$emit('getPassword', password)
         } else {
           return false;
         }
       },
-
+      getNumber(number) {
+        if(this.loginType === 'number') {
+          if(number === '') {
+            this.errTips.numberErr = '请输入手机号'
+          } else {
+            this.errTips.numberErr = ''
+          }
+          this.$emit('getNumber', number)
+        }else {
+          return false;
+        }
+      },
+      getCode(code) {
+        if(this.loginType === 'number') {
+          this.$emit('getCode', code)
+        }else {
+          return false;
+        }
+      },
+      checkLoginParams(err) {
+        if(err === 'username') {
+          this.errTips.usernameErr = '请输入用户名'
+        } else if(err === 'password') {
+          this.errTips.passwordErr = '请输入登录密码'
+        } else if(err === 'number') {
+          this.errTips.numberErr = '请输入手机号'
+        }
+      }
     }
   }
 </script>
