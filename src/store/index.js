@@ -17,7 +17,7 @@ const state = {
   // historyPage: '/',
   pageInAnimate: 'slideInRight',
   pageOutAnimate: 'slideOutLeft',
-  historyPage: []
+  historyPage: sessionStorage.getItem('historyPage') === null ? [] : JSON.parse(sessionStorage.getItem('historyPage'))
 };
 
 const mutations  = {
@@ -36,9 +36,17 @@ const mutations  = {
   [types.SET_HISTORY_PAGE](state, historyPage) {
     // state.historyPage = historyPage.name;
     if(historyPage.handle === 'forward'){ // 前进添加历史数组
-      state.historyPage.push(historyPage.page)
+      const i = state.historyPage.length-1;
+      if (historyPage.page === state.historyPage[i]) {
+        return false
+      } else {
+        state.historyPage.push(historyPage.page);
+        setSession('historyPage', state.historyPage)
+      }
+
     } else if(historyPage.handle === 'back') {  // 后退删除历史数组
       state.historyPage.pop();
+      setSession('historyPage', state.historyPage)
     }
 
   }

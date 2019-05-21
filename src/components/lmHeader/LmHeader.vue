@@ -1,14 +1,15 @@
 <template>
-  <div id="lm-header">
+  <div id="lm-header" :style="{background: background, opacity: opacity }">
     <!-- 返回 -->
     <div class="header-back"
          @click="back">
-      <span class="lm-icon icon iconfont" v-show="showBack">&#xe611;</span>
+      <span class="lm-icon icon iconfont" v-show="showBack">&#xe612;</span>
     </div>
 
     <!-- 标题 -->
     <div class="headerName">
       {{title}}
+      <slot name="center"></slot>
     </div>
 
     <!-- 右侧按钮 -->
@@ -24,6 +25,14 @@
     name: "LmHeader",
     components: {},
     props: {
+      opacity: {
+        type: Number,
+        default: 1
+      },
+      background: {
+        type: String,
+        default: '#fff'
+      },
       showBack: {
         type: Boolean,
         default: true
@@ -43,14 +52,12 @@
 <style lang="scss" scoped>
   #lm-header {
     position: fixed;
-    background: #fff;
     @include flex-row();
     height: $header-height;
     width: 100%;
     border-bottom: solid #eee 1px;
-    font-size: 17px;
+    font-size: 16px;
     color: #424242;
-    font-weight: 900;
     top: 0;
     z-index: 999;
   }

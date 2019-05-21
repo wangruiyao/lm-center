@@ -26,7 +26,7 @@
           <img src="../../../../assets/images/center/gongjux_icon_35.png">
           <span>开团购</span>
         </div>
-        <div class="item">
+        <div class="item" @click="go('goodsList')">
           <img src="../../../../assets/images/center/gongjux_icon_36.png">
           <span>云商城</span>
         </div>
@@ -44,7 +44,12 @@
   import HomeCenterBox from "./HomeCenterBox";
   export default {
     name: "HomeCenterHelper",
-    components: {HomeCenterBox}
+    components: {HomeCenterBox},
+    methods: {
+      go(path) {
+        goforward(path)
+      }
+    }
   }
 </script>
 

@@ -1,0 +1,67 @@
+<template>
+  <div id="filter-item">
+    <div class="title">
+      {{filterItem.title}}
+    </div>
+    <div class="item-container">
+      <div v-for="(item, idx) in filterItem.list"
+           :class="item.act?'act':''" @click="handleClick(idx)">{{item.text}}</div>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: "GoodsListFilterItem",
+    props: {
+      idx: {
+        type: Number
+      },
+      filterItem: {
+        type: Object,
+        default: {}
+      }
+    },
+    methods: {
+      handleClick(idx) {
+        const param = {
+          outter:this.idx,
+          inner: idx
+        }
+        this.$emit('handleClick', param);
+      }
+    }
+  }
+</script>
+
+<style lang="scss" scoped>
+  #filter-item {
+    margin-bottom: 15px;
+    .act {
+      color: #fff;
+      @include blue-gradient;
+      border: none !important;
+    }
+    .title {
+      color: #000;
+      margin-bottom: 10px;
+    }
+    .item-container {
+      width: 100%;
+      @include flex-row(baseline);
+      flex-wrap: wrap;
+      div {
+        margin-bottom: 10px;
+        margin-right: 5px;
+        border: solid $line-deep 1px;
+        width: 75px;
+        height: 23px;
+        @include flex-row(center);
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+      }
+    }
+  }
+
+</style>

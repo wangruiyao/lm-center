@@ -1,14 +1,14 @@
 <template>
   <div id="home-center" class="lm-container-blank">
-    <transition name="lt">
-      <lm-header :title="`连萌`" :show-back="false" v-show="showHeader">
-        <div slot="right">
-          <span class="lm-icon icon iconfont">&#xe61e;</span>
-        </div>
-      </lm-header>
-    </transition>
+    <lm-header :title="`连萌`" :show-back="false" :opacity="headerOpacity" v-show="showHeader">
+      <div slot="right">
+        <span class="lm-icon icon iconfont">&#xe61e;</span>
+      </div>
+    </lm-header>
     <lm-scroll ref="wrapper"
-               :pullup="true" :listenScroll="true" @scroll="listenScroll">
+               :pullup="true"
+               :listenScroll="true"
+               @scroll="listenScroll">
       <home-center-head></home-center-head>
       <!--<div class="minePage" @click="goforward('mineAccount')">我的账户</div>-->
       <!--<div class="minePage" @click="goforward('minePersonalData')">完善个人信息</div>-->
@@ -36,6 +36,7 @@
     data() {
       return {
         showHeader: false,
+        headerOpacity: 0
       }
     },
     methods: {
@@ -43,7 +44,9 @@
         goforward(page)
       },
       listenScroll(pos) {
+        this.headerOpacity = -pos.y * 0.01;
         this.showHeader = pos.y < 0;
+
       }
     }
 

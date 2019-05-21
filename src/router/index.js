@@ -7,6 +7,7 @@ import user from './user'
 import mine from './mine'
 import home from './home'
 import store from 'store'
+import goods from './goods'
 
 Vue.use(Router);
 
@@ -20,7 +21,8 @@ const router = new Router({
     },
     ...user,
     ...mine,
-    ...home
+    ...home,
+    ...goods
   ]
 });
 
@@ -33,6 +35,7 @@ const router = new Router({
  */
 router.beforeEach((to, from, next) => {
   if(getSession('lmUserInfo')){ // 已登录
+    console.log(to.name)
     goNext(to,from,next);
   } else {  // 未登录
     if(!to.meta.isLogin) {

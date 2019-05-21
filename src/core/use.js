@@ -23,8 +23,9 @@ window.getSession = getSession;
 
 import mint from 'mint-ui'
 Vue.use(mint);
-import {Toast} from 'mint-ui'
+import {Toast, MessageBox} from 'mint-ui'
 window.Toast = Toast;
+window.Message = MessageBox;
 // import mint-ui component
 // import { Popup, Picker, Checklist, Toast, Swipe, SwipeItem } from 'mint-ui'
 // import { InfiniteScroll } from 'mint-ui';

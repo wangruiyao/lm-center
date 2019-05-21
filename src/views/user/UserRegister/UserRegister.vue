@@ -1,9 +1,7 @@
 <template>
   <div id="user-register" class="user-register lm-container-blank">
     <lm-scroll ref="wrapper"
-               :pullup="true"
-
-    >
+               :pullup="true">
 
       <!-- Logo -->
       <lm-logo :flex-type="logoStyle"></lm-logo>
