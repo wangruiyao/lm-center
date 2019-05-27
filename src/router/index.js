@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import types from 'store/types'
+import store from 'store'
 
 //用户操作模块路由
 import user from './user'
 import mine from './mine'
 import home from './home'
-import store from 'store'
+import vip from './vip'
 import goods from './goods'
 
 Vue.use(Router);
@@ -22,7 +23,8 @@ const router = new Router({
     ...user,
     ...mine,
     ...home,
-    ...goods
+    ...goods,
+    ...vip
   ]
 });
 
@@ -35,7 +37,6 @@ const router = new Router({
  */
 router.beforeEach((to, from, next) => {
   if(getSession('lmUserInfo')){ // 已登录
-    console.log(to.name)
     goNext(to,from,next);
   } else {  // 未登录
     if(!to.meta.isLogin) {
@@ -52,9 +53,10 @@ router.beforeEach((to, from, next) => {
     }
 
   }
-
-
 });
+
+router.afterEach(route => {})
+
 
 function goNext(to,from,next) {
   // 更改页面

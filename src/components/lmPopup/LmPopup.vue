@@ -6,7 +6,9 @@
       <div class="popup-title">
         <span class="title-icon"></span>
         <span>{{title}}</span>
-        <span class="title-icon" @click="closePop">关闭</span>
+        <span class="title-icon">
+          <span class="lm-icon icon iconfont" @click="closePop" v-show="hasCloseBtn">&#xe6e1;</span>
+        </span>
       </div>
       <slot name="pop">
 
@@ -29,6 +31,10 @@
       },
       title: {
         type: String
+      },
+      hasCloseBtn: {
+        type: Boolean,
+        default: true
       }
     },
     data() {
@@ -56,6 +62,9 @@
 
       @include flex-row(space-between);
       .title-icon {
+        span {
+          font-size: 12px !important;
+        }
         width: 40px;
       }
     }

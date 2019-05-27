@@ -26,14 +26,7 @@ Vue.use(mint);
 import {Toast, MessageBox} from 'mint-ui'
 window.Toast = Toast;
 window.Message = MessageBox;
-// import mint-ui component
-// import { Popup, Picker, Checklist, Toast, Swipe, SwipeItem } from 'mint-ui'
-// import { InfiniteScroll } from 'mint-ui';
-//
-// Vue.use(InfiniteScroll);
-//
-// Vue.component(Swipe.name, Swipe);
-// Vue.component(SwipeItem.name, SwipeItem);
-// Vue.component(Popup.name, Popup);
-// Vue.component(Picker.name, Picker);
-// Vue.component(Checklist.name, Checklist);
+
+// 引入自定义组件
+import Loading from 'components/lmLoading'
+window.Loading = Loading

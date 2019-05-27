@@ -22,11 +22,11 @@ export default [{
       component:  r => require.ensure([], () => r(require('views/goods/goodsList/GoodsList')), 'goodsList')
     },
     {
-      path: 'detail',
+      path: 'detail/:id',
       name: 'goodsDetail',
       meta: {
         title: '商品详情',
-        isLogin: true
+        isLogin: false
       },
       component:  r => require.ensure([], () => r(require('views/goods/goodsDetail/GoodsDetail')), 'goodsDetail')
     }

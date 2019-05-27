@@ -29,6 +29,16 @@
   margin: $margin;
 }
 
+@mixin blue-icon($margin: 0) {
+  font-size: 24px;
+  background-image: -moz-linear-gradient( 176deg, rgb(64,233,245) 0%, rgb(102,133,251) 52%, rgb(116,96,253) 75%, rgb(124,74,255) 99%);
+  background-image: -webkit-linear-gradient( 176deg, rgb(64,233,245) 0%, rgb(102,133,251) 52%, rgb(116,96,253) 75%, rgb(124,74,255) 99%);
+  background-image: -ms-linear-gradient( 176deg, rgb(64,233,245) 0%, rgb(102,133,251) 52%, rgb(116,96,253) 75%, rgb(124,74,255) 99%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: $margin;
+}
+
 @mixin btn-active-red {
   color: #ffffff;
   background-image: -moz-linear-gradient( 25deg, rgb(255, 126, 203) 0%, rgb(192, 54, 155) 99%);

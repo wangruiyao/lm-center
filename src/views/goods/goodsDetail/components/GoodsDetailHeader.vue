@@ -90,7 +90,7 @@
       padding: 0 8px;
       span {
         @include flex-row(center);
-        background: rgba(0,0,0,0.6);
+        background: rgba(0,0,0,0.3);
         -webkit-border-radius: 50%;
         -moz-border-radius: 50%;
         border-radius: 50%;

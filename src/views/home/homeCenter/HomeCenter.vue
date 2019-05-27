@@ -39,6 +39,9 @@
         headerOpacity: 0
       }
     },
+    mounted() {
+
+    },
     methods: {
       goforward(page) {
         goforward(page)

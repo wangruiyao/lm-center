@@ -32,10 +32,9 @@
 
 <style lang="scss" scoped>
   #goods-info {
-    font-size: 10px;
     background: #fff;
-    padding: 0 10px;
-    margin-bottom: 5px;
+    padding: 0 15px;
+    margin-bottom: 10px;
     .good-price {
       @include flex-row(baseline);
       font-size: 18px;
@@ -56,7 +55,7 @@
       }
     }
     .goods-desc {
-      font-size: 12px;
+      font-size: 14px;
       color: #333;
     }
     .good-basic-info {

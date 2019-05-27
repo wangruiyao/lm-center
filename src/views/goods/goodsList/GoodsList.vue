@@ -27,7 +27,7 @@
         <goods-item v-for="item in goodsListData"
                     :key="item.goodsId"
                     :goods-info="item"
-                    @click="goodsDetail(item)">
+                    @click="goodsDetail(item.goodsId)">
         </goods-item>
       </div>
 
@@ -69,13 +69,10 @@
         this.getGoodsList();
       },
       getGoodsList() {
-        this.$indicator.open();
         listGoods().then( data => {
-          this.$indicator.close();
           if( data.code === '0') {
             if(data.subcode === '10000') {
               this.goodsListData = data.data;
-              console.log(this.goodsListData)
             } else {
               Message(`查询商品列表错误,错误码: ${data.subcode},错误原因: ${data.submsg}`)
             }
@@ -92,8 +89,8 @@
       maskClick() {
         this.slideVisiblity = false;
       },
-      goodsDetail(goodsInfo) {
-        goforward('goodsDetail', {goodsInfo})
+      goodsDetail(id) {
+        goforward('goodsDetail', {id: id})
       }
     }
   }

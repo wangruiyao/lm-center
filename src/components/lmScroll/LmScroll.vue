@@ -101,6 +101,10 @@
       },
       scrollToElement() {//滚动到指定的目标元素。
         this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
+
+      },
+      test(el, time, offsetX, offsetY, easing){
+
       }
     },
     watch: {

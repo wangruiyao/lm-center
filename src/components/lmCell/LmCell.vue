@@ -12,6 +12,7 @@
     </div>
     <div class="cell-icon" @click="handleClick">
       <slot name="right-text"></slot>
+
       <span class="lm-icon icon iconfont" v-if="!disable">&#xe66c;</span>
     </div>
   </div>
@@ -55,7 +56,7 @@
   #lm-cell{
     min-height: $cell-height;
     @include flex-row();
-    padding: 0 20px;
+    padding: 0 15px;
     text-align: right;
     background: #fff;
 
@@ -72,9 +73,12 @@
       width: 70%;
     }
     .cell-icon {
+      .right-text {
+        min-width: 30px;
+      }
       @include flex-row(flex-end);
       color: $line-deep;
-      width: 15%;
+      min-width: 10%;
     }
   }
 </style>
