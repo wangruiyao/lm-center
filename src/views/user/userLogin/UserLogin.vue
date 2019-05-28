@@ -102,10 +102,10 @@
               })
             }
           } else {
-            Toast(data.msg)
+            Message(`code：${data.code},msg: ${data.msg}`)
           }
         }).catch(data => {
-          Toast('调用登录接口失败，报错信息：' + JSON.stringify(data))
+         Message('登录接口调用异常，接口返回code：' + JSON.stringify(data.response.status))
         })
       },
       loginByNumber(params) {

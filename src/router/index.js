@@ -42,11 +42,6 @@ router.beforeEach((to, from, next) => {
     if(!to.meta.isLogin) {
       goNext(to,from,next);
     }else {
-      // next({
-      //   path: '/user',
-      //   redirect: to.name
-      // })
-      // goNext(to,from,next);
       goforward('userLogin', {
         redirect: to.name
       })

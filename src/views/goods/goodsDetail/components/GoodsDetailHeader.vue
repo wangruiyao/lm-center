@@ -2,10 +2,10 @@
   <div id="header">
     <div class="header-default" :style="{opacity: 1-headerOpacity}">
       <span class="lm-icon icon iconfont" @click="back">&#xe612;</span>
-      <span class="lm-icon icon iconfont">&#xe61e;</span>
+      <span class="lm-icon icon iconfont" @click="handleMoreClick">&#xe61e;</span>
     </div>
 
-    <lm-header :background="`#fff`" :opacity="headerOpacity" v-show="showHeader">
+    <lm-header :background="`#fff`" :opacity="headerOpacity" v-show="showHeader" @handleMoreClick="handleMoreClick">
       <div class="head-scroll" slot="center">
         <div></div>
         <div class="header-anchor">
@@ -64,6 +64,9 @@
     methods: {
       handleTabClick(tabIdx) {
         this.$emit('changeTab', tabIdx)
+      },
+      handleMoreClick() {
+        this.$emit('handleMoreClick')
       },
       back() {
         goback()

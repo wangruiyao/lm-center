@@ -10,7 +10,6 @@ export function go(page, params) {  // 前进
 export function goback() {  // 后退
   store.commit(types.SET_PAGE_STATION, 'back');
   let pageName = store.state.historyPage[store.state.historyPage.length - 2];
-  console.log(pageName);
   if(pageName === undefined) {
     router.replace({name: 'userLogin'})
   } else {

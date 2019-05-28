@@ -14,7 +14,7 @@
           <img src="../../../../assets/images/center/gongjux_icon_26.png">
           <span>我的SIM卡</span>
         </div>
-        <div class="item">
+        <div class="item" @click="go('vipCenter')">
           <img src="../../../../assets/images/center/gongjux_icon_28.png">
           <span>权益中心</span>
         </div>

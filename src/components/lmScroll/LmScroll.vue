@@ -121,9 +121,11 @@
   .scroll-container {
     height: 667px;
     margin-top: 10px;
+    /*overflow: hidden;*/
     .scroll-inner{
       min-height: 668px;
       padding-bottom: 100px;
+
     }
   }
 

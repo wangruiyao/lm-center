@@ -1,8 +1,10 @@
 <template>
   <div id="goods-list" class="lm-container-blank">
     <!-- 头部 -->
-    <goods-detail-header :scroll-y="scrollY" :act-tab="actTab"
-                         @changeTab="changeTab">
+    <goods-detail-header :scroll-y="scrollY"
+                         :act-tab="actTab"
+                         @changeTab="changeTab"
+                         @handleMoreClick="handleMoreClick">
     </goods-detail-header>
 
     <lm-scroll ref="wrapper"
@@ -146,6 +148,9 @@
       },
       closePop() {
         this.popup.visible = false
+      },
+      handleMoreClick() {
+        alert(1)
       }
 
     }

@@ -13,7 +13,7 @@
     </div>
 
     <!-- 右侧按钮 -->
-    <div class="header-right-icon">
+    <div class="header-right-icon" @click="handleMoreClick">
       <slot name="right"></slot>
     </div>
   </div>
@@ -44,6 +44,9 @@
     methods: {
       back() {
         goback()
+      },
+      handleMoreClick() {
+        this.$emit('handleMoreClick')
       }
     }
   }

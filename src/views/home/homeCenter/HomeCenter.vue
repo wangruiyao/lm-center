@@ -47,7 +47,7 @@
         goforward(page)
       },
       listenScroll(pos) {
-        this.headerOpacity = -pos.y * 0.01;
+        this.headerOpacity = -pos.y * 0.04;
         this.showHeader = pos.y < 0;
 
       }
