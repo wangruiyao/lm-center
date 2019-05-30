@@ -25,7 +25,8 @@ export default [{
           name: 'vipCenter',
           meta: {
             title: 'VIP',
-            isLogin: true
+            isLogin: true,
+            tabOrigin: 'vipCenter'
           },
           component:  r => require.ensure([], () => r(require('views/vip/vipCenter/VipCenter')), 'vipCenter')
         },
@@ -34,7 +35,8 @@ export default [{
           name: 'depositCenter',
           meta: {
             title: '保证金',
-            isLogin: true
+            isLogin: true,
+            tabOrigin: 'vipCenter'
           },
           component:  r => require.ensure([], () => r(require('views/vip/depositCenter/DepositCenter')), 'depositCenter')
         },
@@ -43,7 +45,8 @@ export default [{
           name: 'rightsCenter',
           meta: {
             title: '权益',
-            isLogin: true
+            isLogin: true,
+            tabOrigin: 'vipCenter'
           },
           component:  r => require.ensure([], () => r(require('views/vip/rightsCenter/RightsCenter')), 'rightsCenter')
         }

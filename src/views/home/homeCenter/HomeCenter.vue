@@ -1,6 +1,9 @@
 <template>
   <div id="home-center" class="lm-container-blank">
-    <lm-header :title="`连萌`" :show-back="false" :opacity="headerOpacity" v-show="showHeader">
+    <lm-header :title="`连萌`"
+               :show-back="false"
+               :opacity="headerOpacity"
+               v-show="showHeader" :background="`rgb(83, 171, 239)`" :color="`#fff`" :border="`solid transparent 1px`">
       <div slot="right">
         <span class="lm-icon icon iconfont">&#xe61e;</span>
       </div>

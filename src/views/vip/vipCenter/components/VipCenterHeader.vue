@@ -49,14 +49,12 @@
   #vip-header {
     z-index: 777;
     width: 100%;
-    height: 146px;
-    padding-top: 10px;
+    height: $header-height-2;
     background-image: url("../../../../assets/images/vip/vip-header.png");
     background-size: 100%;
     @include flex-column(baseline);
     position: fixed;
     color: #fff;
-    margin-top: -10px;
 
     >div {
       @include flex-row();

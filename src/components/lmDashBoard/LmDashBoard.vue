@@ -14,11 +14,11 @@
     props: {
       animateColor: {
         type: String,
-        default: '#ffed73'
+        default: '#ecff6f'
       },
       grideColor: {
         type: String,
-        default: '#eee'
+        default: 'rgba(255,255,255,0.3)'
       },
       speed: {
         type: Number,
@@ -26,11 +26,12 @@
       },
       number: {
         type: Number,
-        default: 10
+        default: 20
       }
     },
     data() {
       return {
+        color: 180,
         gridRotate: (6/180)*Math.PI,  //每格的大小
         defaultRotate:(6/180)*Math.PI*(-17),  // 初始旋转角度
         lastGrid:25,  // 高亮的格数
@@ -38,22 +39,26 @@
         nowNum: 1,
       }
     },
+    computed: {
+      showColor() {
+        return `rgb(${this.color}, 247, 100)`
+      }
+    },
     mounted() {
-      const _this = this;
-      this.run();
-      this.timeout().then(()=> {
-        _this.runAnimate(_this.number)
-      })
+      this.begin();
     },
     methods: {
+      run() {
+        this.runAnimate(this.number)
+      },
       timeout() {
         return new Promise((resolve)=> {
           setTimeout(()=>{
             resolve()
-          }, 1000)
+          }, 800)
         })
       },
-      run() {
+      begin() {
         unit = (6/180)*Math.PI;
         canvas = document.getElementById('dashboard-container');
         cxt = canvas.getContext('2d');
@@ -65,13 +70,13 @@
       drawGrid(cxt) {
         for(let i=0 ; i<35 ; i++) {
           cxt.save();
-          cxt.lineWidth = 5;
+          cxt.lineWidth = 4;
           cxt.strokeStyle = this.grideColor;
           cxt.translate(170,200);
           cxt.rotate(this.defaultRotate + i*unit);
           cxt.beginPath();
           cxt.moveTo(0,-135);
-          cxt.lineTo(0,-155);
+          cxt.lineTo(0,-153);
           cxt.stroke();
           cxt.closePath();
           cxt.restore()
@@ -80,11 +85,22 @@
       runAnimate(num) {
         const _this = this;
         cxt.clearRect(0,0,1024,728);
+        _this.color = 255;
+        let r = 245;
+        let g = 105;
         for(let i=0 ; i<35 ; i++) {
+
           cxt.save();
-          cxt.lineWidth = 5;
+          cxt.lineWidth = 4;
           if(i<_this.nowNum) {
-            cxt.strokeStyle = _this.animateColor;
+            if(g<245) {
+              g+=8;
+            } else {
+              r-=8
+            }
+
+            // cxt.strokeStyle = _this.animateColor;
+            cxt.strokeStyle = `rgb(${r}, ${g}, 100)`
           } else {
             cxt.strokeStyle = _this.grideColor;
           }
@@ -95,11 +111,14 @@
           // _this.nowNum
           if(i === _this.nowNum -1) {
             cxt.moveTo(0,-135);
-            cxt.lineTo(0,-175);
+            cxt.lineTo(0,-170);
+
           } else {
+
             cxt.moveTo(0,-135);
-            cxt.lineTo(0,-155);
+            cxt.lineTo(0,-153);
           }
+
 
           cxt.stroke();
           cxt.closePath();
@@ -123,9 +142,9 @@
     @include flex-row(center);
     overflow: hidden;
     width: 100%;
-    padding-bottom: 80%;
+    padding-bottom: 65%;
     .canvas {
-      top: -10px;
+      top: -20px;
       width: 100%;
       /*height: 295px;*/
       position: absolute;

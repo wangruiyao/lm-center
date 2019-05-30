@@ -1,19 +1,54 @@
 <template>
   <div id="vip-center">
     <vip-center-header></vip-center-header>
+    <div class="vip-header-layout"></div>
 
+    <div class="vip-center-ad" v-show="adShow">
+      <div class="lm-icon icon iconfont icon-guanbi" @click="closeAd()"></div>
+      <!--<span class="lm-icon icon iconfont">&#xe6e1;</span>-->
+      <img src="../../../assets/images/vip/vip-img-1.png">
+    </div>
+    <div class="vip-ad-layout" v-show="adShow"></div>
     <lm-scroll ref="wrapper"
                :pullup="true"
                :listenScroll="true"
                @scroll="listenScroll">
 
       <div class="vip-center-container">
-        <div class="vip-center-ad">
-          <div class="lm-icon icon iconfont icon-guanbi">
+        <div class="vip-list">
+          <span class="title">精选权益</span>
+          <div class="vip-list-container">
+            <div>
+              <img src="../../../assets/images/vip/vip-img2.png">
+              <div>
+                <span>新人专属红包</span>
+                <span class="vip-grade">(VIP2)</span>
+              </div>
 
+            </div>
+            <div>
+              <img src="../../../assets/images/vip/vip-img-3.png">
+              <div>
+                <span>新人专属红包</span>
+                <span class="vip-grade">(VIP2)</span>
+              </div>
+            </div>
+            <div>
+              <img src="../../../assets/images/vip/vip-img2.png">
+              <div>
+                <span>新人专属红包</span>
+                <span class="vip-grade">(VIP2)</span>
+              </div>
+            </div>
+            <div>
+              <img src="../../../assets/images/vip/vip-img-3.png">
+              <div>
+                <span>新人专属红包</span>
+                <span class="vip-grade">(VIP2)</span>
+              </div>
+            </div>
           </div>
-          <!--<span class="lm-icon icon iconfont">&#xe6e1;</span>-->
-          <img src="../../../assets/images/vip/vip-img-1.png">
+
         </div>
       </div>
     </lm-scroll>
@@ -28,48 +63,100 @@
     name: "VipCenter",
     components: {VipCenterHeader, LmScroll, LmHeader},
     data() {
-      return {}
+      return {
+        adShow: true
+      }
     },
     methods: {
+      closeAd() {
+        this.adShow = false;
+      },
       listenScroll(pos) {}
     }
   }
 </script>
 
 <style lang="scss" scoped>
+  $width: 360px;
+  $ad-height: 50px;
   #vip-center {
+    .vip-header-layout {
+      height: $header-height-2;
+      width: 100%;
+    }
+    .vip-ad-layout {
+      width: 100%;
+      height: $ad-height;
+    }
+    @include flex-column();
+    border: solid transparent 1px;
     .vip-header {
 
       width: 100%;
       height: 146px;
     }
+    .vip-center-ad {
+      @include flex-row(space-between, flex-end);
+      position: fixed;
+      z-index: 888;
+      top: 146px;
+      height: $ad-height;
+      >div {
+        position: absolute;
+        @include flex-column();
+        color: #fff;
+        width: 22px;
+        padding-left: 9px;
+        /*background: rgba(0, 0, 0, 0.61);*/
+        padding-top: 2px;
+        height: 22px;
+        border-radius: 50%;
+        top: 19px;
+        right: 6px;
+        font-size: 10px;
+      }
+      img{
+        width: 100%;
+      }
+      width: $width;
+    }
     /*background-repeat-y: no-repeat;*/
     .vip-center-container {
       @include flex-column(baseline);
       min-height: 560px;
-      width: 100%;
-      padding-top: 146px;
-      margin-top: -10px;
-      .vip-center-ad {
-        position: relative;
-        >div {
-          position: absolute;
-          @include flex-column();
-          color: #fff;
-          width: 22px;
-          padding-left: 9px;
-          background: rgba(0, 0, 0, 0.61);
-          padding-top: 2px;
-          height: 22px;
-          border-radius: 50%;
-          top: 7px;
-          right: 6px;
-          font-size: 10px;
+
+      .vip-list {
+        padding: 0 5px 10px;
+        .title {
+          margin-bottom: 5px;
+          font-weight: 400;
+          font-size: 16px;
+          color: #383838;
         }
-        img{
+        width: $width;
+        @include flex-column(baseline, baseline);
+        .vip-list-container {
           width: 100%;
+          @include flex-row();
+          flex-wrap: wrap;
+          >div {
+            margin-bottom: 10px;
+            @include flex-column(space-between, baseline);
+            >div {
+              color: #666;
+              padding: 2px;
+              width: 100%;
+              @include flex-row();
+              .vip-grade {
+                color: #BC7E2E;
+                font-size: 10px;
+              }
+            }
+          }
+          img {
+            width: 170px;
+          }
         }
-        width: 360px;
       }
     }
   }

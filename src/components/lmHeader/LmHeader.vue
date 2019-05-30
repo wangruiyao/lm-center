@@ -1,5 +1,6 @@
 <template>
-  <div id="lm-header" :style="{background: background, opacity: opacity }">
+  <div id="lm-header"
+       :style="{background: background, opacity: opacity, borderBottom:  border, color: color}">
     <!-- 返回 -->
     <div class="header-back"
          @click="back">
@@ -7,7 +8,7 @@
     </div>
 
     <!-- 标题 -->
-    <div class="headerName">
+    <div class="headerName" style="font-size: 14px;">
       {{title}}
       <slot name="center"></slot>
     </div>
@@ -39,6 +40,14 @@
       },
       title: {
         type: String
+      },
+      border: {
+        type: String,
+        default: 'solid #eee 1px'
+      },
+      color: {
+        type: String,
+        default: '#424242'
       }
     },
     methods: {
@@ -58,7 +67,6 @@
     @include flex-row();
     height: $header-height;
     width: 100%;
-    border-bottom: solid #eee 1px;
     font-size: 16px;
     color: #424242;
     top: 0;

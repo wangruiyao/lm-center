@@ -2,9 +2,9 @@
   <div id="vipHome" class="lm-container-blank">
     <router-view />
     <div class="vip-home-tab">
-      <span @click="go('depositCenter')">保证金</span>
-      <span @click="go('rightsCenter')">权益</span>
-      <span @click="go('vipCenter')">VIP</span>
+      <span @click="go('depositCenter')" :class="actTab === 'depositCenter' ? 'act' : ''">保证金</span>
+      <span @click="go('rightsCenter')" :class="actTab === 'rightsCenter' ? 'act' : ''">权益</span>
+      <span @click="go('vipCenter')" :class="actTab === 'vipCenter' ? 'act' : ''">VIP</span>
     </div>
   </div>
 </template>
@@ -12,8 +12,17 @@
 <script>
   export default {
     name: "VipHome",
+    data() {
+      return {
+         actTab: ''
+      }
+    },
+    mounted() {
+      this.actTab = this.$route.name;
+    },
     methods: {
       go(path) {
+        this.actTab = path;
         goforward(path)
       }
     }
@@ -21,6 +30,9 @@
 </script>
 
 <style lang="scss" scoped>
+  .act {
+    color: #000;
+  }
   .vip-home-tab {
     @include flex-row();
     position: fixed;

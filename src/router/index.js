@@ -60,8 +60,10 @@ function goNext(to,from,next) {
   } else {
     document.title = '连萌'
   }
+  const nowHistory = store.state.historyPage[store.state.historyPage.length - 1];
   const lastHistory = store.state.historyPage[store.state.historyPage.length - 2];
-  const toPage = to.name;
+  const toPage = to.meta.tabOrigin === undefined ? to.name : to.meta.tabOrigin;
+  // const toPage = to.name;
   if(lastHistory !== toPage) {
     const para = {
       handle: 'forward',
