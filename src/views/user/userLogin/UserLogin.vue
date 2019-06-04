@@ -90,7 +90,6 @@
         userloginbyname(params).then( data => {
           if(data.code === '0') {
             if(data.subcode === '10000') {
-              // console.log(_this.$store)
               _this.$store.dispatch('users/userInfo').then(data=>{
                 if(data.code === '0' && data.subcode === '10000') {
                   goforward(_this.toPath);

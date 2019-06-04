@@ -1,5 +1,5 @@
 <template>
-  <span class="lm-icon icon iconfont" :class="iconClass"></span>
+  <span class="lm-icon icon iconfont" :class="iconClass" @click="handleClick"></span>
 </template>
 
 <script>
@@ -9,6 +9,11 @@
       'iconClass': {
         type: String,
         default: 'icon-login'
+      }
+    },
+    methods: {
+      handleClick() {
+        this.$emit('click')
       }
     }
   }

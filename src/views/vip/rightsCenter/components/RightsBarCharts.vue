@@ -5,7 +5,7 @@
       <span>查看明细 <span class="lm-icon icon iconfont">&#xe66c;</span></span>
     </div>
     <div class="chart-container">
-      <lm-bar-chart></lm-bar-chart>
+      <lm-bar-chart :data-list="golddetailweek"></lm-bar-chart>
     </div>
 
   </div>
@@ -13,9 +13,42 @@
 
 <script>
   import LmBarChart from "../../../../components/lmBarChart/LmBarChart";
+  import {golddetailweek} from 'api/vip'
   export default {
     name: "RightsBarCharts",
-    components: {LmBarChart}
+    components: {LmBarChart},
+    data() {
+      return {
+        golddetailweek: []
+      }
+    },
+    mounted() {
+      this.getGolddetailweek()
+    },
+    methods: {
+      getGolddetailweek() { // 最近一周升级金明细
+        golddetailweek().then(data => {
+          if(data.code === '0') {
+            if(data.subcode === '10000') {
+              this.golddetailweek = [];
+              data.data.map(idx => {
+                const item = {
+                  date: idx.date,
+                  number: idx.gold
+                };
+                this.golddetailweek.push(item)
+              });
+            } else {
+              Message(`${data.submsg},错误码： ${data.subcode}`)
+            }
+          } else {
+            Message(`${data.msg},错误码： ${data.code}`)
+          }
+        }).catch(data => {
+          Message(`调用最近一周升级金接口异常`)
+        })
+      }
+    }
   }
 </script>
 

@@ -6,6 +6,7 @@
                 class="phonenumber"
                 :place-holder="placeholder"
                 :inputType="inputType"
+                :is-listen = true
                 @handleInputBlur="codeInputBlur"
       >
         <lm-icon :icon-class="iconClass"></lm-icon>

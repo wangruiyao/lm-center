@@ -41,13 +41,17 @@
                   :place-holder="inputSetting.phonenumber.placeholder"
                   :err-tip="inputSetting.phonenumber.errTip"
                   :inputType="inputSetting.phonenumber.inputType"
+                  :is-listen=true
                   @handleInputBlur="checkNumber">
           <lm-icon :icon-class="inputSetting.phonenumber.iconClass"></lm-icon>
         </lm-input>
 
         <!-- 验证码 -->
         <lm-verified-code
-                @codeInputBlur="getVerifiedCode" :number="registerParams.mobile"></lm-verified-code>
+            ref="vertify"
+            @codeInputBlur="getVerifiedCode"
+            :number="registerParams.mobile">
+        </lm-verified-code>
 
       </div>
 
@@ -60,14 +64,15 @@
           <mt-checklist
                 v-model="isCheckAggrement"
                 :options="['']">
-        </mt-checklist>
+          </mt-checklist>
         </div>
 
         我已阅读，并同意<span class="aggrement">《连萌注册协议》</span>
       </div>
 
-      <div class="user-register" @click="register">
-        <lm-button :is-active="true" :actType="`active-blue`">立即注册</lm-button>
+      <div class="user-register-btn">
+        <div class="btn-masker" v-show="!judgeRegisterParams"></div>
+        <lm-button :is-active="true" :actType="`active-blue`"  @click="register">立即注册</lm-button>
       </div>
       <div class="back-login" @click="backLogin">返回登录</div>
     </lm-scroll>
@@ -83,7 +88,7 @@
   const LmLogo = resolve => require(['components/lmLogo/LmLogo'], resolve);
   const LmCityPicker = resolve => require(['components/lmCityPicker/LmCityPicker'], resolve);
 
-  import {userisexist} from 'api/user'
+  import {userisexist, userregister} from 'api/user';
   import LmVerifiedCode from "../../../components/lmVerifiedCode/LmVerifiedCode";
   import LmScroll from "../../../components/lmScroll/LmScroll";
   export default {
@@ -91,6 +96,8 @@
     components: {LmScroll, LmVerifiedCode, UserRegisterMainWork, LmButton, LmCityPicker, LmLogo, LmIcon, LmInput},
     data() {
       return {
+        isPassRegister: false,
+        verifiedCode: false,
         registerParams: {
           username: ''
           ,password: ''
@@ -169,7 +176,7 @@
           this.inputSetting.phonenumber.errTip = '手机格式错误';
           this.registerParams.mobile = ''
         } else {
-          alert(1)
+          this.$refs.vertify.reset();
           this.registerParams.mobile = number;
           this.inputSetting.phonenumber.errTip = '';
         }
@@ -188,7 +195,7 @@
       },
       // 取验证码
       getVerifiedCode(val) {
-        alert(val)
+        this.verifiedCode = val === '123456';
       },
       //选择主营项
       checkIntention(intention) {
@@ -196,12 +203,29 @@
       },
       // 提交注册
       register() {
-        console.log(this.isCheckAggrement.length)
-        // console.log(this.registerParams)
+        userregister(this.registerParams).then(data=> {
+          if (data.code === '0') {
+            if(data.subcode === '10000') {
+              Toast({
+                message: '注册成功',
+                duration: 500
+              }).then(()=> {
+                goforward('userLogin')
+              })
+
+            } else {
+
+            }
+          } else {
+            Message(`注册失败，code：${data.code},msg: ${data.msg}`)
+          }
+        }).catch(data=> {
+          Message(`调用注册接口失败，具体原因：${data}`)
+        })
       },
       // 判断用户名是否存在
       checkUserisexist(params) {
-        const _this = this
+        const _this = this;
         userisexist(params).then( data => {
           if(data.code === '0') {
             if(data.subcode === '10000') {
@@ -212,7 +236,7 @@
               _this.inputSetting.username.errTip = data.submsg;
             }
           } else {
-            alert(data.msg)
+            Message(data.msg)
           }
         }).catch(data => {
           console.warn(data)
@@ -222,6 +246,24 @@
         goback()
       }
 
+    },
+    computed: {
+      judgeRegisterParams() {
+        // console.log(this.registerParams);
+        // console.log(this.isCheckAggrement);
+        let pass = true;
+
+        if(this.isCheckAggrement.length > 0 && this.verifiedCode) {
+          for(let idx in this.registerParams) {
+            if(this.registerParams[idx] === '' && idx !== 'channel' && idx !== 'developer') {
+              pass = false;
+            }
+          }
+        } else {
+          pass = false;
+        }
+        return pass;
+      }
     }
   }
 </script>
@@ -246,11 +288,19 @@
         color: $button-border-color;
       }
     }
-    .user-register {
+    .user-register-btn {
+      position: relative;
       font-size: 18px;
       width: 315px;
       height: $input-height;
       letter-spacing: 4px;
+      .btn-masker {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(255,255,255,.6);
+      }
 
     }
     .back-login {

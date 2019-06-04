@@ -12,8 +12,9 @@
                :placeholder="placeHolder"
                @blur="handleInputBlur"
                />
-        <div @click="changePasswordType()">
+        <div>
           <lm-icon v-if="inputType === 'password'"
+                   @click="changePasswordType()"
                    :icon-class="passwordIcon"></lm-icon>
         </div>
         <div class="err-tip-slot">
@@ -27,17 +28,21 @@
 </template>
 
 <script>
-  const LmIcon = r => require(['../lmIcon/LmIcon'], r)
+  const LmIcon = r => require(['../lmIcon/LmIcon'], r);
   const ErrTips = resolve => require(['./components/ErrTips'], resolve);
   export default {
     name: "LmInput",
     components: {LmIcon, ErrTips},
     props: {
-      'isReadOnly': {
+      'isListen': { // 是否实时监听变化
         type: Boolean,
         default: false
       },
-      'inputType': {
+      'isReadOnly': { // 是否只读
+        type: Boolean,
+        default: false
+      },
+      'inputType': {  // 输入框类型
         type: String,
         default: 'text'
       },
@@ -56,17 +61,22 @@
     },
     data() {
       return {
+        isWritted: false,
+        listen: false,
         localInputType: this.inputType,
         inputInfo: '',
         passwordIcon: 'icon-yanjing1'
       }
     },
-    mounted() {},
+    mounted() {
+      this.listen = this.isListen;
+    },
     methods: {
       setInputVal(newVal) {
         this.inputInfo = newVal
       },
       handleInputBlur() {
+        this.isWritted = true;
         this.$emit('handleInputBlur', this.inputInfo)
       },
       handleInputClick() {
@@ -74,15 +84,26 @@
       },
       changePasswordType() {
         if (this.localInputType === 'password') {
-          this.localInputType = 'text'
+          this.localInputType = 'text';
           this.passwordIcon = 'icon-yanjing'
         } else if (this.localInputType === 'text'){
-          this.localInputType = 'password'
+          this.localInputType = 'password';
           this.passwordIcon = 'icon-yanjing1'
         }
       },
       reset() {
         this.inputInfo = ''
+      }
+    },
+    watch: {
+      inputInfo: function(newVal) {
+        if(this.isListen) {
+          this.handleInputBlur();
+        } else {
+          if(this.isWritted) {
+            this.handleInputBlur();
+          }
+        }
       }
     }
   }

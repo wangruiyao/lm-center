@@ -14,7 +14,7 @@
                @scroll="listenScroll">
       <div class="rights-center-container">
         <div class="top">
-          <rights-dash-board></rights-dash-board>
+          <rights-dash-board :info="dashboardInfo"></rights-dash-board>
           <rights-bar-charts></rights-bar-charts>
         </div>
         <div class="bottom">
@@ -57,8 +57,18 @@
     data() {
       return {
         headerColor: '#fff',
-        headerOpacity: 0
+        headerOpacity: 0,
+        vipInfo: this.$store.state.vip.vipInfo === undefined ? {} : this.$store.state.vip.vipInfo,
+        dashboardInfo: {}
       }
+    },
+    mounted() {
+      this.dashboardInfo = {
+        total: this.vipInfo.nextgold,
+        now: this.vipInfo.gold,
+        vip: this.vipInfo.vipdesc
+      };
+
     },
     methods: {
       goforward(page) {

@@ -28,41 +28,48 @@
       lineColor: {
         type: String,
         default: '#fff'
+      },
+      dataList: {
+        type: Array
       }
+    },
+    mounted() {
+
     },
     data() {
       return {
-        dataList: [
-          {
-            date: '02/21',
-            number: 10
-          },{
-            date: '02/21',
-            number: 2
-          },{
-            date: '02/21',
-            number: 9
-          },{
-            date: '02/21',
-            number: 14
-          },{
-            date: '02/21',
-            number: 2
-          },{
-            date: '02/21',
-            number: 1
-          },{
-            date: '02/21',
-            number: 4
-          },
-        ]
+        // dataList: [
+        //   {
+        //     date: '02/21',
+        //     number: 10
+        //   },{
+        //     date: '02/21',
+        //     number: 2
+        //   },{
+        //     date: '02/21',
+        //     number: 9
+        //   },{
+        //     date: '02/21',
+        //     number: 14
+        //   },{
+        //     date: '02/21',
+        //     number: 2
+        //   },{
+        //     date: '02/21',
+        //     number: 1
+        //   },{
+        //     date: '02/21',
+        //     number: 4
+        //   },
+        // ]
       }
     },
     computed: {
       maxH() {
         let max = 0;
         this.dataList.map(val => {
-          if(val.number > max) {
+          console.log(val.number)
+          if(parseInt(val.number) > max) {
             max = val.number
           }
         });

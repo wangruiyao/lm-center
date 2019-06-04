@@ -13,8 +13,12 @@ export function userisexist (params) {  // 用户账号是否存在
 }
 
 export function userregister (params) {  // 用户注册接口
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/503e7e19-b1bd-4fbe-bdfc-81594ba523b9'
+    ? '/440daa1b-5a34-4391-adcd-6e4cec4d8dde' //成功
+    : 'portal/userregister';
   return ajax({
-    url: '/emarketOpenController/addressSearch',
+    url,
     method: 'post',
     data: params,
     catchError: true

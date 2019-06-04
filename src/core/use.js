@@ -4,6 +4,8 @@ import 'babel-polyfill'
 // import style files
 import 'assets'
 
+import 'core/lazy_lib/components_use'
+
 // 引入ajax
 import ajax from 'utils/axios/index.js'
 window.ajax = ajax;
@@ -23,10 +25,3 @@ window.getSession = getSession;
 
 import mint from 'mint-ui'
 Vue.use(mint);
-import {Toast, MessageBox} from 'mint-ui'
-window.Toast = Toast;
-window.Message = MessageBox;
-
-// 引入自定义组件
-import Loading from 'components/lmLoading'
-window.Loading = Loading

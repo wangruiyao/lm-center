@@ -3,7 +3,7 @@
     <lm-dash-board ref="dashboard" :number="animateGrid"></lm-dash-board>
 
     <div class="dashboard-data">
-      <div class="vip">VIP4</div>
+      <div class="vip">{{info.vip}}</div>
       <div class="now">{{showNum}}</div>
       <div class="desc">距离{{info.total}}元还差{{info.total-info.now}}元</div>
       <div class="total">
@@ -18,13 +18,14 @@
   export default {
     name: "RightsDashBoard",
     components: {LmDashBoard},
+    props: {
+      info: {
+        type: Object
+      }
+    },
     data() {
       return {
-        showNum: 0,
-        info: {
-          total: 300,
-          now: 248
-        }
+        showNum: 0
       }
     },
     mounted() {

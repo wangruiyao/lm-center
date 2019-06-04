@@ -11,6 +11,7 @@ import types from './types'
 import getters from './getters'
 import actions from './actions'
 import users from './modules/user'
+import vip from './modules/vip'
 // import common from './modules/common'
 
 const state = {
@@ -59,6 +60,7 @@ export default new Vuex.Store({
   actions,
   modules:{
     // common,
-    users
+    users,
+    vip
   }
 })
