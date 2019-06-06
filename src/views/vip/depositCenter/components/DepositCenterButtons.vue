@@ -1,13 +1,18 @@
 <template>
   <div id="button-container">
-    <div class="jn">缴纳</div>
+    <div class="jn" @click="go(`depositPay`)">缴纳</div>
     <div class="tq">提取</div>
   </div>
 </template>
 
 <script>
   export default {
-    name: "DepositCenterButtons"
+    name: "DepositCenterButtons",
+    methods: {
+      go(path, params) {
+        goforward(path)
+      }
+    }
   }
 </script>
 

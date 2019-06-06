@@ -1,7 +1,7 @@
 <template>
   <div id="rights-list">
     <div class="rights-list-title">
-      连萌VIP5专项8大权益
+      连萌{{info.nextvipdesc}}专项8大权益
     </div>
     <div class="list-container">
       <div class="list-item" v-for="item in [1,1,1,1,1,1,1,1]">
@@ -20,7 +20,12 @@
 
 <script>
   export default {
-    name: "RightsList"
+    name: "RightsList",
+    props: {
+      info: {
+        type: Object
+      }
+    }
   }
 </script>
 

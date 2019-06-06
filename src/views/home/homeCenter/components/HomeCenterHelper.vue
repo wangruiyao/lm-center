@@ -14,7 +14,7 @@
           <img src="../../../../assets/images/center/gongjux_icon_26.png">
           <span>我的SIM卡</span>
         </div>
-        <div class="item" @click="go('vipCenter')">
+        <div class="item" @click="go('vipHome')">
           <img src="../../../../assets/images/center/gongjux_icon_28.png">
           <span>权益中心</span>
         </div>
@@ -46,8 +46,8 @@
     name: "HomeCenterHelper",
     components: {HomeCenterBox},
     methods: {
-      go(path) {
-        goforward(path)
+      go(path, params) {
+        goforward(path,params)
       }
     }
   }

@@ -28,6 +28,9 @@
 </script>
 
 <style lang="scss" scoped>
+  .active {
+    color: red;
+  }
   #button {
     @include flex-row(center);
     border-radius: 20px;

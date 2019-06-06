@@ -1,5 +1,5 @@
 <template>
-  <div id="blank-layout">
+  <div id="blank-layout" v-touch:swipe.right="swipeHandler">
     <transition :enter-active-class="this.$store.state.pageInAnimate"
                 :leave-active-class="this.$store.state.pageOutAnimate">
       <router-view />
@@ -30,6 +30,9 @@ export default {
     );
   },
   methods: {
+    swipeHandler() {
+      goback()
+    },
     clickLink() {
       // console.log(this.$store)
       this.$store.commit(types.SET_PAGE_STATION, "turn-on");

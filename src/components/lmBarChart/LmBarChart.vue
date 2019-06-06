@@ -1,8 +1,22 @@
 <template>
   <div id="lm-bar-chart">
+    <div class="info-box"
+         v-show="showBox"
+         :style="{top:barInfo.top+'px', left: barInfo.left+'px'}">
+      数量：{{barInfo.info.number}}
+    </div>
     <div class="bar-list" :style="{borderBottomColor: lineColor}">
-      <div class="bar-item" v-for="item in dataList">
-        <bar :height="getH(item.number)" :bar-color=barColor></bar>
+      <div class="bar-item" v-for="item in dataList"
+           v-touch:start="touchHandler(item)"
+           v-touch:end="endHandler">
+        <bar :height="getH(item.number)"
+             @touchBar="touchBar"
+             @touchEnd="touchEnd"
+             @getParam="getParam(item)"
+             :bar-color=barColor >
+
+        </bar>
+
       </div>
     </div>
     <div class="bar-date" :style="{color: color}">
@@ -34,41 +48,21 @@
       }
     },
     mounted() {
-
     },
     data() {
       return {
-        // dataList: [
-        //   {
-        //     date: '02/21',
-        //     number: 10
-        //   },{
-        //     date: '02/21',
-        //     number: 2
-        //   },{
-        //     date: '02/21',
-        //     number: 9
-        //   },{
-        //     date: '02/21',
-        //     number: 14
-        //   },{
-        //     date: '02/21',
-        //     number: 2
-        //   },{
-        //     date: '02/21',
-        //     number: 1
-        //   },{
-        //     date: '02/21',
-        //     number: 4
-        //   },
-        // ]
+        showBox: false,
+        barInfo: {
+          left: 0,
+          top: 0,
+          info: {}
+        }
       }
     },
     computed: {
       maxH() {
         let max = 0;
         this.dataList.map(val => {
-          console.log(val.number)
           if(parseInt(val.number) > max) {
             max = val.number
           }
@@ -80,12 +74,51 @@
           return Math.round((number/this.maxH)*100);
         }
       }
+    },
+    methods: {
+      touchHandler(item) {
+        const _this = this;
+        return function(d) {
+          // console.log(d.targetTouches[0])
+          _this.barInfo.top = -d.targetTouches[0].target.offsetHeight;
+          _this.barInfo.left = d.targetTouches[0].clientX -50;
+          _this.barInfo.info = item;
+          _this.showBox = true;
+        }
+
+      },
+      endHandler() {
+        this.showBox = false;
+      },
+      touchBar(pos) {
+        this.barInfo.left = pos.left;
+        this.barInfo.top = pos.top;
+        // console.log(this.barInfo.pos)
+      },
+      getParam(item) {
+        this.barInfo.info = item.number;
+        this.showBox = true;
+      },
+      touchEnd() {
+        this.showBox = false;
+      }
     }
   }
 </script>
 
 <style lang="scss" scoped>
+  .info-box {
+    position: absolute;
+    padding: 10px;
+    width: unset !important;
+    color: #fff;
+    background: rgba(0,0,0,0.3);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+  }
   #lm-bar-chart {
+    position: relative;
     width: 100%;
     height: 100%;
     @include flex-column(center);
@@ -99,6 +132,7 @@
       height: 80%;
       margin-bottom: 2px;
       .bar-item {
+        width: 13%;
         height: 100%;
         @include flex-row(space-around, flex-end);
       }

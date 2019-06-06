@@ -7,20 +7,16 @@
       <span>总和</span>
     </div>
 
-      <div class="record-table-list" ref="recordWrapper">
-        <div class="scroll-inner">
-          <div class="record-table-item" v-for="item in [1,1,1,1,1,1,1,1,1]">
-            <span>2019-02-23 12:09:12</span>
-            <span>+199.00</span>
-            <span>缴纳</span>
-            <span>199.00</span>
-          </div>
+    <div class="record-table-list" ref="recordWrapper">
+      <div class="scroll-inner">
+        <div class="record-table-item" v-for="(item, idx) in despoitdetail" :key="idx">
+          <span>{{item.date}}</span>
+          <span class="red-color">{{item.value > 0 ? `+${parseInt(item.value).toFixed(2)}` : parseInt(item.value).toFixed(2)}}</span>
+          <span>{{item.value > 0 ? `缴纳` : `提取`}}</span>
+          <span class="red-color">{{parseInt(item.result).toFixed(2)}}</span>
         </div>
-
       </div>
-
-
-
+    </div>
   </div>
 </template>
 
@@ -29,15 +25,26 @@
   export default {
     name: "RecordTable",
     components: {},
+    props: {
+      despoitdetail: {
+        type: Array
+      }
+    },
     mounted() {
       setTimeout(() => {
-        this.scroll = new BScroll(this.$refs.recordWrapper)
-      }, 20)
-    },
+        this.scroll = new BScroll(this.$refs.recordWrapper, {
+          mouseWheel: true,
+          click: true
+        })
+      }, 20);
+    }
   }
 </script>
 
 <style lang="scss" scoped>
+  .red-color {
+    color: $font-red-color;
+  }
   #record-table {
     height: 100%;
     position: relative;

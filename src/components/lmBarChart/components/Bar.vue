@@ -1,5 +1,8 @@
 <template>
-  <div id="bar-item" :style="{height: showHeight+ '%', background: barColor}"></div>
+
+  <div id="bar-item"
+       :style="{height: showHeight+ '%', background: barColor}">
+  </div>
 </template>
 
 <script>
@@ -38,5 +41,8 @@
 <style lang="scss" scoped>
   #bar-item {
     width: 5px;
+  }
+  .active {
+    background: green;
   }
 </style>

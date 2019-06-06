@@ -35,7 +35,10 @@
     name: "explain-table",
     mounted() {
       setTimeout(() => {
-        this.scroll = new BScroll(this.$refs.explainWarpper)
+        this.scroll = new BScroll(this.$refs.explainWarpper, {
+          mouseWheel: true,
+          click: true
+        })
       }, 20)
     },
     data() {
@@ -48,14 +51,6 @@
             clumn4: '199',
             clumn5: '299',
             clumn6: '399'
-          },
-          {
-            clumn1: '升级',
-            clumn2: '无法升级',
-            clumn3: '赚取100升级金可申请升级V1',
-            clumn4: '赚取200升级金可申请升级V2',
-            clumn5: '赚取300升级金可申请升级SVIP',
-            clumn6: '赚取300升级金可申请升级SVIP'
           },
           {
             clumn1: '升级',

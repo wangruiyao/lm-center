@@ -7,13 +7,13 @@ export function go(page, params) {  // 前进
   router.replace({name: page, params});
 }
 
-export function goback() {  // 后退
+export function goback(params) {  // 后退
   store.commit(types.SET_PAGE_STATION, 'back');
   let pageName = store.state.historyPage[store.state.historyPage.length - 2];
   if(pageName === undefined) {
-    router.replace({name: 'userLogin'})
+    router.replace({name: 'userLogin', params})
   } else {
-    router.replace({name: pageName})
+    router.replace({name: pageName, params})
   }
 
 

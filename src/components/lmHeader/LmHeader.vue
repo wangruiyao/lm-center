@@ -48,11 +48,15 @@
       color: {
         type: String,
         default: '#424242'
+      },
+      backParams: {
+        type: Object,
+        default: ()=>{}
       }
     },
     methods: {
       back() {
-        goback()
+        goback(this.backParams)
       },
       handleMoreClick() {
         this.$emit('handleMoreClick')

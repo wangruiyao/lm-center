@@ -1,13 +1,13 @@
 <template>
   <div id="deposit-center-tab">
     <explain-table v-show="active === `explain`"></explain-table>
-    <record-table v-show="active === `record`"></record-table>
+    <record-table v-show="active === `record`" :despoitdetail="despoit"></record-table>
   </div>
 </template>
 
 <script>
-  import ExplainTable from "./ExplainTable";
-  import RecordTable from "./RecordTable";
+  const ExplainTable = resolve => require(['./ExplainTable'], resolve);
+  const RecordTable = resolve => require(['./RecordTable'], resolve);
   export default {
     name: "DepositCenterTab",
     components: {RecordTable, ExplainTable},
@@ -15,6 +15,9 @@
       active: {
         type: String,
         default: 'explain'
+      },
+      despoit: {
+        type: Array
       }
     },
     data() {

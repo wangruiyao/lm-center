@@ -19,9 +19,9 @@
         </div>
         <div class="bottom">
           <div class="bottom-head">
-            <rights-saturnus>
+            <rights-saturnus :info="vipInfo">
               <div class="saturn-type">
-                <span>3000升级金</span>
+                <span>{{vipInfo.nextgold}}升级金</span>
               </div>
             </rights-saturnus>
           </div>
@@ -29,9 +29,9 @@
             <div class="xuxian-inner"></div>
           </div>
           <div class="bottom-footer">
-            <rights-list></rights-list>
+            <rights-list :info="vipInfo"></rights-list>
           </div>
-          <div class="right-button">
+          <div class="right-button" @click="goforward('rightsDetails')">
             立即了解连萌VIP
           </div>
 

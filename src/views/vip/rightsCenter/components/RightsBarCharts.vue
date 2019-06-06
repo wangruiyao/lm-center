@@ -2,7 +2,7 @@
   <div id="bar-charts">
     <div class="bar-charts-head">
       <span class="desc">升级金根据您的订单贡献量计算</span>
-      <span>查看明细 <span class="lm-icon icon iconfont">&#xe66c;</span></span>
+      <span @click="go('rightsGoldDetail')">查看明细 <span class="lm-icon icon iconfont">&#xe66c;</span></span>
     </div>
     <div class="chart-container">
       <lm-bar-chart :data-list="golddetailweek"></lm-bar-chart>
@@ -47,6 +47,9 @@
         }).catch(data => {
           Message(`调用最近一周升级金接口异常`)
         })
+      },
+      go(path, params) {
+        goforward(path, params)
       }
     }
   }

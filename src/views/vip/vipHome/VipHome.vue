@@ -20,11 +20,19 @@
     mounted() {
       this.actTab = this.$route.name;
       this.getVipInfo();
+      this.showSubPath();
     },
     methods: {
       go(path) {
         this.actTab = path;
         goforward(path)
+      },
+      showSubPath() {
+        if(this.$route.params.subPath === undefined) {
+          goforward('vipCenter')
+        } else {
+          goforward(this.$route.params.subPath)
+        }
       },
       getVipInfo() {
         this.$store.dispatch('vip/vipInfo').then( data => {

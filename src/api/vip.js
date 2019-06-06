@@ -23,3 +23,29 @@ export function golddetailweek (params) {  // 最近一周升级金
     catchError: true
   });
 }
+
+export function despoitdetail (params) {  // 保证金缴纳提取记录
+  const url = process.env.NODE_ENV === 'development'
+    ? '/7bbf1760-a570-4275-903c-fb637e117d0d'
+    : 'usercenter/despoitdetail';
+
+  return ajax({
+    url,
+    method: 'post',
+    data: params,
+    catchError: true
+  })
+}
+
+export function golddetail (params) {  // 用户升级金明细
+  const url = process.env.NODE_ENV === 'development'
+    ? '/34f00804-cd7d-499e-a389-f46db9b72244'
+    : 'usercenter/golddetail';
+
+  return ajax({
+    url,
+    method: 'post',
+    data: params,
+    catchError: true
+  })
+}

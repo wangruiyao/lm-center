@@ -4,24 +4,24 @@
       <slot></slot>
     </div>
     <div class="desc-top">
-      <span>vip4</span>
-      <span>vip5</span>
+      <span>{{info.vipdesc}}</span>
+      <span>{{info.nextvipdesc}}</span>
     </div>
     <div class="desc-bottom">
       <div>
         <span>
-          <span class="price">229</span>
+          <span class="price">{{info.gold}}</span>
           元
         </span>
-        <span>VIP4</span>
+        <span>{{info.vipdesc}}</span>
 
       </div>
       <div class="next-grade-price">
         <span>
-          <span class="price">559</span>
+          <span class="price">{{info.nextgold}}</span>
           元
         </span>
-        <span>VIP5</span>
+        <span>{{info.nextvipdesc}}</span>
       </div>
     </div>
     <div class="diamond">
@@ -33,7 +33,13 @@
 
 <script>
   export default {
-    name: "RightsSaturnus"
+    name: "RightsSaturnus",
+    props: {
+      info: {
+        type: Object
+      }
+    },
+    mounted() {}
   }
 </script>
 
