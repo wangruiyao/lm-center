@@ -6,6 +6,11 @@
                          @changeTab="changeTab"
                          @handleMoreClick="handleMoreClick">
     </goods-detail-header>
+    <flex-box ref="fly" :show-box="showFlyBox">
+      <div class="fly-img" slot="img">
+        <img :src="mainImg">
+      </div>
+    </flex-box>
 
     <lm-scroll ref="wrapper"
                :pullup="true"
@@ -40,7 +45,7 @@
                         @showPopup="showPopup" @closePop="closePop">
 
     </goods-detail-popup>
-    <goods-detail-footer></goods-detail-footer>
+    <goods-detail-footer @addTocart="addToCart" :is-shake="isShake"></goods-detail-footer>
 
 
   </div>
@@ -60,10 +65,12 @@
   import GoodsDetailComment from "./components/GoodsDetailComment";
   import GoodsDetailPopup from "./components/GoodsDetailPopup";
   import LmDashBoard from "../../../components/lmDashBoard/LmDashBoard";
+  import FlexBox from "../../../components/flyBox/FlexBox";
 
   export default {
     name: "GoodsDetail",
     components: {
+      FlexBox,
       LmDashBoard,
       GoodsDetailPopup,
       GoodsDetailComment,
@@ -82,7 +89,10 @@
         popup: {
           visible: false,
           title: ''
-        }
+        },
+        showFlyBox: false,  // 购物车飞入
+        isShake: false, // 购物车抖动
+        mainImg: ''
       }
     },
     mounted() {
@@ -130,7 +140,8 @@
           .then(data => {
             if(data.code === '0') {
               if(data.subcode === '10000') {
-                this.goodDetail = data.data
+                this.goodDetail = data.data;
+                this.mainImg = this.goodDetail.goodsPicture[0].url
               } else {
                 Message(`获取商品相关信息接口报错：${data.submsg}`)
               }
@@ -151,6 +162,33 @@
       },
       handleMoreClick() {
         alert(1)
+      },
+      addToCart() { //加入购物车
+        const _this = this;
+        _this.flyInCart().then(data=> {
+          _this.isShake = true;
+          Toast({
+            message: '成功添加至购物车',
+            position: 'bottom'
+          });
+          setTimeout(function() {
+            _this.isShake = false;
+          },1000)
+        });
+
+      },
+      flyInCart() {
+        const _this = this;
+        this.showFlyBox = true;
+        return new Promise((resolve) => {
+          setTimeout(function() {
+            _this.$refs.fly.run().then(()=> {
+              _this.showFlyBox = false;
+              _this.$refs.fly.reset();
+              resolve();
+            })
+          },100)
+        })
       }
 
     }
@@ -158,6 +196,15 @@
 </script>
 
 <style lang="scss" scoped>
+
+
+
+  .fly-img{
+    @include flex-column(center);
+    img {
+      width: 70%;
+    }
+  }
   #goods-list {
     .swipper-inner {
       margin-top: -10px;

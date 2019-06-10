@@ -7,7 +7,7 @@
 
     <lm-header :background="`#fff`" :opacity="headerOpacity" v-show="showHeader" @handleMoreClick="handleMoreClick">
       <div class="head-scroll" slot="center">
-        <div></div>
+        <div class="zw-box"></div>
         <div class="header-anchor">
           <div :class="actTab === 0 ? 'act' : ''" @click="handleTabClick(0)">
             商品
@@ -22,7 +22,8 @@
             <span v-show="actTab === 2"></span>
           </div>
         </div>
-        <div class="head-car">
+        <div class="head-car" @click="go('cartList')">
+          <lm-badge>12</lm-badge>
           <span class="lm-icon icon iconfont">&#xe504;</span>
         </div>
       </div>
@@ -36,9 +37,10 @@
 
 <script>
   import LmHeader from "../../../../components/lmHeader/LmHeader";
+  import LmBadge from "../../../../components/lmBadge/LmBadge";
   export default {
     name: "GoodsDetailHeader",
-    components: {LmHeader},
+    components: {LmBadge, LmHeader},
     props: {
       actTab: {
         type: Number,
@@ -70,6 +72,9 @@
       },
       back() {
         goback()
+      },
+      go(path) {
+        goforward(path)
       }
     }
   }
@@ -108,13 +113,13 @@
         /*margin-top: 10px;*/
         width: 200px;
         font-size: 14px;
-        @include flex-row();
+        @include flex-row(center);
         >div{
           width: 50px;
           height: $header-height;
           @include flex-column(center);
           >span{
-            width: 50px;
+            width: 35px;
             margin-top: 7px;
             height: 3px;
             @include blue-gradient;
@@ -122,8 +127,13 @@
         }
 
       }
-      .head-car {
+      .head-car, .zw-box {
+        @include flex-column(center);
+        height: $header-height;
+        position: relative;
         color: #424242;
+        width: 50px;
+        text-align: center;
         span {
           font-size: 18px;
         }

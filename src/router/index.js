@@ -3,12 +3,14 @@ import Router from 'vue-router'
 import types from 'store/types'
 import store from 'store'
 
+
 //用户操作模块路由
 import user from './user'
 import mine from './mine'
 import home from './home'
 import vip from './vip'
 import goods from './goods'
+import cart from './cart'
 
 Vue.use(Router);
 
@@ -24,7 +26,8 @@ const router = new Router({
     ...mine,
     ...home,
     ...goods,
-    ...vip
+    ...vip,
+    ...cart
   ]
 });
 
