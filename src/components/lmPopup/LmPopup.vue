@@ -14,7 +14,7 @@
 
       </slot>
 
-      <div class="pop-confirm" @click="handleConfirm">
+      <div class="pop-confirm" v-show="showConfirmBtn" @click="handleConfirm">
         确认
       </div>
     </mt-popup>
@@ -25,7 +25,7 @@
   export default {
     name: "LmPopup",
     props: {
-      popupVisible: {
+      popupVisible: { // 显示
         type: Boolean,
         default: false
       },
@@ -35,6 +35,10 @@
       hasCloseBtn: {
         type: Boolean,
         default: true
+      },
+      showConfirmBtn: {
+        type: Boolean,
+        default: true,
       }
     },
     data() {

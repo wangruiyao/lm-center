@@ -19,13 +19,12 @@
 <style lang="scss" scoped>
   .lm-badge {
     font-size: 10px;
-    font-weight: 100;
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     color: #fff;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    border-radius: 100px;
     @include flex-column(center);
     position: absolute;
     top: 1px;

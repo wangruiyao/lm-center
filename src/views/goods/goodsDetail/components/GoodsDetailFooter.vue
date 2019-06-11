@@ -8,7 +8,7 @@
       <span class="lm-icon icon iconfont" :class="isShake? 'shakeBox': ''" @click="addTocart">&#xe504;</span>
       <span class="lm-icon icon iconfont">&#xe513;</span>
     </div>
-    <div class="right">
+    <div class="right" @click="orderSubmit">
       <div>立即购买</div>
     </div>
   </div>
@@ -24,8 +24,8 @@
       addTocart() {
         this.$emit('addTocart')
       },
-      cartRun() {
-
+      orderSubmit() {
+        this.$emit('orderSubmit')
       }
     }
   }

@@ -45,7 +45,10 @@
                         @showPopup="showPopup" @closePop="closePop">
 
     </goods-detail-popup>
-    <goods-detail-footer @addTocart="addToCart" :is-shake="isShake"></goods-detail-footer>
+    <goods-detail-footer
+            @addTocart="addToCart"
+            @orderSubmit="orderSubmit"
+            :is-shake="isShake"></goods-detail-footer>
 
 
   </div>
@@ -189,6 +192,9 @@
             })
           },100)
         })
+      },
+      orderSubmit() {
+        goforward('orderSubmit')
       }
 
     }

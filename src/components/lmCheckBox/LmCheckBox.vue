@@ -34,7 +34,7 @@
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
-    border: solid #333 1px;
+    border: solid #d2d1c3 1px;
     background-color: #fff;
     @include flex-column(center);
     span {

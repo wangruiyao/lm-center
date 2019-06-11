@@ -1,5 +1,5 @@
 <template>
-  <div id="cartList" class="lm-container">
+  <div id="cart-list" class="lm-container">
     <lm-header :title="`购物车(${totalGoods})`">
       <div slot="right">
         <span class="lm-icon icon iconfont">&#xe61e;</span>
@@ -7,7 +7,10 @@
     </lm-header>
     <lm-scroll ref="wrapper"
                :pullup="true">
-      <cart-good-item v-for="item in [1,1]"></cart-good-item>
+      <div class="cart-scroll-inner">
+        <cart-good-item v-for="item in [1,1]"></cart-good-item>
+      </div>
+
     </lm-scroll>
     <cart-list-footer></cart-list-footer>
   </div>
@@ -29,6 +32,10 @@
   }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+  #cart-list {
+    .cart-scroll-inner {
+      @include flex-column();
+    }
+  }
 </style>
