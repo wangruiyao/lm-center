@@ -5,10 +5,11 @@
     <div class="header-back"
          @click="back">
       <span class="lm-icon icon iconfont" v-show="showBack">&#xe612;</span>
+      <slot name="left"></slot>
     </div>
 
     <!-- 标题 -->
-    <div class="headerName" style="font-size: 14px;">
+    <div class="headerName">
       {{title}}
       <slot name="center"></slot>
     </div>
@@ -75,9 +76,14 @@
     color: #424242;
     top: 0;
     z-index: 999;
+
+    .headerName {
+      font-size: 14px;
+    }
   }
   .header-back, .header-right-icon {
-    width: 40px;
+    @include flex-row()
+    min-width: 40px;
     text-align: center;
   }
 </style>

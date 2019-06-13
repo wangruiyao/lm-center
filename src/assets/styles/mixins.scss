@@ -20,6 +20,12 @@
   border-radius: 20px;
 }
 
+@mixin over-ellipsis{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* icon */
 @mixin input-icon($margin: 0) {
   font-size: 24px;

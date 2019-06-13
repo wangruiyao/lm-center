@@ -25,9 +25,12 @@ axios.interceptors.response.use((response) => {
   // 这里进行拦截提示
   return Promise.reject(error);
 });
-
+const tookitUrlList = ['/emarketOpenController/addressSearch', '/emarketOpenController/addressResSer']
 // 请求拦截器
 axios.interceptors.request.use((config) => {
+  if(tookitUrlList.includes(config.url)) {
+    config.baseURL = process.env.NODE_ENV === 'development' ? '/try' : 'http://kdcx.enms.cn/externallogic/'
+  }
   Loading.show();
   return config;
 }, function (error) {

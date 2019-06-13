@@ -56,6 +56,13 @@ module.exports = {
         pathRewrite:{
           '^/api':''
         }
+      },
+      '/try': {
+        target: 'http://kdcx.enms.cn/externallogic/',
+        changeOrigin: true,
+        pathRewrite:{
+          '^/try':''
+        }
       }
     }
   },
@@ -74,6 +81,7 @@ module.exports = {
       });
     config.resolve.alias
       .set('src', resolve('src'))
+      .set('public', resolve('public'))
       .set('api', resolve('src/api'))
       .set('assets', resolve('src/assets'))
       .set('components', resolve('src/components'))

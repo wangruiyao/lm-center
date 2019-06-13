@@ -3,6 +3,9 @@ import 'lib-flexible'
 import 'babel-polyfill'
 // import style files
 import 'assets'
+import pinyin from 'js-pinyin'
+pinyin.setOptions({checkPolyphone: false, charCase: 0});
+window.pinyin = pinyin;
 
 import 'core/lazy_lib/components_use'
 

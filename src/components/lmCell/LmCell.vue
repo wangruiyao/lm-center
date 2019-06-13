@@ -1,7 +1,7 @@
 <!--title: 标题, info: 信息, disable：不可点击 -->
 
 <template>
-  <div id="lm-cell" :class="border?'borderbottom': ''">
+  <div id="lm-cell" :class="[border?'borderbottom': '', fontLarge? 'font-large': '']">
     <div class="cell-title">
       {{title}}
     </div>
@@ -10,7 +10,7 @@
       <slot name="cellInput"></slot>
 
     </div>
-    <div class="cell-icon" @click="handleClick">
+    <div class="cell-icon" @click="handleClick" :style="rightStyle">
       <slot name="right-text"></slot>
 
       <span class="lm-icon icon iconfont" v-if="!disable">&#xe66c;</span>
@@ -26,6 +26,10 @@
         type: Boolean,
         default: true
       },
+      fontLarge: {
+        type: Boolean,
+        default: false
+      },
       cellType: {
         type: String,
         default: 'info'
@@ -39,6 +43,14 @@
       },
       disable: {
         type: Boolean
+      },
+      fontSize: {
+        type: String,
+        default: '12px'
+      },
+      rightStyle: {
+        type: Object,
+        default: ()=>{}
       }
     },
     methods: {
@@ -53,6 +65,9 @@
   .borderbottom {
     border-bottom: solid $line-light 1px;
   }
+  .font-large {
+    font-size: 14px;
+  }
   #lm-cell{
     min-height: $cell-height;
     @include flex-row();
@@ -64,8 +79,9 @@
       display: inline-block;
     }
     .cell-title {
-      color: #999;
-      width: 20%;
+      white-space:nowrap;
+      color: $color-deep;
+      min-width: 20%;
       text-align: left;
     }
     .cell-info {

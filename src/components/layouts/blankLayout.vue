@@ -2,7 +2,8 @@
   <div id="blank-layout" v-touch:swipe.right="swipeHandler">
     <transition :enter-active-class="this.$store.state.pageInAnimate"
                 :leave-active-class="this.$store.state.pageOutAnimate">
-      <router-view />
+        <router-view/>
+
     </transition>
   </div>
 </template>

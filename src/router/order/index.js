@@ -1,8 +1,8 @@
 /*
 * 订单
 * */
-
 import { BlankLayout } from 'components/layouts'
+
 
 export default [{
   path: '/order',
@@ -26,10 +26,12 @@ export default [{
           name: 'orderCityPicker',
           meta: {
             title: '提交订单',
-            isLogin: false
+            isLogin: false,
+            keepAlive: true
           },
           component:  r => require.ensure([], () => r(require('components/lmCityPicker2/LmCityPicker2')), 'orderCityPicker'),
-        }
+        },
+
       ]
     }
 
