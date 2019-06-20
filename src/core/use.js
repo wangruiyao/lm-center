@@ -29,5 +29,10 @@ window.getSession = getSession;
 import mint from 'mint-ui'
 Vue.use(mint);
 
+import NutUI from '@nutui/nutui';
+import '@nutui/nutui/dist/nutui.css';
+
+NutUI.install(Vue);
+
 import Vue2TouchEvents from 'vue2-touch-events'
 Vue.use(Vue2TouchEvents);

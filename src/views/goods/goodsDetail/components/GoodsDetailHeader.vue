@@ -108,10 +108,11 @@
       }
     }
     .head-scroll {
+      width: 295px;
       @include flex-row();
       .header-anchor {
         /*margin-top: 10px;*/
-        width: 200px;
+        width: 195px;
         font-size: 14px;
         @include flex-row(center);
         >div{
@@ -138,7 +139,6 @@
           font-size: 18px;
         }
       }
-      width: 315px;
     }
   }
 </style>

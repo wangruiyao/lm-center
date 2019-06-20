@@ -2,7 +2,7 @@
   <div id="center-box">
     <div class="box-head">
       <span class="mine">{{title}}</span>
-      <span class="total">
+      <span class="total" @click="handleClick">
         {{desc}}
         <span class="lm-icon icon iconfont">&#xe66c;</span>
       </span>
@@ -22,6 +22,11 @@
       },
       desc: {
         type: String
+      }
+    },
+    methods: {
+      handleClick() {
+        this.$emit('click')
       }
     }
   }

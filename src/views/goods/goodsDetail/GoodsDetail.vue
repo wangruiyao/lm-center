@@ -194,7 +194,11 @@
         })
       },
       orderSubmit() {
-        goforward('orderSubmit')
+        const params = {
+          id: this.goodsId,
+          num:'abc'
+        }
+        goforward('orderSubmit', params)
       }
 
     }

@@ -81,9 +81,14 @@
       font-size: 14px;
     }
   }
-  .header-back, .header-right-icon {
-    @include flex-row()
+  .header-back{
+    @include flex-row(center)
     min-width: 40px;
+    text-align: center;
+  }
+  .header-right-icon {
+    @include flex-row(center)
+    width: 40px;
     text-align: center;
   }
 </style>

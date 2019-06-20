@@ -5,7 +5,7 @@
       <transition enter-active-class="slideInLeft"
                   leave-active-class="slideOutLeft">
       <provence-list
-              :provence-list="localCityList"
+              :provence-list="cityList"
               v-show="actTab === 0"
               @provenceChecked="provenceChecked"
               @goToCommonCity="goToCommonCity"></provence-list>

@@ -12,6 +12,7 @@ import vip from './vip'
 import goods from './goods'
 import cart from './cart'
 import order from './order'
+import partner from './partner'
 import tookit from './tookit'
 
 Vue.use(Router);
@@ -31,6 +32,7 @@ const router = new Router({
     ...vip,
     ...cart,
     ...order,
+    ...partner,
     ...tookit
   ]
 });

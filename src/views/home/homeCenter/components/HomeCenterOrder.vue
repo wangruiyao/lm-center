@@ -1,6 +1,6 @@
 <template>
   <div id="center-order">
-    <home-center-box :title="`我的订单`" :desc="`查看全部订单`">
+    <home-center-box :title="`我的订单`" :desc="`查看全部订单`" @click="goOrder()">
       <div class="item-container">
         <div class="item">
           <img src="../../../../assets/images/center/order_icon_03.png">
@@ -32,7 +32,19 @@
   import HomeCenterBox from "./HomeCenterBox";
   export default {
     name: "HomeCenterOrder",
-    components: {HomeCenterBox}
+    components: {HomeCenterBox},
+    methods: {
+      goOrder(type) {
+        if(type !== undefined) {
+          goforward('orderList', {
+            type
+          })
+        } else {
+          goforward('orderList');
+        }
+
+      }
+    }
   }
 </script>
 

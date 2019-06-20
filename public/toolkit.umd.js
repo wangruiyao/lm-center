@@ -15809,7 +15809,7 @@ let handleError = true;
 let handleSuccess = {
   message: ''
 };
-_axios_0_18_0_axios_default.a.defaults.baseURL =  false ? undefined : '/externallogic/';
+_axios_0_18_0_axios_default.a.defaults.baseURL =  false ? undefined : '/BasicLayout/';
 // console.log('当前环境：' + process.env.NODE_ENV + ' baseurl:' + axios.defaults.baseURL);
 /* 定义标准的http response格式如下：
  * {code:0, data:{}, message: '错误信息'}

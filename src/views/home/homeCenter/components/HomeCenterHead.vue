@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="head-child head-btn">
-        <div class="head-btn-item">
+        <div class="head-btn-item" @click="go('partnerCenter')">
           <span>12</span>
           <span>合伙人</span>
         </div>

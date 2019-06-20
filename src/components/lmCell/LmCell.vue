@@ -67,6 +67,7 @@
   }
   .font-large {
     font-size: 14px;
+    min-height: $large-cell-height !important;
   }
   #lm-cell{
     min-height: $cell-height;
