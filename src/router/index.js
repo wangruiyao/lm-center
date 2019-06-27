@@ -71,7 +71,7 @@ function goNext(to,from,next) {
   }
   const nowHistory = store.state.historyPage[store.state.historyPage.length - 1];
   const lastHistory = store.state.historyPage[store.state.historyPage.length - 2];
-  const toPage = to.meta.tabOrigin === undefined ? to.name : to.meta.tabOrigin;
+  const toPage = to.meta.tabOrigin === undefined ? to.path : to.meta.tabOrigin;
   // const toPage = to.name;
   if(lastHistory !== toPage) {
     const para = {

@@ -71,23 +71,23 @@
     position: fixed;
     @include flex-row();
     height: $header-height;
-    width: 100%;
+    width: 375px;
     font-size: 16px;
     color: #424242;
     top: 0;
     z-index: 999;
 
     .headerName {
-      font-size: 14px;
+      font-size: 18px;
     }
   }
   .header-back{
-    @include flex-row(center)
+    @include flex-row(center);
     min-width: 40px;
     text-align: center;
   }
   .header-right-icon {
-    @include flex-row(center)
+    @include flex-row(center);
     width: 40px;
     text-align: center;
   }

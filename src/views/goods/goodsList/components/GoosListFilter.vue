@@ -38,7 +38,7 @@
   }
   #filter {
     position: fixed;
-    width: 100%;
+    width: 375px;
     z-index: 888;
     background: #fff;
     @include flex-row();

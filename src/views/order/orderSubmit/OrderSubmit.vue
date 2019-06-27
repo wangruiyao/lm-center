@@ -1,6 +1,6 @@
 <template>
   <div id="order-submit" class="lm-container">
-    <lm-header :background="`#f2f2f2`" :back-params="backParams">
+    <lm-header :background="`#f2f2f2`">
       <div slot="left" class="title">确认订单</div>
       <div slot="right">
         <span class="lm-icon icon iconfont">&#xe61e;</span>
@@ -84,7 +84,6 @@
             payWay: ''
           }
         },
-        backParams: {},
         orderInfo: {},
         cityInfo: {},
         goodType: 'numberCard', // numberCard: 号卡，broadBand: 宽带， commodity: 单商品
@@ -103,9 +102,6 @@
     },
     mounted() {
       this.orderInfo = this.$route.params;
-      this.backParams = {
-        id: this.orderInfo.id
-      };
     },
     methods: {
       checkPayWay(item) { // 选择支付方式

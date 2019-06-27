@@ -13,8 +13,6 @@ export function goback(params) {  // 后退
   if(pageName === undefined) {
     router.replace({name: 'userLogin', params})
   } else {
-    router.replace({name: pageName, params})
+    router.replace({path:pageName, query:params})
   }
-
-
 }

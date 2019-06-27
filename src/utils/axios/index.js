@@ -18,7 +18,10 @@ axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? '/api' : 'http
 // 请求成功直接返回了返回数据中的data数据, 过滤其它数据
 // 请求失败，返回所有的data数据
 axios.interceptors.response.use((response) => {
-  Loading.hide();
+  if(Loading.isshow) {
+    Loading.hide();
+  }
+  console.log(response);
   const data = response.data;
   return data;
 }, (error) => {

@@ -12,6 +12,7 @@
                :pullup="true"
                :listenScroll="true"
                @scroll="listenScroll">
+      <!--<lm-refresh></lm-refresh>-->
       <home-center-head></home-center-head>
       <!--<div class="minePage" @click="goforward('mineAccount')">我的账户</div>-->
       <!--<div class="minePage" @click="goforward('minePersonalData')">完善个人信息</div>-->
@@ -33,9 +34,10 @@
   import HomeCenterOrder from "./components/HomeCenterOrder";
   import HomeCenterHelper from "./components/HomeCenterHelper";
   import HomeCenterCommission from "./components/HomeCenterCommission";
+  import LmRefresh from "../../../components/lmRefresh/LmRefresh";
   export default {
     name: "HomeCenter",
-    components: {HomeCenterCommission, HomeCenterHelper, HomeCenterOrder, HomeCenterHead, LmScroll, LmHeader},
+    components: {LmRefresh, HomeCenterCommission, HomeCenterHelper, HomeCenterOrder, HomeCenterHead, LmScroll, LmHeader},
     data() {
       return {
         showHeader: false,
@@ -43,7 +45,6 @@
       }
     },
     mounted() {
-
     },
     methods: {
       goforward(page) {
@@ -74,6 +75,7 @@
     opacity: 0;
   }
   #home-center {
+    width: 375px;
     height: 400px;
     background-size: 100%;
     background-image: url("../../../assets/images/center/center-head.png");

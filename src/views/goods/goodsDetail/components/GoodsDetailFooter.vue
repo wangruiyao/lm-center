@@ -55,7 +55,7 @@
     height: $header-height;
     background: #fff;
     border-top: solid $line-light 1px;
-    width: 100%;
+    width: 375px;
     @include flex-row();
     position: fixed;
     z-index: 999;

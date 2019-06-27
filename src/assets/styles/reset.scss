@@ -312,7 +312,7 @@ textarea::-webkit-input-placeholder {
 
 .lm-container {
   position: fixed;
-  width: 100%;
+  width: 375px;
   height: 100%;
   top: 0;
   box-shadow:-3px 0 8px -4px #999;
@@ -321,7 +321,7 @@ textarea::-webkit-input-placeholder {
 
 .lm-container-blank {
   position: fixed;
-  width: 100%;
+  width: 375px;
   height: 100%;
   top: 0;
   box-shadow:-3px 0 8px -4px #999;
@@ -375,3 +375,62 @@ input[disabled] {
 .nut-swiper {
   height: unset !important;
 }
+
+.color-light {
+  color: $color-light !important;
+}
+
+.color-middle {
+  color: $color-middle !important;
+}
+
+.color-deep {
+  color: $color-deep !important;
+}
+
+
+/*按钮点击*/
+.handle-btn, .handle-btn-light {
+  position: relative;
+  overflow: hidden;
+}
+.handle-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  bottom: 0;
+  background: rgba(0,0,0,.2);
+}
+
+.handle-btn-light::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  bottom: 0;
+  background: rgba(255,255,255,.2);
+}
+
+@keyframes slideOut1 {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    visibility: hidden;
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+.slideRight-enter-active, .slideIn1,
+.slideRight-leave-active, .slideOut1 {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both; }
+.font-14 {font-size: 14px;}
+.font-16 {font-size: 16px;}
+.font-18 {font-size: 18px;}

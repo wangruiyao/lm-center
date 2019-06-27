@@ -28,10 +28,10 @@
         goforward(path)
       },
       showSubPath() {
-        if(this.$route.params.subPath === undefined) {
+        if(this.$route.query.subPath === undefined) {
           goforward('vipCenter')
         } else {
-          goforward(this.$route.params.subPath)
+          goforward(this.$route.query.subPath)
         }
       },
       getVipInfo() {
@@ -66,6 +66,7 @@
     color: #666;
     background: #fff;
     border-top: solid $line-deep 1px;
+    z-index: 999;
 
     span {
       width: 33.3%;

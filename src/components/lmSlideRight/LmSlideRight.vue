@@ -46,7 +46,7 @@
     position: fixed;
     z-index: 999;
     height: 100%;
-    width: 100%;
+    width: 375px;
     top: 0;
     .slide-Mask {
       height: 100%;

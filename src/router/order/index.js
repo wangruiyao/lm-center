@@ -72,7 +72,43 @@ export default [{
         isLogin: false
       },
       component:  r => require.ensure([], () => r(require('views/order/orderList/OrderList')), 'orderList'),
+      children: [
+        {
+          path: 'check',
+          name: 'orderListCheck',
+          meta: {
+            title: '订单查询',
+            isLogin: false,
+            keepAlive: true,
+            pageIn: 'slideInRight',
+            pageOut: 'slideOutRight'
+          },
+          component:  r => require.ensure([], () => r(require('views/order/orderList/components/OrderSearch')), 'OrderSearch')
+        }
+      ]
+    },
+    {
+      path: 'detail/:id',
+      name: 'orderDetail',
+      meta: {
+        title: '订单详情',
+        isLogin: false
+      },
+      component:  r => require.ensure([], () => r(require('views/order/orderDetail/OrderDetail')), 'orderDetail'),
+      children: [
+        {
+          path: 'delivery',
+          name: 'orderDetailDelivery',
+          meta: {
+            title: '订单查询',
+            isLogin: false,
+            keepAlive: true,
+            pageIn: 'slideInRight',
+            pageOut: 'slideOutRight'
+          },
+          component:  r => require.ensure([], () => r(require('views/order/orderDelivery/OrderDelivery')), 'orderDelivery')
+        }
+      ]
     }
-
   ]
 }]

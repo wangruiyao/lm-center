@@ -1,5 +1,5 @@
 <template>
-  <div id="blank-layout" v-touch:swipe.right="swipeHandler">
+  <div id="blank-layout">
     <transition :enter-active-class="this.$store.state.pageInAnimate"
                 :leave-active-class="this.$store.state.pageOutAnimate">
         <router-view/>
@@ -12,6 +12,9 @@
 
 <style lang="scss" scoped>
   #blank-layout {
+    position: relative;
+    width: 375px;
+    @include flex-column();
     background: $bgd-color;
     min-height: 667px;
 
