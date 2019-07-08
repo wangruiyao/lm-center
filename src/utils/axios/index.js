@@ -5,32 +5,55 @@ let handleError = true;
 let handleSuccess = {
   message: ''
 };
+
+// 返回code
+
 axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? '/api' : 'http://192.168.0.210:7700/lmusercenter';
 // console.log('当前环境：' + process.env.NODE_ENV + ' baseurl:' + axios.defaults.baseURL);
 /* 定义标准的http response格式如下：
- * {code:0, data:{}, message: '错误信息'}
+ * {code:'0',msg: '', data:{}, subcode: '10000',submsg: ''}
  * code === 0 时为后台正确处理了请求，并且返回了data参数
  * code !== 0 时为后台没有正确处理请求，返回message错误信息告知request中的相关错误
  * 以下为定义的code值
 */
+
+let CODE = '0';
+let SUBCODE = '10000';
 // 响应拦截器
 // http 状态码在 200-300 以内不触发error
 // 请求成功直接返回了返回数据中的data数据, 过滤其它数据
 // 请求失败，返回所有的data数据
 axios.interceptors.response.use((response) => {
-  if(Loading.isshow) {
-    Loading.hide();
-  }
-  console.log(response);
+  Loading.hide();
+  console.log(response)
   const data = response.data;
-  return data;
+  const code = data.code;
+  const msg = data.msg;
+  const subcode = data.subcode;
+  const submsg = data.submsg;
+  if(code !== CODE) {
+    if(code === '404' || code === '500') {
+      goforward(`error${code}`);
+    }
+    Toast(msg);
+    return Promise.reject(msg);
+  } else if(subcode !== SUBCODE) {
+    Toast(submsg);
+    return Promise.reject(msg);
+  } else {
+    return data;
+  }
 }, (error) => {
   // 这里进行拦截提示
+  Loading.hide();
+  Toast('网络异常，请检查网络状态');
   return Promise.reject(error);
+
 });
-const tookitUrlList = ['/emarketOpenController/addressSearch', '/emarketOpenController/addressResSer']
+const tookitUrlList = ['/emarketOpenController/addressSearch', '/emarketOpenController/addressResSer'];
 // 请求拦截器
 axios.interceptors.request.use((config) => {
+  console.log(config);
   if(tookitUrlList.includes(config.url)) {
     config.baseURL = process.env.NODE_ENV === 'development' ? '/try' : 'http://kdcx.enms.cn/externallogic/'
   }
@@ -50,14 +73,14 @@ axios.interceptors.request.use((config) => {
  *  catchSuccess: Object 是否开启api成功回调弹窗
  */
 export default function ajax ({
-                                url,
-                                data,
-                                method = 'get',
-                                type = 'form',
-                                timestamp = false,
-                                catchError = true,
-                                catchSuccess = null
-                              }) {
+  url,
+  data,
+  method = 'get',
+  type = 'json',
+  timestamp = false,
+  catchError = true,
+  catchSuccess = null
+}) {
   handleError = catchError;
   handleSuccess.message = catchSuccess ? catchSuccess.message : '';
   let config = {
@@ -65,7 +88,7 @@ export default function ajax ({
     url: url,
     responseType: 'json',
     headers: {
-      'X-Requested-With': 'XMLHttpRequest',
+      'X-Requested-With': 'XMLHttpRequest'
     }
   };
   if (method === 'get') {
@@ -87,7 +110,7 @@ export default function ajax ({
       Object.assign(config, {
         data: data
       });
-    } else if (type === 'formData') {
+    } else if (type === ' ') {
       let formData = new FormData();
       for (let i in data) {
         formData.append(i, data[i]);
@@ -109,3 +132,11 @@ export default function ajax ({
   });
 }
 
+function failCallBack(message) {
+  if (!handleError) return;
+  Message(message);
+}
+
+function successCallBack() {
+
+}

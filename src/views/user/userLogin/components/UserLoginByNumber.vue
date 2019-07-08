@@ -14,7 +14,8 @@
       <lm-verified-code
               ref="verified"
               :number="this.numberInfo"
-              @codeInputBlur="getVerifiedCode"></lm-verified-code>
+              @codeInputBlur="getVerifiedCode"
+              @sendCode = sendCode></lm-verified-code>
     </div>
   </div>
 </template>
@@ -71,6 +72,12 @@
         this.codeInfo = code;
         this.inputSetting.yzcode.isChange = true;
         this.$emit('getCode', code);
+      },
+      sendCode() {
+        this.$emit('sendCode');
+      },
+      resetCounter() {
+        this.$refs.verified.resetCounter();
       }
     }
 

@@ -50,7 +50,8 @@
         <lm-verified-code
             ref="vertify"
             @codeInputBlur="getVerifiedCode"
-            :number="registerParams.mobile">
+            :number="registerParams.mobile"
+            @sendCode = sendCode>
         </lm-verified-code>
 
       </div>
@@ -161,13 +162,13 @@
         }
       }
       ,checkPassword(password){ // 密码
-        const reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
-        if(!reg.test(password) && password.length >= 8) {
+        const reg = new RegExp("^^(?![a-zA-z]+$)(?!\\d+$)(?![+()<>!.@#$%^&*_-]+$)(?![a-zA-z\\d]+$)(?![a-zA-z+()<>!.@#$%^&*_-]+$)(?![\\d+()<>!.@#$%^&*_-]+$)[a-zA-Z\\d+()<>!.@#$%^&*_-]+$");
+        if(reg.test(password) && password.length >= 8) {
           this.inputSetting.password.errTip = '';
           this.registerParams.password = password;
         } else {
           this.registerParams.password = '';
-          this.inputSetting.password.errTip = '密码格式错误 请输入8位及以上数字字母组合';
+          this.inputSetting.password.errTip = '密码格式错误 请输入8位及以上数字字母符号组合';
         }
 
       }
@@ -203,6 +204,7 @@
       },
       // 提交注册
       register() {
+        console.log(this.registerParams);
         userregister(this.registerParams).then(data=> {
           if (data.code === '0') {
             if(data.subcode === '10000') {
@@ -241,6 +243,17 @@
         }).catch(data => {
           console.warn(data)
         })
+      },
+
+      sendCode() {  // 发送验证码
+        const _this = this;
+        const params = {
+          phoneNumber: this.registerParams.mobile
+        };
+        if(this.registerParams.mobile === '') {
+          Toast('请输入手机号码')
+        } else {
+        }
       },
       backLogin() {
         goback()

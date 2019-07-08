@@ -41,6 +41,7 @@
     color: red;
   }
   #button {
+    font-size: 12px;
     position: relative;
     @include flex-row(center);
     border-radius: 20px;
@@ -58,6 +59,7 @@
     }
   }
   .lm-button {
+
     color: #666;
     border: solid $button-border-color 1px;
   }

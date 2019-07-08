@@ -16,3 +16,30 @@ export function goback(params) {  // 后退
     router.replace({path:pageName, query:params})
   }
 }
+
+export function uploadImg(e,config) { // 上传图片
+  return new Promise(resolve => {
+    let configParam = config || {
+      sizeLimit: 5
+    };
+    let returnParams = {};
+
+    let $target = e.target || e.srcElement;
+    let file = $target.files[0];
+    returnParams.file = file;
+    console.log(file);
+    const fileSize = file.size/1024;
+    // if(type!=".jpg"&&type!=".gif"&&type!=".jpeg"&& type!=".png")
+    if(fileSize >= (configParam.sizeLimt*1024)) {
+      Toast(`图片不能大于${configParam.sizeLimt}M`)
+    }
+    let reader = new FileReader();
+    reader.onload = function(e) {
+      returnParams.imgUrl = e.target.result;
+      resolve(returnParams)
+      // console.log(JSON.stringify(returnParams.imgUrl))
+    };
+    reader.readAsDataURL(file);
+  })
+  
+}

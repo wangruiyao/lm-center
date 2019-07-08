@@ -14,7 +14,7 @@
       <div class="account-list">
         <account-item v-for="(item, idx) in accountList"
                       :key="idx"
-                      :user-info="item">
+                      :user-info="item" @chooseUser="chooseUser">
 
         </account-item>
       </div>
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+  import {chooseuser} from 'api/user'
   import AccountItem from "./components/AccountItem";
   import LmHeader from "../../../components/lmHeader/LmHeader";
   import LmScroll from "../../../components/lmScroll/LmScroll";
@@ -44,6 +45,28 @@
         this.accountList = this.$route.params.userInfo
       }
       console.log(this.$route.params.userInfo)
+    },
+    methods: {
+      getUserInfo() {
+        this.$store.dispatch('users/userInfo').then(data=>{
+          goforward('homeCenter');
+          Toast({
+            message: '登陆成功',
+            position: 'bottom'
+          });
+        })
+      },
+      chooseUser(params) {
+        const _this = this;
+        const requestParam = {
+          userid: params.id,
+          mobilephone: params.mobilephone
+        };
+        chooseuser(requestParam).then(data=> {
+          console.log(data);
+          _this.getUserInfo();
+        }).catch()
+      }
     }
   }
 </script>

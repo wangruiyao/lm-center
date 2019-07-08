@@ -17,9 +17,10 @@ import {RSA} from 'utils/RSA'
 Vue.prototype.$RSA = RSA;
 
 // 引入页面跳转方法
-import {go, goback} from 'utils/basicMethods'
+import {go, goback, uploadImg} from 'utils/basicMethods'
 window.goforward = go;
 window.goback = goback;
+window.uploadImg = uploadImg;
 
 // 引入 session 存储
 import {setSession, getSession} from "utils/session";
@@ -31,7 +32,6 @@ Vue.use(mint);
 
 import NutUI from '@nutui/nutui';
 import '@nutui/nutui/dist/nutui.css';
-
 NutUI.install(Vue);
 
 import Vue2TouchEvents from 'vue2-touch-events'

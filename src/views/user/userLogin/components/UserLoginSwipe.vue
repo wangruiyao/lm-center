@@ -16,10 +16,12 @@
       </transition>
       <transition enter-active-class="slideInRight" leave-active-class="slideOutRight">
         <user-login-by-number
+                ref="loginByNumber"
                 v-if="loginType === 'number'"
                 @getNumber="getNumber"
                 @getCode="getCode"
-                :number-err="errTips.numberErr">
+                :number-err="errTips.numberErr"
+                @sendCode="sendCode">
 
         </user-login-by-number>
       </transition>
@@ -44,6 +46,9 @@
       }
     },
     methods: {
+      sendCode() {
+        this.$emit('sendCode')
+      },
       toggleLoginType(type) { // 切换登录方式
         this.loginType = type;
         this.errTips = {
@@ -104,6 +109,9 @@
         } else if(err === 'number') {
           this.errTips.numberErr = '请输入手机号'
         }
+      },
+      resetCounter() {
+        this.$refs.loginByNumber.resetCounter();
       }
     }
   }

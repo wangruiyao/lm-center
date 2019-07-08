@@ -82,9 +82,12 @@
     }
   }
   .header-back{
+    >span {
+      font-size: 18px;
+      line-height: 18px;
+    }
+    padding-left: 10px;
     @include flex-row(center);
-    min-width: 40px;
-    text-align: center;
   }
   .header-right-icon {
     @include flex-row(center);

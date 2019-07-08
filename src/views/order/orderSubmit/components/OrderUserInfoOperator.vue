@@ -33,7 +33,8 @@
     </lm-cell>
 
     <lm-cell :title="`上传证件照`"
-             :disable="false"></lm-cell>
+             :disable="false"
+             @click="go('orderSubmitUpdateIdCard')"></lm-cell>
   </div>
 </template>
 
@@ -45,6 +46,11 @@
     data() {
       return {
         userName: ''
+      }
+    },
+    methods: {
+      go(path) {
+        this.$emit('go',path)
       }
     }
   }

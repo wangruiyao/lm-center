@@ -34,6 +34,18 @@ export default [{
           component:  r => require.ensure([], () => r(require('components/lmCityPicker2/LmCityPicker2')), 'orderCityPicker'),
         },
         {
+          path: 'updateIdCard',
+          name: 'orderSubmitUpdateIdCard',
+          meta: {
+            title: '上传证件照',
+            isLogin: false,
+            keepAlive: true,
+            pageIn: 'slideInRight',
+            pageOut: 'slideOutRight'
+          },
+          component:  r => require.ensure([], () => r(require('views/mine/mineUpdateIdCard/MineUpdateIdCard')), 'mineUpdateIdCard'),
+        },
+        {
           path: 'toolkit',
           component: BasicLayout,
           children: [
@@ -84,6 +96,18 @@ export default [{
             pageOut: 'slideOutRight'
           },
           component:  r => require.ensure([], () => r(require('views/order/orderList/components/OrderSearch')), 'OrderSearch')
+        },
+        {
+          path: 'delivery',
+          name: 'orderListDelivery',
+          meta: {
+            title: '订单查询',
+            isLogin: false,
+            keepAlive: true,
+            pageIn: 'slideInRight',
+            pageOut: 'slideOutRight'
+          },
+          component:  r => require.ensure([], () => r(require('views/order/orderDelivery/OrderDelivery')), 'orderDelivery')
         }
       ]
     },
@@ -107,6 +131,17 @@ export default [{
             pageOut: 'slideOutRight'
           },
           component:  r => require.ensure([], () => r(require('views/order/orderDelivery/OrderDelivery')), 'orderDelivery')
+        },
+        {
+          path: 'changeInfo',
+          name: 'orderDetailChangeInfo',
+          meta: {
+            title: '修改订单信息',
+            isLogin: false,
+            pageIn: 'slideInRight',
+            pageOut: 'slideOutRight'
+          },
+          component:  r => require.ensure([], () => r(require('views/order/orderChangeInfo/OrderChangeInfo')), 'orderChangeInfo')
         }
       ]
     }

@@ -5,7 +5,7 @@
         <router-view/>
 
     </transition>
-
+    <div class="global-mask" v-show="isPageScroll"></div>
 
   </div>
 </template>
@@ -18,13 +18,28 @@
     background: $bgd-color;
     min-height: 667px;
 
+    .global-mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,.3);
+    }
+
   }
 </style>
 
 <script>
 import types from 'store/types'
+import { mapState } from 'vuex'
 export default {
   name: 'BlankLayout',
+  computed: {
+    ...mapState({
+      'isPageScroll': state => state.isPageScroll
+    })
+  },
   mounted() {
     var _this = this;
     window.addEventListener(

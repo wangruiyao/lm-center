@@ -1,11 +1,12 @@
 import {Toast, MessageBox} from 'mint-ui'
 
 const ToastFun = function(params) {
-  return new Promise(reject => {console.log(typeof params);
+  return new Promise(reject => {
     let config = {
       message: '',
       position: 'center',
-      duration: 3000
+      duration: 3000,
+      iconClass: ''
     };
     if(typeof params === 'string') {
       config.message = params;

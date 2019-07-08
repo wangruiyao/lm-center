@@ -50,7 +50,7 @@
       },
       handleConfirm() {
         this.$emit('confirm');
-        this.closePop()
+        // this.closePop()
       }
     }
   }

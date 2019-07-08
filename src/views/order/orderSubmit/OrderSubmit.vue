@@ -18,7 +18,9 @@
       <order-common-info :good-type="goodType" @go="go" @showPop="showPopup"></order-common-info>
       <!--运营商产品机主信息-->
       <order-user-info-operator
-              v-show="goodType === `numberCard` || goodType === `broadBand`"></order-user-info-operator>
+              @go="go"
+              v-show="goodType === `numberCard` || goodType === `broadBand`">
+      </order-user-info-operator>
       <!--收货信息-->
       <order-receive-info :good-type="goodType" @go="go"></order-receive-info>
       <lm-border-bar></lm-border-bar>
@@ -39,13 +41,15 @@
     <order-pay-way-check :isVisible="showPop === 'payWay'"
                          :check-list="payWay"
                          @checkPayWay="checkPayWay" @closeSelf="showPopup"></order-pay-way-check>
-    <keep-alive>
-      <transition :enter-active-class="$route.meta.pageIn"
-                  :leave-active-class="$route.meta.pageOut">
-        <router-view v-if="$route.meta.keepAlive"/>
-      </transition>
 
-    </keep-alive>
+    <transition :enter-active-class="$route.meta.pageIn"
+                :leave-active-class="$route.meta.pageOut">
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive"/>
+      </keep-alive>
+
+    </transition>
+
     <router-view v-if="!$route.meta.keepAlive"/>
 
 

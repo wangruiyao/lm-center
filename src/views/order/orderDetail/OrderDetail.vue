@@ -9,7 +9,10 @@
         <order-detail-footer></order-detail-footer>
       </div>
     </div>
-    <router-view></router-view>
+    <transition :enter-active-class="$route.meta.pageIn"
+                :leave-active-class="$route.meta.pageOut">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 

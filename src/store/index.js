@@ -12,12 +12,14 @@ import getters from './getters'
 import actions from './actions'
 import users from './modules/user'
 import vip from './modules/vip'
+import global from './modules/global'
 // import common from './modules/common'
 
 const state = {
   // historyPage: '/',
   pageInAnimate: 'slideInRight',
   pageOutAnimate: 'slideOutLeft',
+  isPageScroll: false,
   historyPage: sessionStorage.getItem('historyPage') === null ? [] : JSON.parse(sessionStorage.getItem('historyPage'))
 };
 
@@ -50,6 +52,10 @@ const mutations  = {
       setSession('historyPage', state.historyPage)
     }
 
+  },
+
+  [types.SET_PAGE_SCROLL_STATE](state, isPageScroll) {
+    state.isPageScroll = isPageScroll;
   }
 };
 // 导出 store 对象
@@ -59,7 +65,7 @@ export default new Vuex.Store({
   getters,
   actions,
   modules:{
-    // common,
+    global,
     users,
     vip
   }

@@ -23,6 +23,7 @@
   import LmButton from "components/lmButton/LmButton";
   const LmInput = resolve => require(['components/lmInput/LmInput'], resolve);
   const LmIcon = resolve => require(['components/lmIcon/LmIcon'], resolve);
+  let clock = null;
   export default {
     name: "LmVerifiedCode",
     components: { LmButton, LmIcon, LmInput},
@@ -30,16 +31,28 @@
       number: {
         type: String,
         default: ''
+      },
+      propSection: {
+        type: Number,
+        default: 60
       }
     },
     data() {
       return {
         isTimmer: false,
-        section: 5,
         buttonTitle: '获取验证码',
         placeholder: '验证码',
         iconClass: 'icon-yanzhengma',
-        inputType: 'number'
+        inputType: 'number',
+        section: 0
+      }
+    },
+    mounted() {
+      this.section = this.propSection;
+    },
+    watch: {
+      propSection(val) {
+        this.section = val;
       }
     },
     methods: {
@@ -47,19 +60,19 @@
         if(this.number === '') {
           Toast('请输入手机号')
         } else {
-          Toast(`短信已发送至：${this.number}`);
+          this.$emit('sendCode');
           this.isTimmer = true;
           this.countDown()
         }
       },
       countDown() {
         return new Promise((resolve, reject) => {
-          let clock = window.setInterval(() => {
+          clock = window.setInterval(() => {
             this.section--;
             if (this.section < 0) {
               clearInterval(clock);
               this.section = 5;
-              this.isTimmer = false
+              this.isTimmer = false;
             }
           },1000)
         })
@@ -70,6 +83,11 @@
       reset() {
         this.$refs.code.reset();
         this.$emit('codeInputBlur', '')
+      },
+      resetCounter(){
+        clearInterval(clock);
+        this.isTimmer = false;
+        this.section = this.propSection;
       }
     }
   }

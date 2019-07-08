@@ -9,36 +9,61 @@
 
     <div class="cell-container">
 
-      <lm-cell :title="`姓名`" :disable="true">
+      <lm-cell :title="`姓名`" :disable="true" :font-large="true">
         <div class="cell-input" slot="cellInput">
-          <input placeholder="保持和佣金账户同名"/>
+          <input placeholder="保持和佣金账户同名" v-model="updateParams.name"/>
         </div>
       </lm-cell>
-      <lm-cell :title="`身份证号`" :disable="true">
+      <lm-cell :title="`身份证号`" :disable="true" :font-large="true">
         <div class="cell-input" slot="cellInput">
-          <input placeholder="补充信息后方可领取佣金"/>
+          <input placeholder="补充信息后方可领取佣金" v-model="updateParams.pspt"/>
         </div>
       </lm-cell>
     </div>
     <div class="button-container">
       <lm-button :is-active="true"
                  :actType="`active-blue`"
-                 @click="updateUserInfo">登录</lm-button>
+                 @click="updateUserInfo">
+        <span class="button-span">确定</span>
+      </lm-button>
     </div>
   </div>
 </template>
 
 <script>
+  import {IdCardValidate} from 'utils/validForm/idcardValidate';
+  import {updateuserinfor} from 'api/user'
   import LmHeader from "../../../components/lmHeader/LmHeader";
   import LmCell from "../../../components/lmCell/LmCell";
   import LmButton from "../../../components/lmButton/LmButton";
   export default {
     name: "MineCompleteInfo",
     components: {LmButton, LmCell, LmHeader},
-    mounted() {},
+    data() {
+      return {
+        updateParams: {
+          name: '',
+          pspt: ''
+        }
+      }
+    },
+    mounted() {
+      console.log(IdCardValidate)
+    },
     methods: {
       updateUserInfo() {
-
+        const _this = this;
+        if(this.updateParams.name === '') {
+          Toast('姓名不能为空！');
+        } else if(!IdCardValidate(this.updateParams.pspt)) {
+          Toast('请填写正确身份证号码！');
+          this.updateParams.pspt = ''
+        } else {
+          updateuserinfor(this.updateParams).then(data=> {
+            _this.$store.dispatch('users/userInfo').then(data=>{})
+            goback();
+          })
+        }
       }
     }
   }

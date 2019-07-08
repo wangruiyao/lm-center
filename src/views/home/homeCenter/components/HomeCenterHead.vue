@@ -3,25 +3,25 @@
     <!--<div class="img-contain">-->
       <!--<img src="../../../../assets/images/center/center-head.png">-->
     <!--</div>-->
-      <div class="head-child head-info">
+      <div class="head-child head-info" @click="go('mineAccount')">
         <div class="head-info-left">
           <div class="avatar">
-            <img src="../../../../assets/images/center/bzj_img_13.png">
+            <img :src="userInfo.avatar">
           </div>
 
           <div class="user-info">
-            <span class="username">钟华铭</span>
+            <span class="username">{{userInfo.name}}</span>
             <div class="user-type">
               <span class="lm-icon icon iconfont">&#xe61d;</span>
-              <span>vip0</span>
-              <span>网络能人</span>
+              <span>{{userInfo.vipdesc}}</span>
+              <span>{{userInfo.usertypedesc}}</span>
             </div>
           </div>
         </div>
         <div class="head-info-right">
           <span class="lm-icon icon iconfont">&#xe63b;</span>
           <span class="lm-icon icon iconfont">&#xe678;</span>
-          <span class="lm-icon icon iconfont" @click="go('mineAccount')">&#xe6fe;</span>
+          <span class="lm-icon icon iconfont">&#xe6fe;</span>
         </div>
       </div>
       <div class="head-child head-btn">
@@ -61,6 +61,14 @@
 <script>
   export default {
     name: "HomeCenterHead",
+    data() {
+      return {}
+    },
+    computed: {
+      userInfo() {
+        return this.$store.state.users.userInfo
+      }
+    },
     methods: {
       go(path) {
         goforward(path)

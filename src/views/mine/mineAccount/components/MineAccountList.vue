@@ -4,36 +4,36 @@
     <div class="info-container info-basic">
       <!-- 头像 -->
       <div class="info-basic-item" @click="handleAvatarClick">
-        <lm-cell :title="`头像`" :disable="false">
+        <lm-cell :title="`头像`" :disable="false" :font-large="true">
           <div class="info-basic-head" slot="cellInfo">
-            <img :src="userInfo.avatar?userInfo.avatar:'../../../../assets/images/center/bzj_img_13.png'">
+            <img :src="userInfo.avatar">
           </div>
         </lm-cell>
       </div>
       <!-- 个人信息 -->
       <div class="info-basic-item">
-        <lm-cell :title="`账号`" :disable="true">
+        <lm-cell :title="`账号`" :disable="true" :font-large="true">
           <div slot="cellInfo">
             {{userInfo.username}}
           </div>
         </lm-cell>
       </div>
       <div class="info-basic-item">
-        <lm-cell :title="`地址`" :disable="true">
+        <lm-cell :title="`地址`" :disable="true" :font-large="true">
           <div slot="cellInfo">
             {{userInfo.area}}
           </div>
         </lm-cell>
       </div>
-      <div class="info-basic-item" @click="handleMobileClick">
-        <lm-cell :title="`电话`" :disable="false">
+      <div class="info-basic-item" @click="handleMobileClick" >
+        <lm-cell :title="`电话`" :disable="false" :font-large="true">
           <div slot="cellInfo">
             {{userInfo.mobile}}
           </div>
         </lm-cell>
       </div>
       <div class="info-basic-item" @click="handleIntentionClick">
-        <lm-cell :title="`主营意向`" :disable="false">
+        <lm-cell :title="`主营意向`" :disable="false" :font-large="true">
           <div slot="cellInfo">
             {{userInfo.intention}}
           </div>
@@ -43,14 +43,14 @@
 
     <div class="info-container info-imprefect">
       <div class="info-basic-item">
-        <lm-cell :title="`姓名`" :disable="canComplete" @click="handleCompleteInfoClick()" >
+        <lm-cell :title="`姓名`" :disable="userInfo.name !== '' && userInfo.pspt !== ''" @click="handleCompleteInfoClick()"  :font-large="true">
           <div slot="cellInfo">
             {{userInfo.name === '' ? '补充信息后方可领取佣金' : userInfo.name}}
           </div>
         </lm-cell>
       </div>
       <div class="info-basic-item">
-        <lm-cell :title="`身份证`" :disable="canComplete" @click="handleCompleteInfoClick()">
+        <lm-cell :title="`身份证`" :disable="userInfo.name !== '' && userInfo.pspt !== ''" @click="handleCompleteInfoClick()"  :font-large="true">
           <div slot="cellInfo">
             {{userInfo.pspt === '' ? '补充信息后方可领取佣金' : userInfo.pspt}}
           </div>
@@ -62,25 +62,29 @@
 </template>
 
 <script>
-  import LmCell from "../../../../components/lmCell/LmCell";
+  import LmCell from "components/lmCell/LmCell";
   export default {
     name: "MineAccountList",
     components: {LmCell},
-    props: {
-      userInfo: {
-        type: Object,
-        default: {}
-      }
-    },
     data() {
       return {
         canComplete: true
       }
     },
-    mounted() {
-      if(this.userInfo.name === '' && this.userInfo.pspt === '') {
-        this.canComplete = false
+    computed: {
+      userInfo(){
+        return this.$store.state.users.userInfo;
       }
+    },
+    watch: {
+      userInfo(newVal, oldVal) {
+        if(newVal.name === '' || newVal.pspt === '') {
+          this.canComplete = false
+        }
+      }
+    },
+    mounted() {
+      // console.log(this.userInfo);
     },
     methods: {
       handleAvatarClick() {   // 编辑头像弹出框
@@ -115,7 +119,6 @@
     overflow: hidden;
     img {
       width: 100%;
-      margin-top: 5px;
     }
   }
 

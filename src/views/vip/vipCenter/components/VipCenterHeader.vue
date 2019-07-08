@@ -66,6 +66,9 @@
       font-size: 16px;
       @include flex-row(space-between, start);
       .header-icon {
+        >span {
+          font-size: 18px;
+        }
         width: 40px;
         text-align: center;
       }

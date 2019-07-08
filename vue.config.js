@@ -50,11 +50,20 @@ module.exports = {
   devServer: {
     // historyApiFallback: true, // history模式开启
     proxy: {
+      
       '/api': {
-        target: 'http://api.enms.cn:7001/mock/run',
+        // target: 'http://api.enms.cn:7001/mock/run',
+        target:'http://192.168.0.122:9004/',
         changeOrigin: true,
         pathRewrite:{
           '^/api':''
+        }
+      },
+      '/test': {
+        target:'http://192.168.0.230:9004',
+        changeOrigin: true,
+        pathRewrite:{
+          '^/test':''
         }
       },
       '/try': {

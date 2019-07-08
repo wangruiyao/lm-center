@@ -7,6 +7,7 @@ const SET_USER_INFO = 'SET_USER_INFO';    // 添加用户信息
 const USER_UPDATE_INFO = 'USER_UPDATE_INFO';    // 更新用户信息
 const SET_HISTORY_PAGE = 'SET_HISTORY_PAGE';    // 记录上一页地址
 const SET_VIP_INFO = 'SET_VIP_INFO';  // 记录VIP信息
+const SET_PAGE_SCROLL_STATE = 'SET_PAGE_SCROLL_STATE';  // 更新路由过渡动效状态
 
 
 export default {
@@ -14,5 +15,6 @@ export default {
   SET_PAGE_STATION,
   SET_HISTORY_PAGE,
   SET_USER_INFO,
-  SET_VIP_INFO
+  SET_VIP_INFO,
+  SET_PAGE_SCROLL_STATE
 }

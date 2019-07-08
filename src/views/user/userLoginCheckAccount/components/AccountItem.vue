@@ -2,7 +2,7 @@
   <div id="account-item">
 
     <div class="account-head">
-      <img src="../../../../assets/images/default-avatar.png" />
+      <img :src="imgUrl"/>
     </div>
 
     <div class="account-container">
@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="check-btn-bgm"></div>
-      <div class="check-btn">进入</div>
+      <div class="check-btn" @click="chooseUser(userInfo)">进入</div>
     </div>
 
 
@@ -32,7 +32,16 @@
     },
     data() {
       return {
+        imgUrl:''
+      }
+    },
 
+    mounted() {
+      this.imgUrl = this.$store.state.global.avatarImg + this.userInfo.id;
+    },
+    methods: {
+      chooseUser(params) {
+        this.$emit('chooseUser',params)
       }
     }
   }
@@ -51,11 +60,15 @@
     height: 50px;
     margin-left: 25px;
     .account-head {
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      border-radius: 50%;
       z-index: 777;
       position: absolute;
       width: 50px;
       height: 50px;
       left: -25px;
+      overflow: hidden;
       img{
         width: 100%;
       }

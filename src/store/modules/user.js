@@ -1,4 +1,5 @@
 import types from '../types'
+import global from './global'
 import  {userlogin, userinfor} from 'api/user'
 
 const state = {
@@ -20,13 +21,9 @@ const actions = {
       userinfor()
         .then(data => {
           resolve(data);
-          if(data.code === '0' && data.subcode === '10000') {
-            if(data.data !== undefined && data.data !== null) {
-              const userInfo = data.data;
-              commit(types.SET_USER_INFO, userInfo)
-            }
-          }
-
+          const userInfo = data.data;
+          userInfo.avatar = global.state.avatarImg +userInfo.userId +'&stamp='+ timest();
+          commit(types.SET_USER_INFO, userInfo)
         })
         .catch(data => {
           reject(data)
@@ -34,6 +31,12 @@ const actions = {
     })
   }
 };
+
+function timest() {
+  let tmp = Date.parse( new Date() ).toString();
+  tmp = tmp.substr(0,10);
+  return tmp;
+}
 
 
 export default {

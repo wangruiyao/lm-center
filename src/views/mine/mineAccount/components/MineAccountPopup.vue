@@ -2,11 +2,11 @@
   <div id="mine-account-pop">
     <lm-popup :popup-visible="showAvatar"
               :title="`变更头像`"
-              @closePop="handleClosePop">
+              @closePop="handleClosePop" @confirm="confirm">
       <div slot="pop">
         <div class="pop-container headerImg">
-          <div class="head-img">
-            <input type="file" accept="image/*" @change="handleFile" class="hiddenInput"/>
+          <div class="head-img" @click="handleFileClick">
+            <input type="file" accept="image/*" @change="handleFile"  class="hiddenInput"/>
             <img :src="newAvatar">
           </div>
           <span>点击上传头像</span>
@@ -19,6 +19,7 @@
 
 <script>
   import LmPopup from "components/lmPopup/LmPopup";
+
   export default {
     name: "MineAccountPopup",
     components: {LmPopup},
@@ -26,43 +27,39 @@
       showAvatar: {
         type: Boolean,
         default: false
-      },
-      avatar: {
-        type: String,
-        default: '/img/logo.1e05f0c9.png'
       }
     },
     mounted() {
-      this.newAvatar = this.avatar
+      this.newAvatar = this.$store.state.users.userInfo.avatar
     },
     data() {
       return{
-        newAvatar: ''
+        newAvatar: '',
+        AvatarFile: null
       }
     },
     methods: {
       handleFile(e) {
+        Loading.hide();
         const _this = this;
-        let $target = e.target || e.srcElement;
-        let file = $target.files[0];
-        // console.log(file)
-        let reader = new FileReader();
-        reader.onloadstart = function(e) {
-          _this.$indicator.open();
-        };
-        reader.onload = function(e) {
-          _this.$indicator.close();
-          // console.log("读取成功：" + e.target.result);
-          const avatarUrl = e.target.result;
-          _this.newAvatar = avatarUrl;
-          // _this.$emit('updateAvatar', avatarUrl);
-
-        };
-        reader.readAsDataURL(file)
+        uploadImg(e).then(data => {
+          _this.newAvatar = data.imgUrl;
+          _this.AvatarFile = data.file;
+        })
       },
       handleClosePop() {
-        this.$emit('closePop', false)
-        // alert(6)
+        this.$emit('closePop', false);
+        this.newAvatar = this.$store.state.users.userInfo.avatar;
+
+      },
+      confirm() {
+        const reqParams = {
+          avatar: this.AvatarFile
+        };
+        this.$emit('updateUserInfo', reqParams)
+      },
+      handleFileClick() {
+        Loading.show();
       }
     }
   }

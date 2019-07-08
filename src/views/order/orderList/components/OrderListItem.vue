@@ -37,8 +37,11 @@
       <span class="lm-icon icon iconfont">&#xe66a;</span>
       <div class="btn-list">
         <div class="del-btn">删除订单</div>
+        <!--<div class="footer-button">-->
+          <!--<div class="btn-inner">去付款</div>-->
+        <!--</div>-->
         <div class="footer-button">
-          <div class="btn-inner">去付款</div>
+          <div class="btn-inner" @click="go('orderListDelivery')">物流信息</div>
         </div>
       </div>
 
@@ -59,6 +62,9 @@
     methods: {
       goDetail() {
         this.$emit('goDetail');
+      },
+      go(path) {
+        goforward(path);
       }
     }
   }

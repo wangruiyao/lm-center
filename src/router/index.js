@@ -14,6 +14,7 @@ import cart from './cart'
 import order from './order'
 import partner from './partner'
 import tookit from './tookit'
+import permission from './permission'
 
 Vue.use(Router);
 
@@ -33,7 +34,8 @@ const router = new Router({
     ...cart,
     ...order,
     ...partner,
-    ...tookit
+    ...tookit,
+    ...permission
   ]
 });
 
@@ -45,21 +47,28 @@ const router = new Router({
  *  ## @param {Function} next - 一定要调用该方法来resolve这个钩子
  */
 router.beforeEach((to, from, next) => {
-  if(getSession('lmUserInfo')){ // 已登录
-    goNext(to,from,next);
-  } else {  // 未登录
-    if(!to.meta.isLogin) {
-      goNext(to,from,next);
-    }else {
-      goforward('userLogin', {
-        redirect: to.name
-      })
-    }
-
-  }
+  store.commit(types.SET_PAGE_SCROLL_STATE, true);
+  // if(getSession('lmUserInfo')){ // 已登录
+  //   goNext(to,from,next);
+  // } else {  // 未登录
+  //   if(!to.meta.isLogin) {
+  //     goNext(to,from,next);
+  //   }else {
+  //     goforward('userLogin', {
+  //       redirect: to.name
+  //     })
+  //   }
+  //
+  // }
+  goNext(to,from,next);
 });
 
-router.afterEach(route => {})
+router.afterEach(route => {
+  setTimeout(function() {
+    store.commit(types.SET_PAGE_SCROLL_STATE, false);
+  },500)
+
+})
 
 
 function goNext(to,from,next) {
@@ -82,6 +91,7 @@ function goNext(to,from,next) {
   } else {
     store.commit(types.SET_HISTORY_PAGE, {handle: 'back'})
   }
+
   next()
 }
 

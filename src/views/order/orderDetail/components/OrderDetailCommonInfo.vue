@@ -8,13 +8,13 @@
       </div>
     </div>
     <!-- 用户信息错误显示 -->
-    <div class="userInfo-err-box" v-show="false">
+    <div class="userInfo-err-box">
       <div class="left">
         <p class="err font-14">您的开户人信息有误</p>
         <p class="err-info">身份证属于联通黑名单请更换开户人信息。身份证属于联通黑名单请更换开户人信息。</p>
       </div>
       <div class="right">
-        <div class="order-revise">去修改</div>
+        <div class="order-revise" @click="go('orderDetailChangeInfo')">去修改</div>
       </div>
     </div>
 
