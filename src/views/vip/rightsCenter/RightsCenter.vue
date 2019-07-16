@@ -19,17 +19,18 @@
         </div>
         <div class="bottom">
           <div class="bottom-head">
-            <rights-saturnus :info="vipInfo">
+            <rights-saturnus>
               <div class="saturn-type">
                 <span>{{vipInfo.nextgold}}升级金</span>
               </div>
+              <!--<canvas id="wave"></canvas>-->
             </rights-saturnus>
           </div>
           <div class="xuxian">
             <div class="xuxian-inner"></div>
           </div>
           <div class="bottom-footer">
-            <rights-list :info="vipInfo"></rights-list>
+            <rights-list></rights-list>
           </div>
           <div class="right-button" @click="goforward('rightsDetails')">
             立即了解连萌VIP
@@ -58,11 +59,18 @@
       return {
         headerColor: '#fff',
         headerOpacity: 0,
-        vipInfo: this.$store.state.vip.vipInfo === undefined ? {} : this.$store.state.vip.vipInfo,
+        // vipInfo: this.$store.state.vip.vipInfo === undefined ? {} : this.$store.state.vip.vipInfo,
         dashboardInfo: {}
       }
     },
+    computed: {
+      vipInfo() {
+        return this.$store.state.vip.vipInfo;
+      }
+    },
+
     mounted() {
+      // this.setWave();
       this.dashboardInfo = {
         total: this.vipInfo.nextgold,
         now: this.vipInfo.gold,
@@ -71,6 +79,22 @@
 
     },
     methods: {
+      // setWave() {
+      //   const canvas = document.getElementById('wave');
+      //   const mW = canvas.width = 100;
+      //   const mH =canvas.height = 100;
+      //   const ctx = canvas.getContext('2d');
+      //   const lineWidth = 100;
+      //   const r = mH / 2; //圆心
+      //   const cR = r - 32 * lineWidth; //圆半径
+      //   this.drawCircle(ctx, r, cR);
+      // },
+      // drawCircle(ctx, r, cR) {
+      //   ctx.beginPath();
+      //   ctx.strokeStyle = '#1080d0';
+      //   ctx.arc(r, r, cR+1, 0, 2 * Math.PI);
+      //   ctx.stroke();
+      // },
       goforward(page) {
         goforward(page)
       },

@@ -3,7 +3,12 @@ import store from 'store'
 import types from 'store/types'
 
 export function go(page, params) {  // 前进
-  store.commit(types.SET_PAGE_STATION, 'open');
+  if(params && params.direction) {
+    store.commit(types.SET_PAGE_STATION, params.direction);
+  } else {
+    store.commit(types.SET_PAGE_STATION, 'open');
+  }
+
   router.replace({name: page, params});
 }
 

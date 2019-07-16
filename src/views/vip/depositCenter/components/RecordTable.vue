@@ -9,6 +9,7 @@
 
     <div class="record-table-list" ref="recordWrapper">
       <div class="scroll-inner">
+        <div class="no-item" v-show="despoitdetail.length === 0">未查询到相关记录！</div>
         <div class="record-table-item" v-for="(item, idx) in despoitdetail" :key="idx">
           <span>{{item.date}}</span>
           <span class="red-color">{{item.value > 0 ? `+${parseInt(item.value).toFixed(2)}` : parseInt(item.value).toFixed(2)}}</span>
@@ -36,7 +37,7 @@
           mouseWheel: true,
           click: true
         })
-      }, 20);
+      }, 50);
     }
   }
 </script>
@@ -75,6 +76,10 @@
       border-style: solid;
       border-width: 1px;
       border-color: transparent $line-light;
+      .no-item {
+        height: 55px;
+        @include flex-column(center);
+      }
       .record-table-item {
         height: 55px;
         border-bottom: solid $line-light 1px;

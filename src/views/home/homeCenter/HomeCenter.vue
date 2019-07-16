@@ -45,6 +45,7 @@
       }
     },
     mounted() {
+      this.$store.commit(types.SET_HOME_TAB, 4);
     },
     methods: {
       goforward(page) {

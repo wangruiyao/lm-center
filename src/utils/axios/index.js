@@ -6,7 +6,9 @@ let handleSuccess = {
   message: ''
 };
 
-// 返回code
+/*
+*   请求json文件路径
+* */
 
 axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? '/api' : 'http://192.168.0.210:7700/lmusercenter';
 // console.log('当前环境：' + process.env.NODE_ENV + ' baseurl:' + axios.defaults.baseURL);
@@ -24,9 +26,14 @@ let SUBCODE = '10000';
 // 请求成功直接返回了返回数据中的data数据, 过滤其它数据
 // 请求失败，返回所有的data数据
 axios.interceptors.response.use((response) => {
+  console.log(response);
   Loading.hide();
-  console.log(response)
   const data = response.data;
+  if(response.config.baseURL === '/json') {
+    return response.data;
+  }
+
+
   const code = data.code;
   const msg = data.msg;
   const subcode = data.subcode;
@@ -39,6 +46,9 @@ axios.interceptors.response.use((response) => {
     return Promise.reject(msg);
   } else if(subcode !== SUBCODE) {
     Toast(submsg);
+    if(subcode === '10002') {
+      goforward('userLogin')
+    }
     return Promise.reject(msg);
   } else {
     return data;
@@ -51,11 +61,14 @@ axios.interceptors.response.use((response) => {
 
 });
 const tookitUrlList = ['/emarketOpenController/addressSearch', '/emarketOpenController/addressResSer'];
+const jsonUrlList = ['lm/indexgoodstype.json', 'lm/hotsale.json'];
 // 请求拦截器
 axios.interceptors.request.use((config) => {
   console.log(config);
   if(tookitUrlList.includes(config.url)) {
     config.baseURL = process.env.NODE_ENV === 'development' ? '/try' : 'http://kdcx.enms.cn/externallogic/'
+  } else if (jsonUrlList.includes(config.url)) {
+    config.baseURL = process.env.NODE_ENV === 'development' ? '/json' : 'http://kdcx.enms.cn/externallogic/'
   }
   Loading.show();
   return config;
@@ -110,7 +123,7 @@ export default function ajax ({
       Object.assign(config, {
         data: data
       });
-    } else if (type === ' ') {
+    } else if (type === 'formData') {
       let formData = new FormData();
       for (let i in data) {
         formData.append(i, data[i]);

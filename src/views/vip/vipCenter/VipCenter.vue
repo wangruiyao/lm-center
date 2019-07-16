@@ -18,35 +18,19 @@
         <div class="vip-list">
           <span class="title">精选权益</span>
           <div class="vip-list-container">
-            <div>
-              <img src="../../../assets/images/vip/vip-img2.png">
-              <div>
-                <span>新人专属红包</span>
-                <span class="vip-grade">(VIP2)</span>
-              </div>
+            <div class="right-block">
+              <img :src="rightBlockImg">
+              <p>更多权益正在路上</p>
+              <p>敬请期待</p>
+            </div>
+            <!--<div>-->
+              <!--<img src="../../../assets/images/vip/vip-img2.png">-->
+              <!--<div>-->
+                <!--<span>新人专属红包</span>-->
+                <!--<span class="vip-grade">(VIP2)</span>-->
+              <!--</div>-->
 
-            </div>
-            <div>
-              <img src="../../../assets/images/vip/vip-img-3.png">
-              <div>
-                <span>新人专属红包</span>
-                <span class="vip-grade">(VIP2)</span>
-              </div>
-            </div>
-            <div>
-              <img src="../../../assets/images/vip/vip-img2.png">
-              <div>
-                <span>新人专属红包</span>
-                <span class="vip-grade">(VIP2)</span>
-              </div>
-            </div>
-            <div>
-              <img src="../../../assets/images/vip/vip-img-3.png">
-              <div>
-                <span>新人专属红包</span>
-                <span class="vip-grade">(VIP2)</span>
-              </div>
-            </div>
+            <!--</div>-->
           </div>
 
         </div>
@@ -64,6 +48,7 @@
     components: {VipCenterHeader, LmScroll, LmHeader},
     data() {
       return {
+        rightBlockImg: require('assets/images/vip/rights_blank.png'),
         adShow: true
       }
     },
@@ -155,6 +140,19 @@
           }
           img {
             width: 170px;
+          }
+
+          .right-block {
+            width: 100%;
+            >img {
+              padding: 30px 0 20px;
+              width: 120px;
+            }
+            @include flex-column(center);
+            >p {
+              color: #666;
+              font-size: 14px;
+            }
           }
         }
       }

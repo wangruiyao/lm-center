@@ -48,20 +48,9 @@
       },
       getParterinfor() {
         parterinfor().then( data => {
-          if(data.code === '0') {
-            if(data.subcode === '10000') {
-              this.partnerInfo = data.data;
-              console.log(this.partnerInfo)
-            } else {
-              Message(`获取合伙人信息接口报错：${data.submsg}`)
-            }
-          } else {
-            Message(`获取合伙人信息接口报错：${data.msg}`)
-          }
+          this.partnerInfo = data.data;
 
-        }).catch(data=> {
-          Message('调用合伙人信息接口失败')
-        })
+        }).catch(data=> {})
       }
     }
   }

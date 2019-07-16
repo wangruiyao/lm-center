@@ -69,6 +69,7 @@ export function userinfor () {  // 获取登录用户信息
 }
 
 export function updateuserinfor (params) {  // 更新用户信息
+  // console.log(JSON.stringify(params))
   const url = process.env.NODE_ENV === 'development'
     // ? '/fdeb6107-1448-48e0-8a1c-914f9f701f66' // 失败
     // ? '/946b043a-d238-4f11-aa9a-0901272efc37' // 成功
@@ -150,14 +151,17 @@ export function verifyuser(params) {  // 用户验证
     catchError: true
   })
 }
-//
-// export function resetUserInfo(params) {
-//   updateuserinfor(params).then((data) => {
-//     store.dispatch('users/userInfo').then(data=>{
-//       Toast({
-//         message: '修改成功',
-//         position: 'bottom'
-//       });
-//     })
-//   })
-// }
+
+export function sendcodeforchangephone(params) {  // 更改手机号码发送验证码
+  // console.log(params);
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/fdeb6107-1448-48e0-8a1c-914f9f701f66' // 失败
+    ? 'usercenter/sendcodeforchangephone' // 成功
+    : 'usercenter/sendcodeforchangephone';
+  return ajax({
+    url,
+    data: params,
+    method: 'post',
+    catchError: true
+  })
+}

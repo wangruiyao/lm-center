@@ -60,8 +60,15 @@
           this.updateParams.pspt = ''
         } else {
           updateuserinfor(this.updateParams).then(data=> {
-            _this.$store.dispatch('users/userInfo').then(data=>{})
-            goback();
+            _this.$store.dispatch('users/userInfo').then(data=>{
+              Toast({
+                message: '修改成功',
+                position: 'bottom'
+              }).then(() => {
+                goback();
+              })
+            });
+
           })
         }
       }

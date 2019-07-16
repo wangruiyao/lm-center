@@ -36,17 +36,10 @@
       },
       getVipInfo() {
         this.$store.dispatch('vip/vipInfo').then( data => {
-          if(data.code === '0') {
-            if(data.subcode === '10000') {
 
-            } else {
-              Message(`${data.submsg},错误代码：${data.subcode}`)
-            }
-          } else {
-            Message(`${data.msg}, 错误代码：${data.code}`)
-          }
         }).catch( data => {
-          Message('调用获取用户Vip信息失败：' + JSON.stringify(data));
+          console.log(data)
+          // Message('调用获取用户Vip信息失败：' + JSON.stringify(data));
         })
       }
     }

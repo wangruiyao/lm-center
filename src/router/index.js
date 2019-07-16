@@ -13,6 +13,8 @@ import goods from './goods'
 import cart from './cart'
 import order from './order'
 import partner from './partner'
+import shop from './shop'
+import pay from './pay'
 import tookit from './tookit'
 import permission from './permission'
 
@@ -35,7 +37,9 @@ const router = new Router({
     ...order,
     ...partner,
     ...tookit,
-    ...permission
+    ...permission,
+    ...shop,
+    ...pay
   ]
 });
 

@@ -28,22 +28,15 @@
     methods: {
       getGolddetailweek() { // 最近一周升级金明细
         golddetailweek().then(data => {
-          if(data.code === '0') {
-            if(data.subcode === '10000') {
-              this.golddetailweek = [];
-              data.data.map(idx => {
-                const item = {
-                  date: idx.date,
-                  number: idx.gold
-                };
-                this.golddetailweek.push(item)
-              });
-            } else {
-              Message(`${data.submsg},错误码： ${data.subcode}`)
-            }
-          } else {
-            Message(`${data.msg},错误码： ${data.code}`)
-          }
+          console.log(data)
+          this.golddetailweek = [];
+          data.data.map(idx => {
+            const item = {
+              date: idx.date,
+              number: idx.gold
+            };
+            this.golddetailweek.push(item)
+          });
         }).catch(data => {
           Message(`调用最近一周升级金接口异常`)
         })

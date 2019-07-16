@@ -1,11 +1,11 @@
 /*
-* 联盟首页
+* 商城首页
 * */
 
 import { BlankLayout,HomeLayout } from 'components/layouts'
 
 export default [{
-  path: '/home',
+  path: '/shop',
   component: BlankLayout,
   children: [
     {
@@ -22,12 +22,12 @@ export default [{
         },
         {
           path: 'center',
-          name: 'homeCenter',
+          name: 'shopCenter',
           meta: {
-            title: '连萌首页',
+            title: '云商城',
             isLogin: false
           },
-          component:  r => require.ensure([], () => r(require('views/home/homeCenter/HomeCenter')), 'homeCenter')
+          component:  r => require.ensure([], () => r(require('views/shop/shopCenter/ShopCenter')), 'shopCenter')
         }
       ]
     }

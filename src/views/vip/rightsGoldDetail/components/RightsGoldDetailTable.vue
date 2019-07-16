@@ -40,18 +40,8 @@
     methods: {
       getGolddetail() {
         golddetail().then(data => {
-          if(data.code === '0') {
-            if(data.subcode === '10000') {
-              this.goldDetail = data.data;
-            } else {
-              Message(`${data.submsg},错误代码：${data.subcode}`)
-            }
-          } else {
-            Message(`${data.msg}, 错误代码：${data.code}`)
-          }
-        }).catch(()=> {
-          Message(`调用用户升级金明细接口失败，具体原因请咨询管理员`)
-        })
+          this.goldDetail = data.data;
+        }).catch(()=> {})
       }
     }
   }

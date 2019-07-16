@@ -10,18 +10,17 @@
     <div class="desc-bottom">
       <div>
         <span>
-          <span class="price">{{info.gold}}</span>
-          元
+          <span class="price"></span>
         </span>
-        <span>{{info.vipdesc}}</span>
+        <span></span>
 
       </div>
       <div class="next-grade-price">
         <span>
-          <span class="price">{{info.nextgold}}</span>
+          <span class="price">{{info.nextdesposit}}</span>
           元
         </span>
-        <span>{{info.nextvipdesc}}</span>
+        <span>直接开通</span>
       </div>
     </div>
     <div class="diamond">
@@ -34,9 +33,9 @@
 <script>
   export default {
     name: "RightsSaturnus",
-    props: {
-      info: {
-        type: Object
+    computed: {
+      info() {
+        return this.$store.state.vip.vipInfo;
       }
     },
     mounted() {}
@@ -96,7 +95,7 @@
      }
 
      .next-grade-price {
-       color: $line-deep;
+       color: #592EFF;
      }
    }
     .diamond {

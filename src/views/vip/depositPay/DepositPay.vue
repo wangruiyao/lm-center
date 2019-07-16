@@ -37,7 +37,6 @@
         img: {
           bottom: require('../../../assets/images/center/bzj_img_13.png')
         },
-        vip: this.$store.state.vip.vipInfo.vip,
         depositList: [
           {
             vip: '1',
@@ -59,6 +58,11 @@
           },
         ],
         showList: []
+      }
+    },
+    computed: {
+      vip() {
+        return this.$store.state.vip.vipInfo.vip;
       }
     },
     mounted() {

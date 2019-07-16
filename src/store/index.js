@@ -17,6 +17,7 @@ import global from './modules/global'
 
 const state = {
   // historyPage: '/',
+  mainHomeTab: 0,
   pageInAnimate: 'slideInRight',
   pageOutAnimate: 'slideOutLeft',
   isPageScroll: false,
@@ -56,6 +57,10 @@ const mutations  = {
 
   [types.SET_PAGE_SCROLL_STATE](state, isPageScroll) {
     state.isPageScroll = isPageScroll;
+  },
+
+  [types.SET_HOME_TAB](state, tab) {
+    state.mainHomeTab = tab;
   }
 };
 // 导出 store 对象

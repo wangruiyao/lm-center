@@ -1,14 +1,14 @@
 <template>
   <div id="rights-list">
     <div class="rights-list-title">
-      连萌{{info.nextvipdesc}}专项8大权益
+      连萌{{userInfo.nextvipdesc}}专项{{userInfo.viprights.length}}大权益
     </div>
     <div class="list-container">
-      <div class="list-item" v-for="item in [1,1,1,1,1,1,1,1]">
+      <div class="list-item" v-for="item in userInfo.viprights">
         <div class="list-item-icon">
-          <span class="lm-icon icon iconfont">&#xe641;</span>
+          <span class="lm-icon icon iconfont">{{item.code}}</span>
         </div>
-        <span>高额佣金</span>
+        <span>{{item.desc}}</span>
       </div>
     </div>
     <div class="rect">
@@ -21,9 +21,14 @@
 <script>
   export default {
     name: "RightsList",
-    props: {
-      info: {
-        type: Object
+    data() {
+      return {
+        test: '\ue68d'
+      }
+    },
+    computed: {
+      userInfo() {
+        return this.$store.state.vip.vipInfo;
       }
     }
   }
@@ -57,7 +62,7 @@
     }
 
     .list-container {
-      @include flex-row();
+      @include flex-row(baseline);
       flex-wrap: wrap;
       .list-item {
         margin-bottom: 25px;

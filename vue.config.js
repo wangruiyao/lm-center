@@ -52,11 +52,18 @@ module.exports = {
     proxy: {
       
       '/api': {
-        // target: 'http://api.enms.cn:7001/mock/run',
-        target:'http://192.168.0.122:9004/',
+        target: 'http://api.enms.cn:7001/mock/run',
+        // target:'http://192.168.0.170:9004/',
         changeOrigin: true,
         pathRewrite:{
           '^/api':''
+        }
+      },
+      '/json': {
+        target:'http://192.168.0.210/',
+        changeOrigin: true,
+        pathRewrite:{
+          '^/json':''
         }
       },
       '/test': {

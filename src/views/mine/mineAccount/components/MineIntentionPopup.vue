@@ -50,8 +50,13 @@
         ]
       }
     },
+    computed: {
+      intention(){
+        return this.$store.state.users.userInfo.intention
+      }
+    },
     mounted() {
-      this.actButton = this.actIntention
+      this.actButton = this.intention
     },
     methods: {
       handleClosePop() {
@@ -61,7 +66,10 @@
         this.actButton = intention;
       },
       handleConfirmClick() {
-        this.$emit('handleCheckIntention', intention)
+        const params = {
+          intention: this.actButton
+        };
+        this.$emit('handleCheckIntention', params)
       }
     }
   }

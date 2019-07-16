@@ -16,7 +16,7 @@
 
     <!-- avatar -->
     <MineAccountPopup :show-avatar="isShowAvatar" @closePop="handleAvatarEdit" @updateUserInfo="updateUserInfo"></MineAccountPopup>
-    <MineIntentionPopup :show-intention="isShowIntention" @closePop="handleIntentionClick"></MineIntentionPopup>
+    <MineIntentionPopup :show-intention="isShowIntention" @handleCheckIntention="handleCheckIntention" @closePop="handleIntentionClick"></MineIntentionPopup>
 
   </div>
 </template>
@@ -63,6 +63,19 @@
           });
           _this.isShowAvatar = false;
           _this.$store.dispatch('users/userInfo')
+        })
+      },
+      handleCheckIntention(intention) {
+        // console.log(intention);
+        const _this = this;
+        updateuserinfor(intention).then((data) => {
+          _this.$store.dispatch('users/userInfo');
+          _this.isShowIntention = false;
+          Toast({
+            message: '修改成功',
+            position: 'bottom'
+          });
+
         })
       }
     }

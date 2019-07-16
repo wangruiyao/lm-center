@@ -59,7 +59,7 @@
 
 <script>
   let timmer = null;
-  import {verifyuser, updatemobile} from 'api/user'
+  import {verifyuser, updatemobile, sendcodeforchangephone} from 'api/user'
   import LmHeader from "components/lmHeader/LmHeader";
   import LmCell from "../../../components/lmCell/LmCell";
   import LmButton from "../../../components/lmButton/LmButton";
@@ -105,9 +105,16 @@
         } else if(!(/^1(3|4|5|7|8)\d{9}$/.test(this.mobile))) {
           Toast('手机号码格式有误')
         } else {
-          this.isCounter = true;
-          this.counter();
-          Toast('验证码发送成功！')
+          const _this = this;
+          const params = {
+            phonenumber: this.mobile
+          };
+          sendcodeforchangephone(params).then(data => {
+            _this.isCounter = true;
+            _this.counter();
+            Toast('验证码发送成功！')
+          })
+
         }
       },
       counter() {
@@ -122,12 +129,21 @@
         },1000)
       },
       updateMobile() {
+        const _this = this;
         const params = {
           mobile: this.mobile,
           smscode: this.smscode
         };
         updatemobile(params).then(data => {
-          console.log(data)
+          _this.$store.dispatch('users/userInfo').then(data=>{});
+          Toast({
+            message: '修改成功',
+            position: 'bottom',
+            duration: 1000
+          }).then(() => {
+            goback();
+          });
+
         })
         // Toast({
         //   message: '修改成功',

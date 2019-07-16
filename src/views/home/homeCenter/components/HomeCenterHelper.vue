@@ -26,7 +26,7 @@
           <img src="../../../../assets/images/center/gongjux_icon_35.png">
           <span>开团购</span>
         </div>
-        <div class="item" @click="go('goodsList')">
+        <div class="item" @click="go('shopCenter')">
           <img src="../../../../assets/images/center/gongjux_icon_36.png">
           <span>云商城</span>
         </div>

@@ -37,18 +37,11 @@
         this.actTab = tab;
       },
       getDespoitDetail() {
+        const _this = this;
         despoitdetail().then( data => {
-          if(data.code === '0') {
-            if(data.subcode !== '10000') {
-              Message(`保证金缴纳提取记录接口报错：${data.submsg},错误码：${data.subcode}`)
-            } else {
-              this.despoitdetail = data.data;
-            }
-          } else {
-            Message(`保证金缴纳提取记录接口报错：${data.msg},错误码：${data.code}`)
-          }
+          _this.despoitdetail = data.data;
         }).catch( () => {
-          Message(`调用保证金缴纳提取记录接口失败，具体原因请咨询管理员`)
+
         })
       }
     }

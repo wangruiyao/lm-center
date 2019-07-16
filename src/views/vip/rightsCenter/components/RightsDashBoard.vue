@@ -5,7 +5,7 @@
     <div class="dashboard-data">
       <div class="vip">{{info.vip}}</div>
       <div class="now">{{showNum}}</div>
-      <div class="desc">距离{{info.total}}元还差{{info.total-info.now}}元</div>
+      <div class="desc">距离{{info.total}}还差{{info.total-info.now}}</div>
       <div class="total">
         <span>{{info.total}}</span>
       </div>
@@ -25,22 +25,33 @@
     },
     data() {
       return {
-        showNum: 0
+        showNum: 0,
+        dashBoardInfo: {}
+      }
+    },
+    watch: {
+      info(newVal) {
+        // console.log(newVal);
+        this.dashBoardInfo = newVal
       }
     },
     mounted() {
+      this.dashBoardInfo = this.info;
       this.wait().then(()=>{
         this.$refs.dashboard.run();
-        this.run(this.addNum)
+        if(this.dashBoardInfo.now !== 0) {
+          this.run(this.addNum)
+        }
+
       })
 
     },
     computed: {
       animateGrid() { //高亮格数
-        return Math.round((35*this.info.now)/this.info.total)
+        return Math.round((35*this.dashBoardInfo.now)/this.dashBoardInfo.total)
       },
       addNum() {  // 数字滚动递增的数量
-        return Math.round(this.info.now/this.animateGrid)
+        return Math.round(this.dashBoardInfo.now/this.animateGrid)
       }
     },
     methods: {
@@ -53,16 +64,16 @@
       },
       run(addNum){
         const _this = this;
-          // console.log(_this.total);
-          _this.showNum += addNum;
-          if(_this.showNum <= _this.info.total) {
-            if(_this.info.now - _this.showNum < addNum) {
-              const lastNum = _this.info.now - _this.showNum
-              setTimeout(function(){_this.run(lastNum)},10)
-              return;
-            }
-            window.requestAnimationFrame(function(){_this.run(addNum)})
+        // console.log(_this.total);
+        _this.showNum += addNum;
+        if(_this.showNum <= _this.info.total) {
+          if(_this.info.now - _this.showNum < addNum) {
+            const lastNum = _this.info.now - _this.showNum;
+            setTimeout(function(){_this.run(lastNum)},10);
+            return;
           }
+          window.requestAnimationFrame(function(){_this.run(addNum)})
+        }
       }
     }
   }
