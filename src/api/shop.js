@@ -45,3 +45,15 @@ export function viewbanner (params) {  //首页轮播图
     catchError: true
   });
 }
+
+export function topsearchcollect (params) {  //首页轮播图
+  const url = process.env.NODE_ENV === 'development'
+    ? 'lmfrontstage/goodscenter/hotsalelist'
+    // ? 'lm/hotsale.json' //成功
+    : 'lmfrontstage/goodscenter/hotsalelist';
+  return ajax({
+    url,
+    method: 'post',
+    catchError: true
+  });
+}

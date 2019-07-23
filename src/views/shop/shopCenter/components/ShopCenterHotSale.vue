@@ -89,6 +89,7 @@
         color: #887878;
         font-size: 14px;
         font-weight: bold;
+        white-space: nowrap;
         
         .icon {
           font-size: 12px;
@@ -100,9 +101,11 @@
 
       .nut-swiper-slide {
         .scroll-item {
+          white-space:nowrap;
           @include flex-row(baseline);
           font-size: 10px;
           .tip {
+            flex-shrink: 0;
             color: #64A3FF;
             background: #EDF4FF;
             padding: 0 3px;

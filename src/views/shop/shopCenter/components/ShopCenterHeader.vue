@@ -3,18 +3,40 @@
     <img :src="logo">
     <div class="header-search">
       <span class="lm-icon icon iconfont">&#xe68d;</span>
-      <input placeholder="关键字查询"/>
+      <input placeholder="关键字查询"
+             @keypress="mobileSearch"
+             @keyup.enter="pcSearch"/>
     </div>
     <span class="lm-icon icon iconfont">&#xe706;</span>
   </div>
 </template>
 
 <script>
+  import {topsearchcollect} from 'api/shop.js'
   export default {
     name: "ShopCenterHeader",
     data() {
       return {
         logo: require('assets/images/logo.png')
+      }
+    },
+    methods: {
+      pcSearch() {
+        if (!(/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent))) { //移动端触发搜索
+          this.search()
+        }
+      },
+      mobileSearch() {
+        if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端触发搜索
+          if(event.keyCode === 13) {
+            this.search()
+          }
+        }
+      },
+      search() {
+        topsearchcollect().then(data => {
+          console.log(data)
+        })
       }
     }
   }

@@ -36,3 +36,7 @@ NutUI.install(Vue);
 
 import Vue2TouchEvents from 'vue2-touch-events'
 Vue.use(Vue2TouchEvents);
+
+//引入 lottie
+import lottie from 'vue-lottie';
+Vue.component('lottie', lottie);

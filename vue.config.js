@@ -60,7 +60,7 @@ module.exports = {
         }
       },
       '/json': {
-        target:'http://192.168.0.210/',
+        target:'http://192.168.0.210:7700/',
         changeOrigin: true,
         pathRewrite:{
           '^/json':''

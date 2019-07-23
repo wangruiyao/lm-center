@@ -17,6 +17,7 @@ import shop from './shop'
 import pay from './pay'
 import tookit from './tookit'
 import permission from './permission'
+import commission from './commission'
 
 Vue.use(Router);
 
@@ -39,7 +40,8 @@ const router = new Router({
     ...tookit,
     ...permission,
     ...shop,
-    ...pay
+    ...pay,
+    ...commission
   ]
 });
 

@@ -34,7 +34,6 @@
   import types from 'store/types'
   import BScroll from 'better-scroll'
   const ShopCenterHeader = resolve => require(['./components/ShopCenterHeader'], resolve);
-  const LmScroll = resolve => require(['components/lmScroll/LmScroll'], resolve);
   const ShopCenterSlider = resolve => require(['./components/ShopCenterSlider'], resolve);
   const ShopCenterButtonList = resolve => require(['./components/ShopCenterButtonList'], resolve);
   const ShopCenterHotSale = resolve => require(['./components/ShopCenterHotSale'], resolve);
@@ -44,7 +43,7 @@
     name: "ShopCenter",
     components: {
       ShopCenterGoodsList,
-      ShopCenterHotSale, ShopCenterButtonList, ShopCenterSlider, LmScroll, ShopCenterHeader},
+      ShopCenterHotSale, ShopCenterButtonList, ShopCenterSlider, ShopCenterHeader},
     mounted() {
       this.$store.commit(types.SET_HOME_TAB, 0);
       this.setScroll();
