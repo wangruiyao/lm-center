@@ -1,6 +1,6 @@
 <template>
   <div id="shop-center-button-list">
-    <div class="button-item" v-for="i in iconList">
+    <div class="button-item" v-for="i in iconList" @click="go('shopCenterGoodsList')">
       <img :src="i.icon">
       <span>{{i.title}}</span>
     </div>
@@ -25,6 +25,9 @@
         indexgoodstype().then(data => {
           this.iconList = data;
         })
+      },
+      go(path) {
+        this.$emit('go', path)
       }
     }
   }

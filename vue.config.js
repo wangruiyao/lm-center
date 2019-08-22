@@ -1,4 +1,4 @@
-let path = require('path')
+let path = require('path');
 function resolve (dir) {
   return path.join(__dirname, dir)
 }
@@ -52,15 +52,16 @@ module.exports = {
     proxy: {
       
       '/api': {
-        target: 'http://api.enms.cn:7001/mock/run',
-        // target:'http://192.168.0.170:9004/',
+        // target: 'http://api.enms.cn:7001/mock/run',
+        // target:'http://192.168.0.105:9004/',
+        target:'http://192.168.0.133:9004/',
         changeOrigin: true,
         pathRewrite:{
           '^/api':''
         }
       },
       '/json': {
-        target:'http://192.168.0.210:7700/',
+        target:'http://192.168.0.210',
         changeOrigin: true,
         pathRewrite:{
           '^/json':''

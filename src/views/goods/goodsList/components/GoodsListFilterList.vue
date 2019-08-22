@@ -1,62 +1,131 @@
 <template>
   <div id="filter-list">
-    <goods-list-filter-item v-for="(item, idx) in filterItems"
-                            :filter-item="item"
-                            :idx="idx"
-                            @handleClick="handleClickItem">
-
-    </goods-list-filter-item>
-
+    <!-- 商品类型-->
+    <div class="filter-item">
+      <div class="filter-spec">
+        <div class="title">
+          {{filterList.type.title}}
+        </div>
+        <div class="item-container">
+          <div v-for="(i, idx) in filterList.type.value"
+               :class="i.typeid === filterParams.goodstype ? 'act' : ''"
+               @click="changeType(idx, i.typeid)">
+            {{i.typename}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--筛选参数-->
+    <div class="filter-item" v-for="item in filterList.spec">
+      <div class="filter-spec">
+        <div class="title">
+          {{item.title}}
+        </div>
+        <div class="item-container">
+          <div v-for="(i, idx) in item.value"
+               @click="handleClick(item.title, i)"
+               :class="filterParams.props[item.title] === i?'act':''">
+            {{i}}
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
 </template>
 
 <script>
-  import GoodsListFilterItem from "./GoodsListFilterItem";
+  import {morecondition} from 'api/goods'
   export default {
     name: "GoodsListFilterList",
-    components: {GoodsListFilterItem},
+    components: {},
+    props: {
+      filterList: {
+        type: Object,
+        default() {
+          return {}
+        }
+      },
+      goodsTypes: {
+        type: String,
+        default: ''
+      },
+    },
     data() {
       return {
-        filterItems: [
-          {
-            title: '手机品牌',
-            list: [
-              {act: true, text: '运营商产品'},
-              {act: false, text: '实物商品'}
-            ]
-          },
-          {
-            title: '手机颜色',
-            list: [
-              {act: true, text: '宽带'},
-              {act: false, text: '移网'},
-              {act: false, text: '融合'},
-              {act: false, text: '宽带'},
-              {act: false, text: '移网'},
-              {act: false, text: '融合'}
-            ]
-          },
-          {
-            title: '手机内存',
-            list: [
-              {act: true, text: '山东'},
-              {act: false, text: '内蒙'}
-            ]
-          }
-        ]
+        filterParams: {
+          goodstype: '',
+          props: {}
+        },
+        actType: ''
       }
     },
+    // watch: {
+    //   filterList:{ //深度监听，可监听到对象、数组的变化
+    //     handler (newV) {
+    //       if(newV.type.value.length === 1) {
+    //         this.actType = 0
+    //       } else {
+    //         this.actType = ''
+    //       }
+    //     },
+    //     deep:true
+    //   }
+    // },
     methods: {
-      handleClickItem(param) {
-        this.filterItems[param.outter].list.map((val, idx)=> {
-          this.$set(this.filterItems[param.outter].list[idx], 'act', false)
-        });
-        this.$set(this.filterItems[param.outter].list[param.inner], 'act', true)
+      changeType(idx, typeid) {
+        this.filterParams.props = {};
+        if(this.filterParams.typeid === typeid) {
+          this.$set(this.filterParams, 'goodstype', '');
+          this.getMoreCondition({goodstype: this.goodsTypes})
+        } else {
+          this.$set(this.filterParams, 'goodstype', typeid);
+          this.getMoreCondition({goodstype: typeid})
+        }
+      },
+      getMoreCondition(params, type) {
+        morecondition(params).then(moreconditionRsp => {
+          this.$emit('updateCondition', moreconditionRsp.data.spec)
+        })
+
+      },
+      handleClick(title, spec) {
+        this.$set(this.filterParams.props, title, spec);
+      },
+      filterConfirm() {
+        this.$emit('filterConfirm', this.filterParams);
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
+  .filter-item {
+    margin-bottom: 15px;
+    .act {
+      color: #fff;
+      @include blue-gradient;
+      border: none !important;
+    }
+    .title {
+      color: #000;
+      margin-bottom: 10px;
+    }
+    .item-container {
+      width: 100%;
+      @include flex-row(baseline);
+      flex-wrap: wrap;
+      div {
+        margin-bottom: 10px;
+        margin-right: 5px;
+        border: solid $line-deep 1px;
+        width: 75px;
+        height: 23px;
+        @include flex-row(center);
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+      }
+    }
+  }
 </style>

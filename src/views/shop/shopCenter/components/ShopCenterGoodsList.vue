@@ -1,19 +1,23 @@
 <template>
   <div id="shop-center-goods-list">
     <div class="button-list">
-      <div class="button-item" v-for="(item, idx) in [1,1,1,1,1]" :class="idx === 0 ? 'act' : ''">
-        <span class="title">全部</span>
-        <span class="desc">推荐</span>
+      <div class="button-item"
+           v-for="(item, idx) in hotCategory"
+           :class="idx === actButton ? 'act' : ''"
+           @click = changeHotCatgoryAct({...item,idx})>
+        <span class="title">{{item.title}}</span>
+        <span class="desc">{{item.desc}}</span>
       </div>
     </div>
 
     <div class="goods-list">
-      <div class="goods-item" v-for="item in [1,1,1]">
+      <div class="goods-item"
+           v-for="item in goodsList"
+           @click="go('shopCenterGoodsDetail')">
         <img :src="goodsImg">
-
         <div class="price-box">
-          <span class="title">东阿阿胶正牌阿胶品质保障</span>
-          <span class="price">￥<span>200.00</span></span>
+          <span class="title">{{item.goodsname}}</span>
+          <span class="price">￥<span>{{parseInt(item.price).toFixed(2)}}</span></span>
         </div>
       </div>
     </div>
@@ -23,9 +27,33 @@
 <script>
   export default {
     name: "ShopCenterGoodsList",
+    props: {
+      actButton: {
+        type: Number,
+        default: 0
+      },
+      hotCategory: {
+        type: Array,
+        default: []
+      },
+      goodsList: {
+        type: Array,
+        default: []
+      }
+    },
     data() {
       return {
-        goodsImg: require('assets/images/goods/goods-img.png')
+        goodsImg: require('assets/images/goods/goods-img.png'),
+        hotcategoryList: []
+      }
+    },
+    mounted() {},
+    methods: {
+      go(path) {
+        this.$emit('go', path)
+      },
+      changeHotCatgoryAct(params) {
+        this.$emit('changeBtn', params)
       }
     }
   }
@@ -33,6 +61,7 @@
 
 <style lang="scss" scoped>
   #shop-center-goods-list {
+    border: solid transparent 1px;
     .act {
       .title {
         color: #072AFF !important;
@@ -58,6 +87,8 @@
           font-size: 14px;
         }
         .desc {
+          white-space: nowrap;
+          font-size: 10px;
           color: #999;
           padding: 0 5px;
           border-radius: 10px;

@@ -5,24 +5,24 @@
              :border="false"
              @click="showPopup('基本信息')">
       <div class="cell-text" slot="cellInput">
-        <span>品牌、手机卡类型..</span>
+        <span v-for="(i, k, idx) in goodsInfo.basicspec"><i v-show="idx !== 0">、</i>{{k}}</span>
       </div>
     </lm-cell>
-    <lm-cell :title="`优惠`"
-             :disable="false"
-             :border="false"
-             @click="showPopup('优惠')">
-      <div class="cell-text" slot="cellInput">
-        <span class="coupon-text">联通宽带优惠券</span>
-      </div>
-      <span class="right-text" slot="right-text">领取</span>
-    </lm-cell>
+    <!--<lm-cell :title="`优惠`"-->
+             <!--:disable="false"-->
+             <!--:border="false"-->
+             <!--@click="showPopup('优惠')">-->
+      <!--<div class="cell-text" slot="cellInput">-->
+        <!--<span class="coupon-text">联通宽带优惠券</span>-->
+      <!--</div>-->
+      <!--<span class="right-text" slot="right-text">领取</span>-->
+    <!--</lm-cell>-->
     <lm-cell :title="`服务`"
              :disable="false"
              :border="false"
              @click="showPopup('基础保障')">
       <div class="cell-text" slot="cellInput">
-        <span>正品保证</span>
+        <span class="xiaobao" v-for="i in goodsInfo.xiaobaotags">{{i.name}}</span>
       </div>
     </lm-cell>
 
@@ -35,6 +35,12 @@
   export default {
     name: "GoodsDetailCell",
     components: {LmPopup, LmCell},
+    props: {
+      goodsInfo: {
+        type: Object,
+        default: {}
+      }
+    },
     methods: {
       showPopup(popup) {
         this.$emit('showPopup', popup)
@@ -52,6 +58,9 @@
       width: 100%;
       text-align: left;
       color: #666;
+      >.xiaobao {
+        margin-right: 5px;
+      }
       .coupon-text {
         color: $font-red-color;
       }

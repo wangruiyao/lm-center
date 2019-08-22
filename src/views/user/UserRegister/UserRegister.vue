@@ -171,8 +171,8 @@
           this.inputSetting.password.errTip = '密码格式错误 请输入8位及以上数字字母符号组合';
         }
 
-      }
-      , checkNumber(number) {
+      },
+      checkNumber(number) {
         if(!(/^1(3|4|5|7|8)\d{9}$/.test(number))){
           this.inputSetting.phonenumber.errTip = '手机格式错误';
           this.registerParams.mobile = ''

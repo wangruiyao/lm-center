@@ -1,12 +1,18 @@
 <template>
   <div id="filter-item">
-    <div class="title">
-      {{filterItem.title}}
+    <div class="filter-spec">
+      <div class="title">
+        {{filterItem.title}}
+      </div>
+      <div class="item-container">
+        <div v-for="(item, idx) in filterItem.value"
+             :class="item.act?'act':''" @click="handleClick(idx)">
+          {{item.typename === undefined? item : item.typename}}
+        </div>
+      </div>
     </div>
-    <div class="item-container">
-      <div v-for="(item, idx) in filterItem.list"
-           :class="item.act?'act':''" @click="handleClick(idx)">{{item.text}}</div>
-    </div>
+
+
   </div>
 </template>
 
@@ -19,7 +25,15 @@
       },
       filterItem: {
         type: Object,
-        default: {}
+        default() {
+          return {}
+        }
+      },
+      filterType: {
+        type: Object,
+        default() {
+          return {}
+        }
       }
     },
     methods: {
@@ -27,7 +41,7 @@
         const param = {
           outter:this.idx,
           inner: idx
-        }
+        };
         this.$emit('handleClick', param);
       }
     }

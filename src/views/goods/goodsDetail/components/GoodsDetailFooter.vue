@@ -1,7 +1,7 @@
 <template>
   <div id="detail-footer">
     <div class="left">
-      <span class="lm-icon icon iconfont">&#xe65e;</span>
+      <span class="lm-icon icon iconfont">&#xe65f;</span>
       <span class="lm-icon icon iconfont">&#xe618;</span>
     </div>
     <div class="center">
@@ -84,7 +84,7 @@
     }
     .left {
       span {
-        @include blue-icon()
+        @include kefu-icon()
       }
     }
     .right {

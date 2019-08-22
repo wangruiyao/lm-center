@@ -13,10 +13,10 @@
             商品
             <span v-show="actTab === 0"></span>
           </div>
-          <div :class="actTab === 1 ? 'act' : ''" @click="handleTabClick(1)">
-            评价
-            <span v-show="actTab === 1"></span>
-          </div>
+          <!--<div :class="actTab === 1 ? 'act' : ''" @click="handleTabClick(1)">-->
+            <!--评价-->
+            <!--<span v-show="actTab === 1"></span>-->
+          <!--</div>-->
           <div :class="actTab === 2 ? 'act' : ''" @click="handleTabClick(2)">
             详情
             <span v-show="actTab === 2"></span>
@@ -58,6 +58,9 @@
       }
     },
     watch: {
+      actTab(newTab) {
+        console.log('11111', newTab)
+      },
       scrollY(newVal) {
         this.showHeader = newVal < 0;
         this.headerOpacity = -newVal*0.003

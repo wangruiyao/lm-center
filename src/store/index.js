@@ -13,6 +13,7 @@ import actions from './actions'
 import users from './modules/user'
 import vip from './modules/vip'
 import global from './modules/global'
+import shop from './modules/shop'
 // import common from './modules/common'
 
 const state = {
@@ -21,6 +22,7 @@ const state = {
   pageInAnimate: 'slideInRight',
   pageOutAnimate: 'slideOutLeft',
   isPageScroll: false,
+
   historyPage: sessionStorage.getItem('historyPage') === null ? [] : JSON.parse(sessionStorage.getItem('historyPage'))
 };
 
@@ -61,7 +63,9 @@ const mutations  = {
 
   [types.SET_HOME_TAB](state, tab) {
     state.mainHomeTab = tab;
-  }
+  },
+
+
 };
 // 导出 store 对象
 export default new Vuex.Store({
@@ -72,6 +76,7 @@ export default new Vuex.Store({
   modules:{
     global,
     users,
-    vip
+    vip,
+    shop
   }
 })

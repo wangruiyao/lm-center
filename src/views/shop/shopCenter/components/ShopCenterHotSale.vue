@@ -11,7 +11,7 @@
                 direction="vertical"
                 :autoPlay="3000" ref="hotSaleSwiper">
           <div class="nut-swiper-slide gray" v-for="item in hotSaleScroll">
-            <div class="scroll-item">
+            <div class="scroll-item" @click="go('shopCenterGoodsDetail')">
               <span class="tip">热门</span>
               <span>{{item.title}}</span>
             </div>
@@ -19,12 +19,18 @@
         </nut-swiper>
     </div>
     <div class="hot-sale-bottom">
-      <div class="hot-sale-box" v-for="item in hotSale">
-      <div class="box-header">
-        <img :src="item.icon">
-        <span>{{item.title}}</span>
+      <div class="hot-sale-box" v-for="item in hotSaleList">
+        <div class="box-header">
+          <img :src="item.icon">
+          <span>{{item.title}}</span>
+        </div>
+        <div class="box-main">
+          <div class="box-img" v-for="i in item.viewhotsale">
+            <img :src="i.pic"/>
+          </div>
+        </div>
+
       </div>
-    </div>
 
       <div class="hot-sale-box">
         <div class="box-header">
@@ -36,24 +42,39 @@
 </template>
 
 <script>
-  import {hotsale, hotsalescroll} from 'api/shop'
+  import {hotsale, hotsalescroll, viewhotsale} from 'api/shop'
   export default {
     name: "ShopCenterHotSale",
     data() {
       return {
-        hotSale: [],
-        hotSaleScroll: []
+        hotSaleList: [],
+        hotSaleScroll: [],
       }
     },
     mounted() {
       this.getHotSale();
       this.getHotSaleScroll();
+      // this.getViewHotSale()
     },
     methods: {
+      go(path) {
+        this.$emit('go', path)
+      },
       getHotSale() {
+        let flag = 0;
         const _this = this;
         hotsale().then(data => {
-          _this.hotSale = data;
+          data.map(i => {
+            viewhotsale({
+              shelftype: i.type
+            }).then(d => {
+              flag ++;
+              i.viewhotsale = d.data;
+              if(flag === 3) {
+                _this.hotSaleList = data;
+              }
+            });
+          });
         })
       },
       getHotSaleScroll() {
@@ -135,6 +156,18 @@
             width: 12px;
           }
         }
+        .box-main {
+          @include flex-row(space-around);
+          .box-img {
+            width: 70px;
+            height: 70px;
+            >img {
+              width: 70px;
+              height: 70px;
+            }
+          }
+        }
+
       }
     }
   }

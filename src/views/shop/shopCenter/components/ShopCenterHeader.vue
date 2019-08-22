@@ -3,7 +3,7 @@
     <img :src="logo">
     <div class="header-search">
       <span class="lm-icon icon iconfont">&#xe68d;</span>
-      <input placeholder="关键字查询"
+      <input v-model="keywords" placeholder="关键字查询"
              @keypress="mobileSearch"
              @keyup.enter="pcSearch"/>
     </div>
@@ -17,12 +17,13 @@
     name: "ShopCenterHeader",
     data() {
       return {
-        logo: require('assets/images/logo.png')
+        logo: require('assets/images/logo.png'),
+        keywords: ''
       }
     },
     methods: {
       pcSearch() {
-        if (!(/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent))) { //移动端触发搜索
+        if (!(/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent))) { //PC端触发搜索
           this.search()
         }
       },
@@ -34,8 +35,16 @@
         }
       },
       search() {
-        topsearchcollect().then(data => {
-          console.log(data)
+        const reqParams = {
+          keywords: this.keywords
+        };
+        const query = JSON.stringify({
+          query: this.keywords
+        });
+        topsearchcollect(reqParams).then(data => {
+          goforward('shopCenterGoodsList', {
+            query
+          });
         })
       }
     }

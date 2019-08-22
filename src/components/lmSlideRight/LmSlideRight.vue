@@ -12,8 +12,8 @@
           </div>
         </lm-scroll>
         <div class="filter-button">
-          <span class="btn-reset">重置</span>
-          <span class="btn-confirm">确认</span>
+          <span class="btn-reset" @click="reset">重置</span>
+          <span class="btn-confirm" @click="confirm">确认</span>
         </div>
       </div>
     </transition>>
@@ -36,6 +36,12 @@
     methods: {
       handleMaskClick() {
         this.$emit('handleMaskClick');
+      },
+      confirm() { // 确认
+        this.$emit('confirm');
+      },
+      reset() { // 重置
+        this.$emit('reset');
       }
     }
   }

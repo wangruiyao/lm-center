@@ -1,64 +1,214 @@
 <template>
   <div id="shop-center" class="lm-container">
-    <shop-center-header></shop-center-header>
+    <shop-center-header v-show="showHeader"></shop-center-header>
+    <div class="test" v-show="showGoodsListBtn">
+      <shop-center-goods-list-button
+              :hot-category = 'hotcategoryList'
+              :act-button="hotCatgoryAct"
+              @changeBtn = 'changeHotCatgoryAct'></shop-center-goods-list-button>
+    </div>
     <div class="head-bgd"></div>
+
     <div class="shop-center-scroll-box" ref="shopCenterWarpper">
       <div class="shop-center-scroll-inner">
+
+        <div class="refresh-box">
+          <transition
+                  enter-active-class="fadeInDown"
+                  leave-active-class="fadeOut"
+          >
+            <div class="refresh-inner" v-show="showRefresh">
+              {{refreshInfo}}
+            </div>
+          </transition>
+        </div>
         <div class="hot-search">
           <span>热搜：</span>
-          <span class="hot-search-item">联通8折宽带</span>
+          <span class="hot-search-item" v-for="item in hotSearchList" @click="go('shopCenterGoodsDetail')">{{item.keywords}}</span>
         </div>
         <!-- 轮播图 -->
         <shop-center-slider></shop-center-slider>
-
-        <!-- -->
-        <!--<div class="arc-box">-->
-          <!--<div class="inner-box">-->
-            <!---->
-
-          <!--</div>-->
-        <!--</div>-->
         <div class="common-bgd">
-          <shop-center-button-list></shop-center-button-list>
-          <shop-center-hot-sale></shop-center-hot-sale>
-          <shop-center-goods-list></shop-center-goods-list>
-        </div>
+          <shop-center-button-list @go="go"></shop-center-button-list>
+          <shop-center-hot-sale @go="go"></shop-center-hot-sale>
+          <div ref="goodsList">
+            <shop-center-goods-list
+                    @go="go"
+                    @changeBtn = 'changeHotCatgoryAct'
+                    :hot-category = 'hotcategoryList'
+                    :act-button="hotCatgoryAct"
+                    :goods-list="goodslist"></shop-center-goods-list>
+          </div>
 
+          <div class="loading-box">{{loadingText}}</div>
+        </div>
       </div>
     </div>
+    <transition :enter-active-class="`slideInRight`"
+                :leave-active-class="`slideOutRight`">
+      <router-view></router-view>
+    </transition>
 
   </div>
 </template>
 
 <script>
+  import {viewsearchcollect, hotcategory} from 'api/shop.js'
+  import {goodslist} from 'api/goods.js'
   import types from 'store/types'
   import BScroll from 'better-scroll'
-  const ShopCenterHeader = resolve => require(['./components/ShopCenterHeader'], resolve);
-  const ShopCenterSlider = resolve => require(['./components/ShopCenterSlider'], resolve);
-  const ShopCenterButtonList = resolve => require(['./components/ShopCenterButtonList'], resolve);
-  const ShopCenterHotSale = resolve => require(['./components/ShopCenterHotSale'], resolve);
-  const ShopCenterGoodsList = resolve => require(['./components/ShopCenterGoodsList'], resolve);
+  import { mapState } from 'vuex'
+  import ShopCenterHeader from './components/ShopCenterHeader'
+  import ShopCenterSlider from './components/ShopCenterSlider'
+  import ShopCenterButtonList from './components/ShopCenterButtonList'
+  import ShopCenterHotSale from './components/ShopCenterHotSale'
+  import ShopCenterGoodsList from './components/ShopCenterGoodsList'
+  import ShopCenterGoodsListButton from "./components/ShopCenterGoodsListButton";
 
   export default {
     name: "ShopCenter",
+    data() {
+      return {
+        queryGoodsListParams: {
+          catalog: '全部',
+          pagenum: -1
+        },
+        refreshBoxH: 0, // 下拉刷新高度
+        refreshInfo: '下拉刷新',
+        isRefreshing: false,
+        showHeader: true,
+        showRefresh: false,
+        hotSearchList: [],
+        loadingText: '加载中...',
+        goodslist: [],
+        eleOffsetTop: { // 元素距离顶部位置
+          goodsList: 0
+        },
+        showGoodsListBtn: false,
+        hotcategoryList: [],
+        hotCatgoryAct: 0,
+        scrollPos: 0
+      }
+    },
     components: {
+      ShopCenterGoodsListButton,
       ShopCenterGoodsList,
       ShopCenterHotSale, ShopCenterButtonList, ShopCenterSlider, ShopCenterHeader},
     mounted() {
-      this.$store.commit(types.SET_HOME_TAB, 0);
-      this.setScroll();
+      this.refresh();
+    },
+    computed: {
+      ...mapState({
+        shopScrollTop: state => {
+          return state.shop.shopScrollTop;
+        }
+      })
     },
     methods: {
+      refresh() {
+        this.$store.commit(types.SET_HOME_TAB, 0);
+        this.viewSearchCollect();
+        this.setScroll();
+        this.getScrollTop();
+        this.getHotCategory();
+        this.listPullingUp();
+      },
+      viewSearchCollect() {
+        viewsearchcollect().then(data => {
+          this.hotSearchList = data.data;
+        })
+      },
+      getHotCategory() {
+        const _this = this;
+        hotcategory().then(data => {
+          _this.hotcategoryList = data;
+        })
+      },
       setScroll() {
+        const _this = this;
         setTimeout(() => {
-          this.scroll = new BScroll(this.$refs.shopCenterWarpper, {
+          _this.scroll = new BScroll(_this.$refs.shopCenterWarpper, {
             mouseWheel: true,
             click: true,
-            pullUpLoad: true
+            pullUpLoad: true,
+            pullDownRefresh: {
+              threshold: 60,
+              stop: 20
+            }
           });
-          this.scroll.on('pullingUp', () => {})
+          _this.scroll.on('pullingUp', () => {
+            _this.listPullingUp();
+          });
+          _this.scroll.on('pullingDown', ()=> {
+            _this.listRefresh();
+          });
+          _this.scroll.on('scroll', (pos) => {
+            _this.showHeader = pos.y <= 0;
+            _this.showRefresh = pos.y >= 10;
+            if(pos.y >= 60 && !_this.isRefreshing) {
+              _this.refreshInfo = '松手释放刷新';
+            }
+            _this.scrollPos = pos.y;
+            _this.showGoodsListBtn = Math.abs(pos.y) >= Math.abs(_this.eleOffsetTop.goodsList);
+          })
         }, 20)
       },
+      listRefresh() {
+        const _this = this;
+        _this.isRefreshing = true;
+        _this.scroll.stop();
+        _this.refreshInfo = '正在刷新...';
+        this.queryGoodsListParams.pagenum = 0;
+        this.getGoodsList(this.queryGoodsListParams).then(data => {
+          _this.refreshInfo = '刷新成功';
+          _this.goodslist = data;
+          setTimeout(function() {
+            _this.scroll.finishPullDown();
+          },1000);
+        })
+      },
+      listPullingUp() {
+        const _this = this;
+        this.loadingText = '加载中...';
+        this.queryGoodsListParams.pagenum ++;
+        this.getGoodsList(this.queryGoodsListParams).then(data => {
+          if(data.length === 0) {
+            this.loadingText = '暂无更多数据';
+          } else {
+            _this.goodslist = _this.goodslist.concat(data);
+            this.scroll.finishPullUp();
+          }
+        });
+      },
+      getGoodsList(params) {
+        return new Promise(resolve => {
+          goodslist(params).then(res => {
+            resolve(res.data.goodslist);
+          })
+        })
+      },
+      getScrollTop() {
+        this.eleOffsetTop.goodsList = -this.$refs.goodsList.offsetTop;
+      },
+      changeHotCatgoryAct(params) {
+        const _this = this;
+        this.hotCatgoryAct = params.idx;
+        this.queryGoodsListParams.catalog = params.title;
+        this.queryGoodsListParams.pagenum = 0;
+        this.getGoodsList(this.queryGoodsListParams).then(rsp => {
+          _this.goodslist = rsp;
+          if(Math.abs(_this.scrollPos) > Math.abs(_this.eleOffsetTop.goodsList)) {
+            _this.scroll.scrollTo(0, _this.eleOffsetTop.goodsList)
+          }
+
+          // _this.goodslist = rsp;
+          // _this.scroll.scrollTo(0, _this.eleOffsetTop.goodsList)
+        })
+
+      },
+      go(path) {
+        goforward(path)
+      }
 
     }
   }
@@ -70,6 +220,13 @@
   }
   #shop-center {
     width: 375px;
+    .test {
+      position: fixed;
+      top: $header-height;
+      width: 100%;
+      background: #f2f2f2;
+      z-index: 1000;
+    }
     .head-bgd {
       position: fixed;
       width: 375px;
@@ -84,6 +241,14 @@
       width: 375px;
       overflow: hidden;
       .shop-center-scroll-inner {
+        .refresh-box {
+          @include flex-column(center);
+          background: rgba(0,0,0,0);
+          .refresh-inner {
+            color: #fff;
+          }
+        }
+        padding-bottom: 55px;
         .hot-search {
           height: $cell-height;
           width: 375px;
@@ -126,6 +291,11 @@
           border-radius: 50% 50% 0 0 ;
           background: $bgd-color;
 
+        }
+
+        .loading-box {
+          height: $header-height;
+          @include flex-column(center);
         }
       }
     }

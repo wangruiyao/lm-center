@@ -16,28 +16,43 @@
             @handleFilterClick="handleFilter">
 
     </goos-list-filter>
+
     <!-- 筛选条件 -->
-    <lm-slide-right :slide-visiblity="slideVisiblity"  @handleMaskClick="maskClick">
-      <goods-list-filter-list></goods-list-filter-list>
+    <lm-slide-right :slide-visiblity="slideVisiblity"
+                    @handleMaskClick="maskClick"
+                    @confirm="filterConfirm"
+                    @reset="filterReset">
+      <goods-list-filter-list
+              ref="goodsListFilterList"
+              :goods-types="goodsTypes"
+              :filter-list = 'filterList'
+              @filterConfirm="filterGoodsList"
+              @updateCondition="updateCondition">
+
+      </goods-list-filter-list>
     </lm-slide-right>
     <lm-scroll ref="wrapper"
                :pullup="true"
                :listenScroll="true">
       <div class="goods-list-contain">
         <goods-item v-for="item in goodsListData"
-                    :key="item.goodsId"
+                    :key="item.goodsid"
                     :goods-info="item"
-                    @click="goodsDetail(item.goodsId)">
+                    @click="goodsDetail({goodsid:item.goodsid, productid: item.productid})">
         </goods-item>
       </div>
 
     </lm-scroll>
+    <transition :enter-active-class="`slideInRight`"
+                :leave-active-class="`slideOutRight`">
+     <router-view></router-view>
+    </transition>
 
   </div>
 </template>
 
 <script>
-  import {listGoods} from 'api/goods'
+
   import LmHeader from "../../../components/lmHeader/LmHeader";
   import LmScroll from "../../../components/lmScroll/LmScroll";
   import GoosListFilter from "./components/GoosListFilter";
@@ -53,35 +68,52 @@
       GoodsListFilterItem, LmSlideRight, GoodsListPullDown, GoodsItem, GoosListFilter, LmScroll, LmHeader},
     data() {
       return {
+        goodsTypes: '',
+        queryParams: {},
         actionTab: 'multiple',
         slideVisiblity: false,
-        goodsListData: []
-
+        goodsListData: [],
+        filterList: {},
+        test: [1,1,1,1,1]
       }
     },
     mounted() {
-      this.getGoodsList()
+      this.queryParams = JSON.parse(this.$route.params.query);
+      this.getGoodsList(this.queryParams, true)
     },
     methods: {
       handleTab(tab) {
         this.actionTab = tab;
         this.goodsListData = [];
-        this.getGoodsList();
+        if(tab === 'sale') {
+          const queryParams = Object.assign(this.queryParams, {sort: 'SR01'});
+          this.getGoodsList(queryParams);
+        } else {
+          this.getGoodsList(this.queryParams);
+        }
+
       },
-      getGoodsList() {
-        listGoods().then( data => {
-          if( data.code === '0') {
-            if(data.subcode === '10000') {
-              this.goodsListData = data.data;
-            } else {
-              Message(`查询商品列表错误,错误码: ${data.subcode},错误原因: ${data.submsg}`)
-            }
-          } else {
-            Message(`查询商品列表错误,错误码: ${data.code},错误原因: ${data.msg}`)
+      getGoodsList(params, updateFilter) {
+        const _this = this;
+        this.$store.dispatch('shop/queryGoodsListInfo', params).then(rsp=>{
+          if(updateFilter) {
+            _this.goodsTypes = rsp.goodsList.goodstypes;
+            _this.filterList = rsp.moreCondition;
           }
-        }).catch( data => {
-          Message(`调用商品列表查询接口失败,失败原因:${JSON.stringify(data)}`)
+
+          _this.goodsListData = rsp.goodsList.goodslist;
+          console.log('11111', _this.goodsListData)
+
         })
+      },
+      updateCondition(moreCondition) {
+        this.$set(this.filterList, 'spec', moreCondition);
+      },
+      filterConfirm() {
+        this.$refs.goodsListFilterList.filterConfirm();
+      },
+      filterReset() {
+
       },
       handleFilter() {
         this.slideVisiblity = true;
@@ -89,8 +121,13 @@
       maskClick() {
         this.slideVisiblity = false;
       },
-      goodsDetail(id) {
-        goforward('goodsDetail', {id: id})
+      goodsDetail(params) {
+        goforward('shopCenterGoodsDetail', {params: JSON.stringify(params)})
+      },
+      filterGoodsList(params) {
+        this.slideVisiblity = false;
+        const queryParams = Object.assign(this.queryParams, params);
+        this.getGoodsList(queryParams, false);
       }
     }
   }
@@ -99,6 +136,7 @@
 <style lang="scss" scoped>
   #goods-list {
     background: #fff;
+    z-index: 1000;
     .head-search {
       padding: 0 10px;
       background: #fff;

@@ -1,11 +1,14 @@
 <template>
   <div id="home-layout">
-    <transition :enter-active-class="this.$store.state.pageInAnimate"
-                :leave-active-class="this.$store.state.pageOutAnimate">
-      <router-view/>
+    <!--<transition :enter-active-class="this.$store.state.pageInAnimate"-->
+                <!--:leave-active-class="this.$store.state.pageOutAnimate">-->
+      <keep-alive>
+        <router-view/>
+      </keep-alive>
 
-    </transition>
-    <div class="home-layout-footer">
+
+    <!--</transition>-->
+    <div class="home-layout-footer" v-show="$route.meta.home">
       <div class="footer-item"
            v-for="(i,idx) in itemList"
            :class="idx === mainHomeTab?'act-item':''"

@@ -1,19 +1,18 @@
 <template>
   <div id="good-item" @click="handleClick">
     <div class="good-img">
-      <img src="../../../../assets/images/goods/goods-img.png">
+      <img :src="goodsInfo.pic">
     </div>
     <div class="goods-info">
       <div class="title">{{goodsInfo.title}}</div>
       <div class="activity">
-        <span>包邮</span>
-        <span>团购</span>
+        <span v-for="marketingtags in goodsInfo.marketingtags">{{marketingtags.tagname}}</span>
       </div>
       <div class="desc">
-        <span v-for="guarantee in goodsInfo.basicGuarantee">{{guarantee.name}}</span>
+        <span v-for="guarantee in goodsInfo.xiaobaotags">{{guarantee.name}}</span>
       </div>
       <div class="price">
-        ￥<span>{{(goodsInfo.publish_price/100).toFixed(2)}}</span>
+        ￥<span>{{(goodsInfo.price/100).toFixed(2)}}</span>
       </div>
     </div>
   </div>
@@ -41,12 +40,14 @@
 
 <style lang="scss" scoped>
 #good-item {
-  @include flex-row();
+  @include flex-row(baseline);
   padding:  0 10px;
   height: 111px;
+  margin-bottom: 15px;
   .good-img {
     img {
       width: 111px;
+      height: 111px;
     }
   }
   .goods-info {
@@ -70,8 +71,13 @@
       }
     }
     .desc {
+      flex-grow: 1;
+      @include flex-row(space-between, flex-end);
       font-size: 10px;
       color: #666;
+      >span {
+        padding: 0 5px 0 0;
+      }
     }
     .price{
       color: #FF2858;

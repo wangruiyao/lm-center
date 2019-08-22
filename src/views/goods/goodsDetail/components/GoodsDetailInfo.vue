@@ -1,19 +1,19 @@
 <template>
   <div id="goods-info">
     <div class="good-price">
-      ￥<span class="number">{{(goodsInfo.publish_price/100).toFixed(2)}}</span>
-      <span class="band">疯狂促销</span>
+      ￥<span class="number">{{(goodsInfo.price.sell/100).toFixed(2)}}</span>
+      <span class="band" v-for="item in goodsInfo.marketingtags">{{item.tagname}}</span>
     </div>
     <div class="good-price-old">
-      <span>价格</span>￥<span>{{(goodsInfo.basicPrice/100).toFixed(2)}}</span>
+      <span>价格</span>￥<span class="price">{{(goodsInfo.price.basic/100).toFixed(2)}}</span>
     </div>
     <div class="goods-desc">
       {{goodsInfo.title}}
     </div>
     <div class="good-basic-info">
       <span>快递:0.00</span>
-      <span>月销量:10件</span>
-      <span>山东济南</span>
+      <span>月销量:{{goodsInfo.salenum}}件</span>
+      <span>库存:{{goodsInfo.stock}}</span>
     </div>
   </div>
 </template>
@@ -43,6 +43,7 @@
         font-size: 22px;
       }
       .band {
+        margin: 0 2px;
         /*font-size: .1rem;*/
         background: $font-red-color;
         font-size: 10px;
@@ -53,6 +54,12 @@
         -moz-border-radius: 3px;
         border-radius: 3px;
       }
+    }
+    .good-price-old{
+      .price{
+        text-decoration: line-through;
+      }
+
     }
     .goods-desc {
       font-size: 14px;

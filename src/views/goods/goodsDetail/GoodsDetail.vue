@@ -19,20 +19,21 @@
       <div class="scrollInner">
 
         <div class="swipper-inner">
-          <goods-detail-swiper :goods-picture="goodDetail.goodsPicture"></goods-detail-swiper>
+          <goods-detail-swiper :goods-picture="goodDetail.mainimages"></goods-detail-swiper>
         </div>
         <!--<lm-dash-board></lm-dash-board>-->
 
         <div ref="info" class="goods-detail-Info">
-          <goods-detail-info :goods-info="goodDetail"></goods-detail-info>
-          <goods-detail-cell @showPopup="showPopup"></goods-detail-cell>
+          <span @click="getOffsetTop">test</span>
+          <goods-detail-info :goods-info="checkedGoodsInfo"></goods-detail-info>
+          <goods-detail-cell :goods-info="goodDetail" @showPopup="showPopup"></goods-detail-cell>
         </div>
-        <div ref="comment" class="goods-detail-comment">
-          <goods-detail-comment></goods-detail-comment>
-        </div>
+        <!--<div ref="comment" class="goods-detail-comment" v-show="false">-->
+          <!--<goods-detail-comment></goods-detail-comment>-->
+        <!--</div>-->
         <div ref="img" class="goods-detail-img">
           <div class="goods-detail-img-title">详情</div>
-          <img src="../../../assets/images/goods/goods-detail.png">
+          <img v-for="i in goodDetail.itemimages" :src="i.url">
         </div>
 
         <div class="goods-detail-bottom">
@@ -42,12 +43,21 @@
     </lm-scroll>
     <goods-detail-popup :popup-visible="popup.visible"
                         :title="popup.title"
-                        @showPopup="showPopup" @closePop="closePop">
+                        :goods-info="goodDetail"
+                        @showPopup="showPopup"
+                        @closePop="closePop">
 
     </goods-detail-popup>
+    <goods-detail-confirm-popup
+            :options="goodDetail.total"
+            :goods-info="checkedGoodsInfo"
+            @updateShowOptions="updateShowOptions"
+            @close="handleConfirmPopup"
+            :popup-visible="confirmPopup"
+    ></goods-detail-confirm-popup>
     <goods-detail-footer
             @addTocart="addToCart"
-            @orderSubmit="orderSubmit"
+            @orderSubmit="goodsConfirm"
             :is-shake="isShake"></goods-detail-footer>
 
 
@@ -58,7 +68,7 @@
   // const GoodsDetailHeader = resolve => require(['./components/GoodsDetailHeader'], resolve);
   // const GoodsDetailSwiper = resolve => require(['./components/GoodsDetailSwiper'], resolve);
   // const GoodsDetailInfo = resolve => require(['./components/GoodsDetailInfo'], resolve);
-  import { getGoodsDetail } from 'api/goods'
+  import { getGoodsDetail, goodinfor } from 'api/goods'
   import GoodsDetailHeader from "./components/GoodsDetailHeader";
   import GoodsDetailSwiper from "./components/GoodsDetailSwiper";
   import GoodsDetailInfo from "./components/GoodsDetailInfo";
@@ -69,10 +79,12 @@
   import GoodsDetailPopup from "./components/GoodsDetailPopup";
   import LmDashBoard from "../../../components/lmDashBoard/LmDashBoard";
   import FlexBox from "../../../components/flyBox/FlexBox";
+  import GoodsDetailConfirmPopup from "./components/GoodsDetailConfirmPopup";
 
   export default {
     name: "GoodsDetail",
     components: {
+      GoodsDetailConfirmPopup,
       FlexBox,
       LmDashBoard,
       GoodsDetailPopup,
@@ -81,6 +93,8 @@
       GoodsDetailCell, LmScroll, GoodsDetailInfo, GoodsDetailSwiper, GoodsDetailHeader},
     data() {
       return {
+        checkedGoodsid: '', // 当前选中id
+        checkedGoodsInfo: {}, // 当前选中商品信息
         scrollY: 0,
         eleOffsetTop: {
           comment: 0,
@@ -93,39 +107,54 @@
           visible: false,
           title: ''
         },
+        confirmPopup: false,
         showFlyBox: false,  // 购物车飞入
         isShake: false, // 购物车抖动
         mainImg: ''
       }
     },
     mounted() {
-      this.getOffsetTop();
-      this.goodsId = this.$route.params.id;
-      this.getGoodsDetail({goodsId: this.$route.params.id})
+      const queryParams = JSON.parse(this.$route.params.params);
+      this.getGoodsDetail(queryParams);
 
+
+    },
+    watch: {
+      checkedGoodsid(newId, oldId) {
+        this.getCheckedGoodsInfo(newId);
+      },
+      goodDetail() {
+        const _this = this;
+        _this.$nextTick(function() {
+          _this.getOffsetTop();
+        })
+      }
     },
     methods: {
       scrollTo(ele) {
         const _this = this;
         if(ele === 0) {
           _this.$refs.wrapper.scrollTo(0,0,0)
-        } else if (ele === 1) {
+        }
+        else if (ele === 1) {
           _this.$refs.wrapper.scrollTo(0, this.eleOffsetTop.comment, 0)
-        } else if (ele === 2) {
+        }
+        else if (ele === 2) {
           _this.$refs.wrapper.scrollTo(0, this.eleOffsetTop.img, 0)
         }
       },
       getOffsetTop() {
-        this.eleOffsetTop.comment = -this.$refs.comment.offsetTop;
-        this.eleOffsetTop.img = -this.$refs.img.offsetTop;
+        // this.eleOffsetTop.comment = -this.$refs.comment.offsetTop;
+        this.eleOffsetTop.img = -this.$refs.img.offsetTop +50;
+        console.log('this.eleOffsetTop.img', this.eleOffsetTop.img)
       },
       scroll(pos) {
-        if (Math.abs(pos.y) < Math.abs(this.eleOffsetTop.comment)) {
+        if (Math.abs(pos.y) < Math.abs(this.eleOffsetTop.img)) {
           this.actTab = 0
         }
-        if (Math.abs(pos.y) >= Math.abs(this.eleOffsetTop.comment) && Math.abs(pos.y) < Math.abs(this.eleOffsetTop.img)) {
-          this.actTab = 1
-        }
+        // if (Math.abs(pos.y) >= Math.abs(this.eleOffsetTop.comment) && Math.abs(pos.y) < Math.abs(this.eleOffsetTop.img)) {
+        //   this.actTab = 1
+        // }
         if (Math.abs(pos.y) >= Math.abs(this.eleOffsetTop.img)) {
           this.actTab = 2
         }
@@ -133,28 +162,32 @@
         this.scrollY = pos.y
       },
       changeTab(idx) {
-        const _this = this;
         this.clickTabButton = true;
         this.actTab = idx;
         this.scrollTo(idx)
       },
       getGoodsDetail(params) {
-        getGoodsDetail(params)
+        const _this = this;
+        goodinfor(params)
           .then(data => {
-            if(data.code === '0') {
-              if(data.subcode === '10000') {
-                this.goodDetail = data.data;
-                this.mainImg = this.goodDetail.goodsPicture[0].url
-              } else {
-                Message(`获取商品相关信息接口报错：${data.submsg}`)
-              }
-            } else {
-              Message(`获取商品相关信息接口报错：${data.msg}` )
-            }
+            _this.goodDetail = data.data;
+            console.log(_this.goodDetail)
+            _this.mainImg = _this.goodDetail.mainimages[0].url;
+            this.checkedGoodsid = this.goodDetail.goodsid;
           })
           .catch(data => {
             Message(`调用获取商品相关信息接口失败,失败原因:${JSON.stringify(data)}`)
           })
+      },
+      getCheckedGoodsInfo(id) {
+        const _this = this;
+        this.goodDetail.goodslist.map(i => {
+          if(i.goodsid === id) {
+            i.title = _this.goodDetail.title;
+            i.mainImg = this.goodDetail.mainimages[0].url;
+            _this.checkedGoodsInfo = i;
+          }
+        })
       },
       showPopup(popup) {
         this.popup.title = popup;
@@ -193,12 +226,69 @@
           },100)
         })
       },
-      orderSubmit() {
-        const params = {
-          id: this.goodsId,
-          num:'abc'
-        }
-        goforward('orderSubmit', params)
+      goodsConfirm() {
+        this.handleConfirmPopup(true);
+      },
+      updateShowOptions(params) { // 筛选符合条件的属性列表
+        this.checkConfirmGoods(params);
+        const _this = this;
+        // console.log('用户选中属性：', JSON.stringify(params));
+        const totalOp = Object.keys(this.goodDetail.total);
+        const array = this.goodDetail.goodslist.map(good => good.options);  // 所有商品属性
+        const checkParams = {};
+        totalOp.map(i => {
+          const filterParams =  Object.assign({}, params);
+          delete filterParams[i];
+          // console.log(i, _this.queryOptionGoodsList(array, filterParams, i))
+          checkParams[i] = _this.queryOptionGoodsList(array, filterParams, i);
+          // _this.queryOptionGoodsList(array, filterParams, i)
+        });
+        this.filterTotalOptions(params, checkParams);
+      },
+      filterTotalOptions(checkedParams, checkableParams) {  // checkedParams obj: 用户选中的属性， checkableParams obj: 可选择的属性
+
+        const totalOptions = this.goodDetail.total;
+        Object.keys(totalOptions).forEach(key => {
+          totalOptions[key].map(info => {
+            if(checkedParams[key] === info.value) {
+              info.type = "0";
+            } else if(checkableParams[key].includes(info.value)) {
+              info.type = "1";
+            } else {
+              info.type = "2";
+            }
+          })
+        })
+
+      },
+      queryOptionGoodsList(array, params, nowOption) {
+        const keys = Object.keys(params);
+        const returnParams = [];
+        const list =  array.filter(m => {
+          return keys.every(key => {
+            return m.hasOwnProperty(key) && m[key] === params[key]
+          });
+        });
+        list.map(i => {
+          returnParams.push(i[nowOption])
+        });
+        return returnParams;
+      },
+      checkConfirmGoods(params) {
+        // console.log(params);
+        const _this = this;
+        const keys= Object.keys(this.goodDetail.total);
+        // console.log(keys);
+        this.goodDetail.goodslist.map(good => {
+          if(keys.every(i => {
+            return good.options[i] === params[i] && params.hasOwnProperty(i);
+          })) {
+            _this.getCheckedGoodsInfo(good.goodsid);
+          }
+        });
+      },
+      handleConfirmPopup(type) {
+        this.confirmPopup = type;
       }
 
     }

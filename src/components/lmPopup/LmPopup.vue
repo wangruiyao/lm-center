@@ -3,7 +3,7 @@
     <mt-popup v-model="popupVisible"
               position="bottom"
               :closeOnClickModal="false">
-      <div class="popup-title">
+      <div class="popup-title" v-show="showPopupTitle">
         <span class="title-icon"></span>
         <span>{{title}}</span>
         <span class="title-icon">
@@ -39,6 +39,10 @@
       showConfirmBtn: {
         type: Boolean,
         default: true,
+      },
+      showPopupTitle: {
+        type: Boolean,
+        default: true
       }
     },
     data() {
