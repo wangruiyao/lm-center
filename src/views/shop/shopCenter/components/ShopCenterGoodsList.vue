@@ -13,10 +13,10 @@
     <div class="goods-list">
       <div class="goods-item"
            v-for="item in goodsList"
-           @click="go('shopCenterGoodsDetail')">
-        <img :src="goodsImg">
+           @click="go(item)">
+        <img :src="item.pic">
         <div class="price-box">
-          <span class="title">{{item.goodsname}}</span>
+          <span class="title">{{item.title}}</span>
           <span class="price">￥<span>{{parseInt(item.price).toFixed(2)}}</span></span>
         </div>
       </div>
@@ -43,14 +43,17 @@
     },
     data() {
       return {
-        goodsImg: require('assets/images/goods/goods-img.png'),
         hotcategoryList: []
       }
     },
     mounted() {},
     methods: {
-      go(path) {
-        this.$emit('go', path)
+      go(params) {
+        const reqParams = {
+          goodsid: params.goodsid,
+          productid: params.productid
+        };
+        this.$emit('goGoodsDetail', JSON.stringify(reqParams))
       },
       changeHotCatgoryAct(params) {
         this.$emit('changeBtn', params)
@@ -120,6 +123,11 @@
           @include flex-column(baseline,baseline);
           .title {
             margin-bottom: 5px;
+            height: 34px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
           }
           .price {
             color: #FF2A00;

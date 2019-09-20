@@ -15,7 +15,7 @@ export default [{
       redirect: 'submit'
     },
     {
-      path: 'submit/:id/:num',
+      path: 'submit/:info',
       name: 'orderSubmit',
       meta: {
         title: '提交订单',
@@ -46,22 +46,45 @@ export default [{
           component:  r => require.ensure([], () => r(require('views/mine/mineUpdateIdCard/MineUpdateIdCard')), 'mineUpdateIdCard'),
         },
         {
-          path: 'toolkit',
-          component: BasicLayout,
-          children: [
-            {
-              path: 'broadBandAddress',
-              name: 'OrderBroadBand',
-              meta: {
-                title: '宽带地址查询',
-                isLogin: false
-              },
-              component:  toolkit.broadbandAddress
-            }
-          ]
+          path: 'broadBandAddress',
+          name: 'OrderBroadBand',
+          meta: {
+            title: '宽带地址查询',
+            keepAlive: true,
+            isLogin: false,
+            pageIn: 'slideInRight',
+            pageOut: 'slideOutRight'
+          },
+          component:  r => require.ensure([], () => r(require('views/order/orderBroadBand/OrderBroadBandAddress')), 'broadBandAddress'),
         },
+        // {
+        //   path: 'toolkit',
+        //   component: BasicLayout,
+        //   children: [
+        //     // {
+        //     //   path: 'broadBandAddress',
+        //     //   name: 'OrderBroadBand',
+        //     //   meta: {
+        //     //     title: '宽带地址查询',
+        //     //     isLogin: false
+        //     //   },
+        //     //   component:  toolkit.broadbandAddress
+        //     // },
+        //     {
+        //       path: 'broadBandAddress',
+        //       name: 'OrderBroadBand',
+        //       meta: {
+        //         title: '宽带地址查询',
+        //         isLogin: false,
+        //         pageIn: 'slideInRight',
+        //         pageOut: 'slideOutRight'
+        //       },
+        //       component:  r => require.ensure([], () => r(require('views/order/orderBroadBand/OrderBroadBandAddress')), 'broadBandAddress'),
+        //     }
+        //   ]
+        // },
         {
-          path: 'numberCheck',
+          path: 'numberCheck/:numberCheckInfo',
           name: 'orderNumberCheck',
           meta: {
             title: '号码查询',

@@ -33,14 +33,18 @@
           <shop-center-hot-sale @go="go"></shop-center-hot-sale>
           <div ref="goodsList">
             <shop-center-goods-list
-                    @go="go"
+                    @goGoodsDetail = "goGoodsDetail"
                     @changeBtn = 'changeHotCatgoryAct'
                     :hot-category = 'hotcategoryList'
                     :act-button="hotCatgoryAct"
                     :goods-list="goodslist"></shop-center-goods-list>
           </div>
 
-          <div class="loading-box">{{loadingText}}</div>
+          <div class="loading-box">
+            <span>
+              {{loadingText}}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -131,10 +135,8 @@
             mouseWheel: true,
             click: true,
             pullUpLoad: true,
-            pullDownRefresh: {
-              threshold: 60,
-              stop: 20
-            }
+            pullDownRefresh: true,
+            bounce: false
           });
           _this.scroll.on('pullingUp', () => {
             _this.listPullingUp();
@@ -143,6 +145,7 @@
             _this.listRefresh();
           });
           _this.scroll.on('scroll', (pos) => {
+            _this.scroll.options.bounce = pos.y >= 0;
             _this.showHeader = pos.y <= 0;
             _this.showRefresh = pos.y >= 10;
             if(pos.y >= 60 && !_this.isRefreshing) {
@@ -164,6 +167,8 @@
           _this.goodslist = data;
           setTimeout(function() {
             _this.scroll.finishPullDown();
+            _this.scroll.finishPullUp();
+            _this.scroll.refresh();
           },1000);
         })
       },
@@ -177,6 +182,7 @@
           } else {
             _this.goodslist = _this.goodslist.concat(data);
             this.scroll.finishPullUp();
+            this.scroll.refresh();
           }
         });
       },
@@ -191,6 +197,7 @@
         this.eleOffsetTop.goodsList = -this.$refs.goodsList.offsetTop;
       },
       changeHotCatgoryAct(params) {
+        this.scroll.finishPullUp();
         const _this = this;
         this.hotCatgoryAct = params.idx;
         this.queryGoodsListParams.catalog = params.title;
@@ -200,11 +207,11 @@
           if(Math.abs(_this.scrollPos) > Math.abs(_this.eleOffsetTop.goodsList)) {
             _this.scroll.scrollTo(0, _this.eleOffsetTop.goodsList)
           }
-
-          // _this.goodslist = rsp;
-          // _this.scroll.scrollTo(0, _this.eleOffsetTop.goodsList)
         })
 
+      },
+      goGoodsDetail(params) {
+        goforward('shopCenterDetail', {params})
       },
       go(path) {
         goforward(path)

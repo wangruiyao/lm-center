@@ -26,7 +26,7 @@
             </nut-icon>
           </div>
         </order-ad>
-        <order-list-item v-for="item in [1,1,1,1,1,1]" @goDetail="goDetail(item)"></order-list-item>
+        <order-list-item v-for="item in orderList" :goods-info="item" @goDetail="goDetail(item)"></order-list-item>
       </div>
     </lm-scroll>
     <transition :enter-active-class="$route.meta.pageIn"
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+  import {orderlistbycondition} from 'api/order';
   const LmHeader = resolve => require(['components/lmHeader/LmHeader'], resolve);
   const LmScroll = resolve => require(['components/lmScroll/LmScroll'], resolve);
 
@@ -52,8 +53,16 @@
     data() {
       return {
         actTab: 0,
-        slideVisiblity: false
+        slideVisiblity: false,
+        pagenum: 1,
+        pagesize: 10,
+        orderList: [],
+        total: 0
+
       }
+    },
+    mounted() {
+      this.orderListByCondition()
     },
     methods: {
       maskClick() {
@@ -64,13 +73,28 @@
       },
       changeTab(tab) {
         this.actTab = tab;
+        this.pagenum = 1;
+        this.orderListByCondition();
       },
       goDetail(info) {  //
-        console.log(info)
         goforward('orderDetail', {id:info})
       },
       go(path) {
         goforward(path)
+      },
+      orderListByCondition() {
+        const _this = this;
+        const params = {
+          state: this.actTab - 1 >= 0 ? this.actTab - 1 : '',
+          pagenum: this.pagenum, //	页码	STRING	必填
+          pagesize: this.pagesize
+        };
+        orderlistbycondition(params).then(rsp => {
+          _this.orderList = rsp.data.orderlist;
+          _this.total = rsp.data.total;
+
+          console.log('订单', JSON.stringify(_this.orderList))
+        })
       }
     }
   }

@@ -2,7 +2,8 @@
 * 商城首页
 * */
 
-import { BlankLayout,HomeLayout } from 'components/layouts'
+import { BlankLayout,HomeLayout, BasicLayout } from 'components/layouts'
+import toolkit from "../../../public/toolkit.umd";
 
 export default [{
   path: '/shop',
@@ -31,6 +32,15 @@ export default [{
           component:  r => require.ensure([], () => r(require('views/shop/shopCenter/ShopCenter')), 'shopCenter'),
           children: [
             {
+              path: 'goodsDetail/:params',
+              name: 'shopCenterDetail',
+              meta: {
+                title: '商品详情',
+                isLogin: false
+              },
+              component:  r => require.ensure([], () => r(require('views/goods/goodsDetail/GoodsDetail')), 'goodsDetail')
+            },
+            {
               path: 'goodsList/:query',
               name: 'shopCenterGoodsList',
               meta: {
@@ -48,7 +58,7 @@ export default [{
                     pageInAnimate: 'slideInRight',
                     pageOutAnimate: 'slideOutRight'
                   },
-                  component:  r => require.ensure([], () => r(require('views/goods/goodsDetail/GoodsDetail')), 'goodsDetail')
+                  component:  r => require.ensure([], () => r(require('views/goods/goodsDetail/GoodsDetail')), 'goodsDetail'),
                 }
               ]
             }

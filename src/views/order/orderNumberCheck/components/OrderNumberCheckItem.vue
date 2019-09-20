@@ -1,20 +1,40 @@
 <template>
-  <div id="number-check-item">
+  <div @click="click" id="number-check-item">
     <div class="number">
-      <span>151</span>
-      <span class="blue">6511</span>
-      <span>360</span>
+      <span>{{numberInfo.serialnumber.substr(0,3)}}</span>
+      <span class="blue">{{numberInfo.serialnumber.substr(3,4)}}</span>
+      <span>{{numberInfo.serialnumber.substr(7,4)}}</span>
     </div>
     <div class="number-info">
-      <span>济南</span>
-      <span class="red">￥<span>200</span>.00</span>
+      <span>{{cityName}}</span>
+      <span class="red">￥
+        <span>{{Number(numberInfo.price).toFixed(2).toString().split('.')[0]}}</span>
+        <span>.</span>{{Number(numberInfo.price).toFixed(2).toString().split('.')[1]}}
+      </span>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: "OrderNumberCheckItem"
+    name: "OrderNumberCheckItem",
+    props: {
+      numberInfo: {
+        type: Object,
+        default() {
+          return {}
+        }
+      },
+      cityName: {
+        type: '',
+        default: ''
+      }
+    },
+    methods: {
+      click() {
+        this.$emit('click')
+      }
+    }
   }
 </script>
 

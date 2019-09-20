@@ -12,7 +12,7 @@
               <img :src="goodsInfo.mainImg">
               <div class="info">
                 <div class="info-top">
-                  <div class="price">￥ <span>{{(goodsInfo.price.basic/100).toFixed(2)}}</span></div>
+                  <div class="price">￥ <span>{{(Number(priceSell)/100).toFixed(2)}}</span></div>
                   <div class="store">库存: {{goodsInfo.stock}}</div>
                 </div>
                 <div class="info-bottom">
@@ -32,11 +32,21 @@
               </div>
 
             </div>
+            <div class="goods-num" v-show="goodsInfo.typedescribe === '2'">
+              <div>购买数量</div>
+              <nut-stepper
+                      :value.sync="buyNum"
+                      :min="1"
+                      :max="Number(goodsInfo.stock)"
+                      @add="addNum"
+              ></nut-stepper>
+            </div>
           </div>
         </div>
         <div class="close" @click="closePopup"><span class="icon iconfont">&#xe633;</span></div>
-        <div class="confirm-btn" :class="goodsInfo.stock === '0' ? 'no-stock' : ''">{{goodsInfo.stock === '0' ? '到货通知' : '确定'}}</div>
+        <div class="confirm-btn" @click="confirm" :class="goodsInfo.stock === '0' ? 'no-stock' : ''">{{goodsInfo.stock === '0' ? '暂无库存' : '确定'}}</div>
       </div>
+
     </lm-popup>
   </div>
 </template>
@@ -65,6 +75,8 @@
     },
     data() {
       return {
+        priceSell: '',
+        buyNum: 1,
         selectParams: {}
       }
     },
@@ -76,18 +88,25 @@
         Object.keys(this.goodsInfo.options).forEach(key => {
           this.selectParams[key] = this.goodsInfo.options[key]
         });
+        this.priceSell = newOptions.price.sell;
         this.updateShowOptions(newOptions.options)
       }
     },
     methods: {
+      addNum(val) {
+        if(val>Number(this.goodsInfo.stock)) {
+          Toast('数量超出范围~')
+        }
+      },
       setScroll() {
         const _this = this;
         setTimeout(() => {
           _this.scroll = new BScroll(_this.$refs.popupWarpper, {
             mouseWheel: true,
             click: true,
+            bounce: false
           });
-        }, 20)
+        }, 200)
       },
       updateShowOptions(params) {
         this.$emit('updateShowOptions', params)
@@ -110,7 +129,23 @@
         this.$emit('close', false);
       },
       confirm() {
-
+        if(Object.keys(this.options).length !== Object.keys(this.selectParams).length) {
+          Toast({
+            message: '请选择商品属性',
+            position: 'bottom',
+          })
+        } else {
+          if(this.goodsInfo.stock !== '0') {
+            this.closePopup();
+            const params = {
+              ordergoodsList: [
+                {goodsid: this.goodsInfo.goodsid,goodsnumber: this.buyNum.toString()}
+              ]
+            };
+            goforward('orderSubmit', {info: JSON.stringify(params)});
+            // goforward('orderSubmit', params);
+          }
+        }
       }
     }
   }
@@ -137,10 +172,11 @@
     height: 437px;
     .popup-scroll {
       overflow: hidden;
-      padding: 15px;
-      height: 437px;
+      padding: 15px 15px 20px;
+      top: 15px;
+      bottom: 50px;
       position: absolute;
-      bottom: 0;
+      /*bottom: 20px;*/
       .goods-info {
         margin-bottom: 22px;
         @include flex-row(baseline, stretch);
@@ -184,6 +220,12 @@
             border-radius:3px;
           }
         }
+      }
+      .goods-num {
+        border-top: solid $line-light 1px;
+        border-bottom: solid $line-light 1px;
+        height: $header-height;
+        @include flex-row();
       }
     }
     .confirm-btn {

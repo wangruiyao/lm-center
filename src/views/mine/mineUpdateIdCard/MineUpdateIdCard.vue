@@ -12,20 +12,21 @@
         <span class="tips1">点击图片上传证件头像所在面</span>
         <img :src="item.url">
         <span class="tips2">拍照时请确保姓名、证件号码等信息清晰可见！</span>
-        <input class="upload-btn" :name="item.name" type="file" accept="image/*" @change="handleUploadClick">
+        <input class="upload-btn" :name="item.name" type="file" accept="image/png, image/jpeg, image/gif" @change="handleUploadClick">
       </div>
 
       <div class="footer">
         该证件只做联通开户使用。为避免证件照被非法利用，上传后将自动添加“仅限中国联通入网使用”水印。
       </div>
     </lm-scroll>
-    <div class="confirm-btn">
+    <div class="confirm-btn" @click = onSubmit()>
       提交
     </div>
   </div>
 </template>
 
 <script>
+  import {uploadimage} from 'api/order'
   import {uploadImg} from 'utils/basicMethods/index'
   const LmHeader = resolve => require(['components/lmHeader/LmHeader'], resolve);
   const LmScroll = resolve => require(['components/lmScroll/LmScroll'], resolve);
@@ -34,24 +35,32 @@
     components: {LmScroll, LmHeader},
     data() {
       return {
+        urlList: {
+          customeridfrontimg: '',	//开户人身份证正面照片	STRING	必填
+          customeridreverseimg: '',	//开户人身份证反面照片	STRING	必填
+          customerinhandimg: '' //手持身份证
+        },
         imgList: [
           {
-            name:'idCardFace',
+            name:'customeridfrontimg',
             url: require('assets/images/mine/idcard-01.jpg'),
             file: null,
-            handled: false
+            handled: false,
+            des: '身份证证件照所在面'
           },
           {
-            name:'idCardBack',
+            name:'customeridreverseimg',
             url: require('assets/images/mine/idcard-02.jpg'),
             file: null,
-            handled: false
+            handled: false,
+            des: '身份证国徽所在面'
           },
           {
-            name:'idCardHandle',
+            name:'customerinhandimg',
             url: require('assets/images/mine/idcard-03.jpg'),
             file: null,
-            handled: false
+            handled: false,
+            des: '手持证件照'
           }
         ]
 
@@ -59,16 +68,44 @@
     },
     methods: {
       handleUploadClick(e) {
+        Loading.show();
         const _this = this;
         uploadImg(e).then(data => {
           let imgInfo = data;
           _this.imgList.map(i => {
             if(i.name === e.srcElement.name) {
               i.url = imgInfo.imgUrl;
+              i.file = imgInfo.file;
               i.handled = true;
+              this.upLoadImages(i.name, i.file)
             }
-          })
+          });
+
         });
+      },
+      upLoadImages(name, file) {
+        uploadimage({
+          idcard: file
+        }).then(rsp => {
+          Loading.hide();
+          this.urlList[name] = rsp.data.respidcard;
+        })
+      },
+      checkUrlList() {
+        let flag = this.imgList.every(i => {
+          if(i.handled !== true) {
+            Toast(`请上传${i.des}`)
+          }
+          return i.handled;
+        });
+        return flag;
+      },
+      onSubmit() {
+        if(this.checkUrlList()) {
+         Toast('上传成功');
+         this.$emit('setCustomerImg', this.urlList)
+         goback();
+        }
       }
     }
   }

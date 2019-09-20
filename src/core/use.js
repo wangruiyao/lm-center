@@ -27,6 +27,14 @@ import {setSession, getSession} from "utils/session";
 window.setSession = setSession;
 window.getSession = getSession;
 
+// 引入浮点数计算方法
+import {accAdd, accSub, accDiv, accMul} from 'utils/basicMethods/computeFloat';
+window.accAdd = accAdd;
+window.accSub = accSub;
+window.accDiv = accDiv;
+window.accMul = accMul;
+
+
 import mint from 'mint-ui'
 Vue.use(mint);
 

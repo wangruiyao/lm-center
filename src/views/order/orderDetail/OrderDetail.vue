@@ -72,6 +72,7 @@
 <style lang="scss" scoped>
   #order-detail {
     width: 375px;
+    background: $bgd-color;
 
     .order-detail-scroll {
       overflow: hidden;

@@ -1,11 +1,11 @@
 <template>
   <div id="order-footer">
     <div class="order-footer-sum">
-      合计：
-      <span>￥<span>200</span>.00</span>
+      合计:
+      <span>￥<span>{{intPrice}}</span>.{{decimalPrice}}</span>
     </div>
     <div>
-      <mt-button type="default">提交订单</mt-button>
+      <mt-button @click="onSubmit" type="default">提交订单</mt-button>
     </div>
 
   </div>
@@ -13,7 +13,30 @@
 
 <script>
   export default {
-    name: "OrderFooter"
+    name: "OrderFooter",
+    props: {
+      orderPrice: {
+        type: String,
+        default: ''
+      }
+    },
+    data() {
+      return {}
+    },
+    methods: {
+      onSubmit() {
+        this.$emit('onSubmit')
+      }
+    },
+    computed: {
+      intPrice() {
+        return  Math.floor(Number(this.orderPrice/100));
+
+      },
+      decimalPrice() {
+        return  Number(this.orderPrice) % 100 < 10 ? '0' + Number(this.orderPrice)%100 : Number(this.orderPrice)%100;
+      }
+    }
   }
 </script>
 

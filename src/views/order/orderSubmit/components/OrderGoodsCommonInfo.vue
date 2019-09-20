@@ -5,26 +5,99 @@
       <img src="../../../../assets/images/logo.png">
       <span>山东联通</span>
     </div>
-    <div class="goods-info">
-      <img src="../../../../assets/images/goods/goods-img.png">
-      <div class="goods-info-desc">
-        <div class="goods-title">
-          <span class="title">99元冰激凌预存300（1元语音包）</span>
-          <span class="tips">800分钟通话，国内流量冰激凌</span>
+    <div v-for="good in localOrderGoodsInfo">
+      <div class="goods-info" >
+        <img :src="getMainImg(good.mainimages)">
+        <div class="goods-info-desc">
+          <div class="goods-title">
+            <span class="title">{{good.goodsname}} </span>
+            <span class="tips">{{good.goodstitle}}</span>
+          </div>
+
+          <div class="good-price">
+            ￥<span class="price">{{goodsPrice(good.goodsprice)}}</span>
+            x<span class="number">{{good.number}}</span>
+          </div>
         </div>
 
-        <div class="good-price">
-          ￥<span class="price">200.00</span>
-          x<span class="number">1</span>
-        </div>
+      </div>
+      <!-- 单商品信息 -->
+      <div class="info-num" v-if="goodType === `2`">
+        <span>购买数量</span>
+        <nut-stepper
+                :transition="false"
+                :min="1"
+                :max="good.goodsstock"
+                :value="good.number"
+                @change="value => changeGoodsNum(value, good.goodsid)"
+        ></nut-stepper>
       </div>
     </div>
+    <!--@add="addNumber(number,)"-->
+    <!--@reduce="reduceNumber(number)"-->
   </div>
 </template>
 
 <script>
   export default {
-    name: "OrderGoodsCommonInfo"
+    name: "OrderGoodsCommonInfo",
+    props: {
+      orderGoodsInfo: {
+        type: Array,
+        default() {
+          return []
+        }
+      },
+      goodType: {
+        type: String,
+        default: '0'
+      }
+    },
+    data() {
+      return {
+        localOrderGoodsInfo: []
+      }
+    },
+    mounted() {
+      this.localOrderGoodsInfo = this.orderGoodsInfo;
+    },
+    methods: {
+      goodsPrice(price) {
+        return (Number(price)/100).toFixed(2)
+      },
+      getMainImg(imgList) {
+        return imgList[0].url;
+      },
+      changeGoodsNum(num, id) {
+        this.localOrderGoodsInfo.map(i => {
+          if(i.goodsid === id) {
+            i.number = num.toString();
+          }
+        });
+        this.$emit('addNum', {goodsid:id, goodsnumber:num});
+      },
+      onPhysicalSubmit() {  // 实物下单
+        let goodsdetail = [];
+        this.orderGoodsInfo.map(i => {
+          goodsdetail.push({
+            goodsId: i.goodsid,
+            goodsNumber: i.number
+          })
+        });
+        return {goodsdetail};
+      },
+      operatorSubmit() {  // 运营商下单
+        return {goodsid: this.orderGoodsInfo[0].goodsid}
+      }
+    },
+    watch: {
+      orderGoodsInfo(newGoodsInfo) {
+        this.localOrderGoodsInfo = newGoodsInfo;
+        // this.goodsImg = newGoodsInfo.mainimages[0].url;
+        // this.goodsPrice = (Number(newGoodsInfo.price.goods)/100).toFixed(2);
+        // this.typeGroup = newGoodsInfo.typegroup;
+      }
+    }
   }
 </script>
 
@@ -50,7 +123,7 @@
 
     .goods-info {
       height: 102px;
-      @include flex-row();
+      @include flex-row(baseline);
       padding: 0 15px;
       >img {
         border: solid #999 1px;
@@ -61,7 +134,7 @@
       .goods-info-desc {
         padding-left: 22px;
         height: 82px;
-        @include flex-column(space-between,baseline)
+        @include flex-column(space-between,baseline);
 
         .goods-title {
           .tips {
@@ -86,6 +159,16 @@
           }
         }
       }
+
+
+    }
+    .info-num {
+      background: #fff;
+      @include flex-row();
+      font-size: 14px;
+      height: $header-height;
+      @include flex-row();
+      padding: 15px;
     }
   }
 </style>

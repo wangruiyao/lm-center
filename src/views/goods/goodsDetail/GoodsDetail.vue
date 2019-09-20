@@ -1,5 +1,10 @@
 <template>
   <div id="goods-list" class="lm-container-blank">
+    <!-- 更多工具 -->
+    <goods-detail-more-tools
+            v-show="showMoreTools"
+            :is-visible="showMoreTools"
+            @close="handleMoreClick"></goods-detail-more-tools>
     <!-- 头部 -->
     <goods-detail-header :scroll-y="scrollY"
                          :act-tab="actTab"
@@ -24,7 +29,6 @@
         <!--<lm-dash-board></lm-dash-board>-->
 
         <div ref="info" class="goods-detail-Info">
-          <span @click="getOffsetTop">test</span>
           <goods-detail-info :goods-info="checkedGoodsInfo"></goods-detail-info>
           <goods-detail-cell :goods-info="goodDetail" @showPopup="showPopup"></goods-detail-cell>
         </div>
@@ -58,7 +62,13 @@
     <goods-detail-footer
             @addTocart="addToCart"
             @orderSubmit="goodsConfirm"
-            :is-shake="isShake"></goods-detail-footer>
+            :is-shake="isShake">
+    </goods-detail-footer>
+    <transition enter-active-class="`slideInRight`"
+                leave-active-class="`slideOutRight`">
+      <router-view></router-view>
+    </transition>
+
 
 
   </div>
@@ -80,10 +90,12 @@
   import LmDashBoard from "../../../components/lmDashBoard/LmDashBoard";
   import FlexBox from "../../../components/flyBox/FlexBox";
   import GoodsDetailConfirmPopup from "./components/GoodsDetailConfirmPopup";
+  import GoodsDetailMoreTools from "./components/GoodsDetailMoreTools";
 
   export default {
     name: "GoodsDetail",
     components: {
+      GoodsDetailMoreTools,
       GoodsDetailConfirmPopup,
       FlexBox,
       LmDashBoard,
@@ -93,6 +105,7 @@
       GoodsDetailCell, LmScroll, GoodsDetailInfo, GoodsDetailSwiper, GoodsDetailHeader},
     data() {
       return {
+        showMoreTools: false,
         checkedGoodsid: '', // 当前选中id
         checkedGoodsInfo: {}, // 当前选中商品信息
         scrollY: 0,
@@ -146,7 +159,6 @@
       getOffsetTop() {
         // this.eleOffsetTop.comment = -this.$refs.comment.offsetTop;
         this.eleOffsetTop.img = -this.$refs.img.offsetTop +50;
-        console.log('this.eleOffsetTop.img', this.eleOffsetTop.img)
       },
       scroll(pos) {
         if (Math.abs(pos.y) < Math.abs(this.eleOffsetTop.img)) {
@@ -171,7 +183,6 @@
         goodinfor(params)
           .then(data => {
             _this.goodDetail = data.data;
-            console.log(_this.goodDetail)
             _this.mainImg = _this.goodDetail.mainimages[0].url;
             this.checkedGoodsid = this.goodDetail.goodsid;
           })
@@ -196,8 +207,8 @@
       closePop() {
         this.popup.visible = false
       },
-      handleMoreClick() {
-        alert(1)
+      handleMoreClick(status) {
+        this.showMoreTools = status === undefined ? true : status;
       },
       addToCart() { //加入购物车
         const _this = this;
@@ -232,16 +243,13 @@
       updateShowOptions(params) { // 筛选符合条件的属性列表
         this.checkConfirmGoods(params);
         const _this = this;
-        // console.log('用户选中属性：', JSON.stringify(params));
         const totalOp = Object.keys(this.goodDetail.total);
         const array = this.goodDetail.goodslist.map(good => good.options);  // 所有商品属性
         const checkParams = {};
         totalOp.map(i => {
           const filterParams =  Object.assign({}, params);
           delete filterParams[i];
-          // console.log(i, _this.queryOptionGoodsList(array, filterParams, i))
           checkParams[i] = _this.queryOptionGoodsList(array, filterParams, i);
-          // _this.queryOptionGoodsList(array, filterParams, i)
         });
         this.filterTotalOptions(params, checkParams);
       },
@@ -275,10 +283,8 @@
         return returnParams;
       },
       checkConfirmGoods(params) {
-        // console.log(params);
         const _this = this;
         const keys= Object.keys(this.goodDetail.total);
-        // console.log(keys);
         this.goodDetail.goodslist.map(good => {
           if(keys.every(i => {
             return good.options[i] === params[i] && params.hasOwnProperty(i);
@@ -306,6 +312,8 @@
     }
   }
   #goods-list {
+    z-index: 1000;
+    background: $bgd-color;
     .swipper-inner {
       margin-top: -10px;
     }

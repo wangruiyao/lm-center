@@ -1,6 +1,6 @@
 <template>
   <div id="home-center" class="lm-container-blank">
-    <lm-header :title="`连萌`"
+    <lm-header :title="`我的连萌`"
                :show-back="false"
                :opacity="headerOpacity"
                v-show="showHeader" :background="`rgb(83, 171, 239)`" :color="`#fff`" :border="`solid transparent 1px`">
@@ -11,7 +11,8 @@
     <lm-scroll ref="wrapper"
                :pullup="true"
                :listenScroll="true"
-               @scroll="listenScroll">
+               @scroll="listenScroll"
+               :bounce="false">
       <!--<lm-refresh></lm-refresh>-->
       <home-center-head></home-center-head>
       <!--<div class="minePage" @click="goforward('mineAccount')">我的账户</div>-->

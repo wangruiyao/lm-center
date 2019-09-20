@@ -51,6 +51,24 @@ export function goodslist (params) {  // 商品列表
   });
 }
 
+export function hotsalelist (params) {  //热销货架商品列表
+  const url = process.env.NODE_ENV === 'development'
+    // ? '760c7121-ad06-451c-9190-797df8fe10bd'
+    ? 'goodscenter/hotsalelist' //成功
+    : 'goodscenter/hotsalelist';
+  const reqConfig = Object.assign({
+    shelftype: 'HS01',  // 货架类型：HS01限时特惠；HS02尖货推荐；HS03高额佣金
+    pagenum: '0',
+    pagesize: '10'
+  }, params);
+  return ajax({
+    url,
+    data: reqConfig,
+    method: 'post',
+    catchError: false
+  });
+}
+
 export function morecondition (params) {  // 商品列表更多筛选条件
   const url = process.env.NODE_ENV === 'development'
     ? 'goodscenter/morecondition' //成功

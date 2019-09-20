@@ -9,7 +9,7 @@
       <div class="account-info">
         <div class="username">{{userInfo.username}}</div>
         <div class="userInfo">
-          <span>{{userInfo.vip}}</span>
+          <span>{{userInfo.vipdesc}}</span>
           <span>{{userInfo.usertypedesc}}</span>
         </div>
       </div>

@@ -46,6 +46,10 @@
       startY: {//纵轴方向初始化位置
         type: Number,
         default: 0
+      },
+      bounce: {
+        type: Boolean,
+        default: true
       }
     },
     mounted() {
@@ -68,8 +72,9 @@
           scrollX: false,
           startY: this.startY,
           pullUpLoad: this.pullup,
-          mouseWheel: true
-        })
+          mouseWheel: true,
+          bounce: this.bounce
+        });
         this.$emit('setScroll',this.scroll);
         if (this.listenScroll) {
           let me = this;

@@ -77,7 +77,6 @@
       this.getCityList();
     },
     activated() {
-      alert(2)
       this.popupVisible = true;
     },
     methods: {

@@ -55,6 +55,12 @@ const router = new Router({
  */
 router.beforeEach((to, from, next) => {
   store.commit(types.SET_PAGE_SCROLL_STATE, true);
+  if(to.matched.length === 0) {
+    // alert(1)
+    goforward('error404');
+  } else {
+    goNext(to,from,next);
+  }
   // if(getSession('lmUserInfo')){ // 已登录
   //   goNext(to,from,next);
   // } else {  // 未登录
@@ -67,7 +73,7 @@ router.beforeEach((to, from, next) => {
   //   }
   //
   // }
-  goNext(to,from,next);
+
 });
 
 router.afterEach(route => {
@@ -98,8 +104,7 @@ function goNext(to,from,next) {
   } else {
     store.commit(types.SET_HISTORY_PAGE, {handle: 'back'})
   }
-
-  next()
+  next();
 }
 
 export default router

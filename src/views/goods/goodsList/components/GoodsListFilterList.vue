@@ -4,11 +4,11 @@
     <div class="filter-item">
       <div class="filter-spec">
         <div class="title">
-          {{filterList.type.title}}
+          {{typeTitle}}
         </div>
         <div class="item-container">
-          <div v-for="(i, idx) in filterList.type.value"
-               :class="i.typeid === filterParams.goodstype ? 'act' : ''"
+          <div v-for="(i, idx) in typeValue"
+               :class="i.typeid === filterParams.goodstype ||  typeValue.length === 1 ? 'act' : ''"
                @click="changeType(idx, i.typeid)">
             {{i.typename}}
           </div>
@@ -24,7 +24,7 @@
         <div class="item-container">
           <div v-for="(i, idx) in item.value"
                @click="handleClick(item.title, i)"
-               :class="filterParams.props[item.title] === i?'act':''">
+               :class="filterParams.props[item.title] === i || item.value.length === 1 ?'act':''">
             {{i}}
           </div>
         </div>
@@ -53,6 +53,8 @@
     },
     data() {
       return {
+        typeValue: [],
+        typeTitle: '',
         filterParams: {
           goodstype: '',
           props: {}
@@ -60,18 +62,12 @@
         actType: ''
       }
     },
-    // watch: {
-    //   filterList:{ //深度监听，可监听到对象、数组的变化
-    //     handler (newV) {
-    //       if(newV.type.value.length === 1) {
-    //         this.actType = 0
-    //       } else {
-    //         this.actType = ''
-    //       }
-    //     },
-    //     deep:true
-    //   }
-    // },
+    watch: {
+      filterList(newParams) {
+        this.typeTitle = newParams.type.title;
+        this.typeValue = newParams.type.value;
+      }
+    },
     methods: {
       changeType(idx, typeid) {
         this.filterParams.props = {};

@@ -1,7 +1,7 @@
 <!--title: 标题, info: 信息, disable：不可点击 -->
 
 <template>
-  <div id="lm-cell" :class="[border?'borderbottom': '', fontLarge? 'font-large': '']">
+  <div @click="handleClick" id="lm-cell" :class="[border?'borderbottom': '', fontLarge? 'font-large': '']">
     <div class="cell-title">
       {{title}}
     </div>
@@ -70,6 +70,7 @@
     min-height: $large-cell-height !important;
   }
   #lm-cell{
+    overflow: hidden;
     min-height: $cell-height;
     @include flex-row();
     padding: 0 15px;

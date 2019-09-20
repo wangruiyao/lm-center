@@ -32,7 +32,6 @@ export function uploadImg(e,config) { // 上传图片
     let $target = e.target || e.srcElement;
     let file = $target.files[0];
     returnParams.file = file;
-    console.log(file);
     const fileSize = file.size/1024;
     // if(type!=".jpg"&&type!=".gif"&&type!=".jpeg"&& type!=".png")
     if(fileSize >= (configParam.sizeLimt*1024)) {

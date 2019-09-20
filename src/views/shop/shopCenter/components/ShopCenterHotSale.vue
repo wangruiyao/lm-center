@@ -19,7 +19,7 @@
         </nut-swiper>
     </div>
     <div class="hot-sale-bottom">
-      <div class="hot-sale-box" v-for="item in hotSaleList">
+      <div class="hot-sale-box" v-for="item in hotSaleList" @click="goHotSaleList(item)">
         <div class="box-header">
           <img :src="item.icon">
           <span>{{item.title}}</span>
@@ -27,6 +27,18 @@
         <div class="box-main">
           <div class="box-img" v-for="i in item.viewhotsale">
             <img :src="i.pic"/>
+          </div>
+        </div>
+
+      </div>
+      <div class="hot-sale-box">
+        <div class="box-header">
+          <img src="1">
+          <span>指导销售</span>
+        </div>
+        <div class="box-main">
+          <div class="box-img">
+            <span>敬请期待</span>
           </div>
         </div>
 
@@ -83,6 +95,12 @@
           _this.hotSaleScroll = data.data;
           _this.$refs.hotSaleSwiper.updateEvent(1);
         })
+      },
+      goHotSaleList(params) { //跳转货架商品列表
+        const queryParams = JSON.stringify({shelftype: params.type});
+        goforward('shopCenterGoodsList', {
+          query: queryParams
+        });
       }
     }
   }

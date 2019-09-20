@@ -1,11 +1,11 @@
 <template>
   <div id="goods-info">
     <div class="good-price">
-      ￥<span class="number">{{(goodsInfo.price.sell/100).toFixed(2)}}</span>
+      ￥<span class="number">{{(Number(priceSell)/100).toFixed(2)}}</span>
       <span class="band" v-for="item in goodsInfo.marketingtags">{{item.tagname}}</span>
     </div>
     <div class="good-price-old">
-      <span>价格</span>￥<span class="price">{{(goodsInfo.price.basic/100).toFixed(2)}}</span>
+      <span>价格</span>￥<span class="price">{{goodsInfo && goodsInfo.price && goodsInfo.price.basic ?(Number(goodsInfo.price.basic)/100).toFixed(2) : ''}}</span>
     </div>
     <div class="goods-desc">
       {{goodsInfo.title}}
@@ -21,10 +21,22 @@
 <script>
   export default {
     name: "GoodsDetailInfo",
+    data() {
+      return {
+        priceSell: ''
+      }
+    },
     props: {
       goodsInfo: {
         type: Object,
-        default: {}
+        default() {
+          return {}
+        }
+      }
+    },
+    watch: {
+      goodsInfo(newInfo) {
+        this.priceSell = newInfo.price.sell;
       }
     }
   }

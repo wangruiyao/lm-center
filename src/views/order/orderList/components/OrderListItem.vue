@@ -2,29 +2,31 @@
   <div id="order-list-item">
     <div class="header">
       <div class="header-left">
-        <img src="../../../../assets/images/logo.png">
+        <img :src="require('../../../../assets/images/logo.png')">
         <span>山东联通</span>
         <span class="lm-icon icon iconfont">&#xe66c;</span>
       </div>
       <div class="header-right">
-        <span class="close-time">（交易关闭：05:31:23）</span>
-        <span class="order-type">待付款</span>
+        <span class="close-time" v-show="goodsInfo.statusdesc === '等待支付'">（交易关闭：05:31:23）</span>
+        <span class="order-type">{{goodsInfo.statusdesc}}</span>
       </div>
     </div>
     <div class="center" @click="goDetail">
-      <img :src="goodImg">
-      <div class="order-info">
-        <div class="title">
-          99元冰激凌预存300（1元语音包）
-        <span>800分钟通话，国内流量冰激凌</span>
-        </div>
+      <div v-for="i in goodsInfo.ordergoods">
+        <img :src="i.goodspic">
+        <div class="order-info">
+          <div class="title">
+            {{i.goodsname}}
+            <span>{{i.goodstitle}}</span>
+          </div>
 
-        <div class="title">
-          手机地址
-          <span>山东省济南市历下区解放路234号国华经典3号楼401</span>
-        </div>
+          <div class="title">
+            手机地址
+            <span>山东省济南市历下区解放路234号国华经典3号楼401</span>
+          </div>
 
-        <div class="price">￥<span class="red-font">200.00</span><span>X1</span></div>
+          <div class="price">￥<span class="red-font">200.00</span><span>x1</span></div>
+        </div>
       </div>
 
     </div>
@@ -54,6 +56,14 @@
   export default {
     name: "OrderListItem",
     components: {LmIcon},
+    props: {
+      goodsInfo: {
+        type: Object,
+        default() {
+          return {}
+        }
+      }
+    },
     data() {
       return {
         goodImg: require('assets/images/order/good.png')
@@ -65,6 +75,9 @@
       },
       go(path) {
         goforward(path);
+      },
+      closeTimeCountDown() {
+
       }
     }
   }
@@ -114,7 +127,7 @@
         width: 20px;
       }
     }
-    .center {
+    .center >div {
       padding: 9px;
       @include flex-row(baseline,end);
       >img {
@@ -133,6 +146,10 @@
           color: $color-light;
         }
         .title {
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
           line-height: 14px;
           >span {
             color: $color-light;

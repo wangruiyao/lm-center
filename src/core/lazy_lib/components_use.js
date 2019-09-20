@@ -1,5 +1,4 @@
-import {Toast, MessageBox} from 'mint-ui'
-
+import { Toast ,MessageBox} from 'mint-ui'
 const ToastFun = function(params) {
   return new Promise(reject => {
     let config = {

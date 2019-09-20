@@ -26,8 +26,8 @@ let SUBCODE = '10000';
 // 请求成功直接返回了返回数据中的data数据, 过滤其它数据
 // 请求失败，返回所有的data数据
 axios.interceptors.response.use((response) => {
-  console.log(response)
   // Loading.hide();
+  console.log(response)
   const data = response.data;
   if(!response.config.handleError) {
     return response.data;
@@ -61,17 +61,16 @@ axios.interceptors.response.use((response) => {
 
 });
 const tookitUrlList = ['/emarketOpenController/addressSearch', '/emarketOpenController/addressResSer'];
-const jsonUrlList = ['lm/indexgoodstype.json', 'lm/hotsale.json', 'lm/hotcategory.json'];
+const jsonUrlList = ['lm/indexgoodstype.json', 'lm/hotsale.json', 'lm/hotcategory.json', 'lm/effecttype.json'];
 // 请求拦截器
 axios.interceptors.request.use((config) => {
-  console.log(config)
   // Loading.show();
   if(tookitUrlList.includes(config.url)) {
     config.baseURL = process.env.NODE_ENV === 'development' ? '/try' : 'http://kdcx.enms.cn/externallogic/'
   } else if (jsonUrlList.includes(config.url)) {
     config.baseURL = process.env.NODE_ENV === 'development' ? '/json' : 'http://192.168.0.210:7700/'
   }
-  // console.log(config);
+  console.log(config);
   return config;
 }, function (error) {
   return Promise.reject(error);
