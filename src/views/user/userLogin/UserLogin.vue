@@ -44,7 +44,7 @@
     },
     components: {UserLoginButtonList, UserLoginSwipe, LmLogo},
     mounted() {
-      this.toPath = this.$route.params.redirect === undefined ? 'homeCenter' : this.$route.params.redirect
+      this.toPath = this.$route.params.redirect === undefined ? 'shopCenter' : this.$route.params.redirect
     },
     methods: {
       getLoginWay(type) {

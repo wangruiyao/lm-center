@@ -29,7 +29,7 @@
         <!-- 轮播图 -->
         <shop-center-slider></shop-center-slider>
         <div class="common-bgd">
-          <shop-center-button-list @go="go"></shop-center-button-list>
+          <shop-center-button-list></shop-center-button-list>
           <shop-center-hot-sale @go="go"></shop-center-hot-sale>
           <div ref="goodsList">
             <shop-center-goods-list

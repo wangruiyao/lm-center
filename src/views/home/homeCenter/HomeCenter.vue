@@ -23,6 +23,10 @@
         <home-center-commission></home-center-commission>
       </div>
     </lm-scroll>
+    <transition :enter-active-class="$route.meta.pageIn"
+                :leave-active-class="$route.meta.pageOut">
+      <router-view></router-view>
+    </transition>
 
   </div>
 </template>

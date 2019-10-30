@@ -8,7 +8,9 @@
       </div>
     </lm-search-header>
     <lm-scroll ref="wrapper"
-               :pullup="true">
+               :pullup="true"
+               @setScroll="setScroll"
+               @scrollToEnd="scrollToEnd">
       <div class="number-check-scroll">
         <order-number-check-item
                 @click="checkNumber(item)"
@@ -50,7 +52,7 @@
         cityname: '', // 城市
         numberList: [], // 号码列表
         isNumberCheckVisible: false,
-
+        pageSize:0  // 选择号码 - 页码
       }
     },
     mounted() {
@@ -59,26 +61,44 @@
       this.goodsid = numberCheckInfo.goodsid; // 商品id
     },
     methods: {
+      setScroll(scroll) {
+        this.scroll = scroll;
+      },
+      scrollToEnd(){
+        console.log(1);
+        this.pageSize ++;
+        const reqParams = {
+          province: this.serialprovince,
+          city: this.serialcuity,
+          pagesize: this.pageSize,
+          goodsid: this.goodsid
+        };
+        this.getOrderSerialNumber(reqParams);
+
+      },
       handleNumberCheck(status) {
         this.isNumberCheckVisible = status
       },
       checkCity(params) {
+        this.numberList = [];
+        this.pageSize = 0;
         this.serialprovince = params.serialprovince;
         this.serialcuity = params.city.citycode;
         this.cityname = params.city.cityname;
         const reqParams = {
           province: this.serialprovince,
           city: this.serialcuity,
-          pagesize: 0,
+          pagesize: this.pageSize,
           goodsid: this.goodsid
         };
         this.getOrderSerialNumber(reqParams)
       },
-      getOrderSerialNumber(reqParams) {
+      getOrderSerialNumber(reqParams) { // 获取号码列表
         const _this = this;
         orderserialnumber(reqParams).then( rsp=> {
-          _this.numberList = [];
-          _this.numberList = rsp.data;
+          _this.numberList.push(...rsp.data);
+          this.scroll.finishPullUp();
+          this.scroll.refresh();
         }).catch(err => {
           _this.numberList = [];
         })
@@ -108,8 +128,8 @@
     bottom: 0;
     width: 375px;
     background: $bgd-color;
-    z-index: 998;
-
+    z-index: 999;
+    overflow: hidden;
     .header-right {
       padding: 10px;
     }

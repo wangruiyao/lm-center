@@ -71,7 +71,7 @@
         this.$emit('changeTab', tabIdx)
       },
       handleMoreClick() {
-        this.$emit('handleMoreClick')
+        this.$moreTools.show()
       },
       back() {
         goback()

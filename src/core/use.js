@@ -48,3 +48,7 @@ Vue.use(Vue2TouchEvents);
 //引入 lottie
 import lottie from 'vue-lottie';
 Vue.component('lottie', lottie);
+
+//引入clipboard
+import clipboard from 'clipboard';
+Vue.prototype.$clipboard = clipboard;

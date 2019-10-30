@@ -3,11 +3,11 @@
     <div class="header">
       <div class="header-left">
         <img :src="require('../../../../assets/images/logo.png')">
-        <span>山东联通</span>
+        <span>{{goodsInfo.netlabel === '' ? '钟华铭' : goodsInfo.netlabel}}</span>
         <span class="lm-icon icon iconfont">&#xe66c;</span>
       </div>
       <div class="header-right">
-        <span class="close-time" v-show="goodsInfo.statusdesc === '等待支付'">（交易关闭：05:31:23）</span>
+        <span class="close-time" v-show="this.countDownTime > 0">（交易关闭：{{countDownTime}}）</span>
         <span class="order-type">{{goodsInfo.statusdesc}}</span>
       </div>
     </div>
@@ -20,30 +20,39 @@
             <span>{{i.goodstitle}}</span>
           </div>
 
-          <div class="title">
-            手机地址
-            <span>山东省济南市历下区解放路234号国华经典3号楼401</span>
+          <div class="title" v-show="goodsInfo.ordertype == '0'">
+            开户号码
+            <span>{{i.serialnumber}}</span>
+            <span class="city">[济南]</span>
+          </div>
+          <div class="title" v-show="goodsInfo.ordertype == '1'">
+            装机地址
+            <span>{{installaddr}}</span>
+          </div>
+          <div class="title" v-show="goodsInfo.ordertype == '2'">
+            产品规格
+            <span v-for="(item,k) in i.specification.cursku">{{item}};</span>
           </div>
 
-          <div class="price">￥<span class="red-font">200.00</span><span>x1</span></div>
+          <div class="price">￥<span class="red-font">{{Number(i.price/100).toFixed(2)}}</span><span>x{{i.amount}}</span></div>
         </div>
       </div>
 
     </div>
     <div class="order-info-box">
-      <span>共1件商品</span>
-      <span>合计：￥200.<span>00</span></span>
-      <span class="light-font">(邮费：￥10)</span>
+      <span>共{{goodsAmount(goodsInfo.ordergoods)}}件商品</span>
+      <span>合计：￥{{Number(goodsInfo.orderprice/100).toFixed(2)}}<span></span></span>
+      <span class="light-font">(邮费：￥0)</span>
     </div>
     <div class="footer">
       <span class="lm-icon icon iconfont">&#xe66a;</span>
       <div class="btn-list">
-        <div class="del-btn">删除订单</div>
-        <!--<div class="footer-button">-->
-          <!--<div class="btn-inner">去付款</div>-->
-        <!--</div>-->
-        <div class="footer-button">
-          <div class="btn-inner" @click="go('orderListDelivery')">物流信息</div>
+        <div class="del-btn" @click="goDetail">查看详情</div>
+        <div class="footer-button" v-show="goodsInfo.status === '0'">
+          <div class="btn-inner" >去付款</div>
+        </div>
+        <div class="footer-button" v-show="goodsInfo.status === '4'">
+          <div class="btn-inner" @click="confirmOrder(goodsInfo.key)">确认收货</div>
         </div>
       </div>
 
@@ -52,6 +61,7 @@
 </template>
 
 <script>
+  import {confirmorder} from 'api/order'
   const LmIcon = resolve => require(['components/lmIcon/LmIcon'], resolve);
   export default {
     name: "OrderListItem",
@@ -66,7 +76,18 @@
     },
     data() {
       return {
-        goodImg: require('assets/images/order/good.png')
+        goodImg: require('assets/images/order/good.png'),
+        countDownTime: '',
+        installaddr: '', // 装机地址 宽带商品显示
+
+      }
+    },
+    mounted() {
+      this.closeTimeCountDown(15);
+      try {
+        this.installaddr = this.goodsInfo.ordergoods[0].resinfor.installaddr;
+      } catch (e) {
+        this.installaddr = ''
       }
     },
     methods: {
@@ -76,7 +97,34 @@
       go(path) {
         goforward(path);
       },
-      closeTimeCountDown() {
+      goodsAmount(list) { //商品总数
+        let amount = 0;
+        for(let i = 0;i<list.length;i++) {
+          amount += Number(list[i].amount)
+        };
+        return amount;
+      },
+      closeTimeCountDown(time) {
+        const _this = this;
+        let min=Math.floor(time%3600);
+        this.countDownTime = Math.floor(time/3600) + ":" + Math.floor(min/60) + ":"+ time%60;
+        if(time !== 0) {
+          this.timmer = setTimeout(function() {
+            _this.closeTimeCountDown(time -1)
+          }, 1000);
+        } else {
+          clearTimeout(this.timmer);
+        }
+
+      },
+      confirmOrder(orderid) {  // 确认收货
+        Message.confirm('确认收货？').then(() => {
+          confirmorder({
+            orderid
+          }).then(rsp => {
+            console.log(rsp)
+          })
+        })
 
       }
     }
@@ -153,6 +201,10 @@
           line-height: 14px;
           >span {
             color: $color-light;
+          }
+          .city {
+            color: $font-red-color;
+            margin-left: 5px;
           }
         }
         .price {

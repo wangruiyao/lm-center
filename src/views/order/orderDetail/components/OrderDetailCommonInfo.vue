@@ -1,20 +1,23 @@
 <template>
   <div id="common-info">
     <div class="order-type">
-      <img :src="resultImg">
+      <img :src="handleOrderTypeImg(orderInfor.status)">
       <div>
-        <span class="font-18">交易成功</span>
-        <span>预估佣金: ￥200.00</span>
+        <span class="font-18">
+          {{orderInfor.statusdesc}}
+          <span v-show="orderInfor.status === '0' && orderInfor.closetime >0" class="font-14 close-time">({{countDownTime}})</span>
+        </span>
+        <span>预估佣金: ￥<span class="preaward">{{(Number(orderInfor.preaward)/100).toFixed(2)}}</span></span>
       </div>
     </div>
     <!-- 用户信息错误显示 -->
-    <div class="userInfo-err-box">
+    <div class="userInfo-err-box" v-show="orderInfor.backpersonflag !== 0">
       <div class="left">
-        <p class="err font-14">您的开户人信息有误</p>
-        <p class="err-info">身份证属于联通黑名单请更换开户人信息。身份证属于联通黑名单请更换开户人信息。</p>
+        <p class="err font-14">{{orderInfor.backreason}}</p>
+        <p class="err-info">{{orderInfor.backremark}}</p>
       </div>
       <div class="right">
-        <div class="order-revise" @click="go('orderDetailChangeInfo')">去修改</div>
+        <div class="order-revise" @click="goChangeInfo()">去修改</div>
       </div>
     </div>
 
@@ -41,20 +44,20 @@
       </div>
       <div class="main-info font-14">
         <p>
-          韩铂金 <span class="receiver-number">12222222222</span>
+          {{delivery.contactname}} <span class="receiver-number">{{delivery.contacttel}}</span>
         </p>
-        <p class="footer">山东省 济南市 历下区 解放路234号 国华经典3号楼1单元1801</p>
+        <p class="footer">{{delivery.contactprovince}} {{delivery.contactcity}} {{delivery.contactcountry}} {{delivery.contactaddr}}</p>
       </div>
       <div class="right-icon"></div>
     </div>
 
     <!-- 开户信息 -->
-    <div class="account-open-info">
+    <div class="account-open-info" v-show="[0,1].includes(orderInfor.order_type)">
       <div class="account-open-info-top">开户信息</div>
       <div class="account-open-info-bottom">
         <span>
-          开户人：王浩
-          <span>37010219960405292X</span>
+          开户人：{{resinfor.resname}}
+          <span>{{idNum}}</span>
         </span>
 
         <span class="lm-icon icon iconfont id-card">&#xe679;</span>
@@ -66,15 +69,68 @@
 <script>
   export default {
     name: "OrderDetailCommonInfo",
+    props: {
+      orderInfor: { // 订单基本信息
+        type: Object,
+        default() {
+          return {}
+        }
+      },
+      delivery: { // 订单配送信息
+        type: Object,
+        default() {
+          return {}
+        }
+      },
+      resinfor: { // 开户信息
+        type: Object,
+        default() {
+          return {}
+        }
+      }
+    },
     data() {
       return {
-        resultImg: require('assets/images/order/order_res_success.png')
+        countDownTime: '' // 倒计时
+      }
+    },
+    computed: {
+      idNum() {
+        try {
+          return this.resinfor.pspt.idnum
+        } catch (e) {
+          return ''
+        }
       }
     },
     methods: {
       go(path) {
         this.$emit('go', path)
+      },
+      goChangeInfo() {
+        const params = {
+          flag: this.orderInfor.backpersonflag,
+          orderId: this.orderInfor.orderid,
+          orderType: this.orderInfor.order_type
+        };
+        goforward('orderDetailChangeInfo', {flag: JSON.stringify(params)})
+      },
+      handleOrderTypeImg(order_type) {
+        console.log(order_type);
+        if(order_type === '0') {
+          return require('assets/images/order/order_res_1.png')
+        } else if(['1','2','3'].includes(order_type)) {
+          return require('assets/images/order/order_res_2.png')
+        } else if(order_type === '4') {
+          return require('assets/images/order/order_res_3.png')
+        } else if(['5','6'].includes(order_type)) {
+          return require('assets/images/order/order_res_4.png')
+        } else if(order_type === '7') {
+          return require('assets/images/order/order_res_5.png')
+        }
+        // return require('assets/images/order/order_res_success.png')
       }
+
     }
   }
 </script>
@@ -98,6 +154,12 @@
         @include flex-column(center);
         color: #fff;
         @include flex-column(baseline,baseline);
+        .close-time {
+          color: rgb(198, 195, 208) !important;
+        }
+        .preaward {
+          font-size: 16px;
+        }
       }
     }
     .userInfo-err-box {

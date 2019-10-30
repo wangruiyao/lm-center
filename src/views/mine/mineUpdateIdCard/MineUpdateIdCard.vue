@@ -87,6 +87,7 @@
         uploadimage({
           idcard: file
         }).then(rsp => {
+          console.log('1111111111', rsp);
           Loading.hide();
           this.urlList[name] = rsp.data.respidcard;
         })

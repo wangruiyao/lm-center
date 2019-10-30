@@ -2,7 +2,7 @@
   <div id="swiper">
     <mt-swipe :auto="0">
         <mt-swipe-item v-for="(item, idx) in goodsPicture" :key="idx">
-          <img :src="item.url"/>
+          <img @click="handleMainImgListVisible(idx)" :src="item.url"/>
         </mt-swipe-item>
     </mt-swipe>
   </div>
@@ -14,6 +14,11 @@
     props: {
       goodsPicture: {
         type: Array
+      }
+    },
+    methods: {
+      handleMainImgListVisible(idx) {
+        this.$emit('handleMainImgListVisible', idx)
       }
     }
   }

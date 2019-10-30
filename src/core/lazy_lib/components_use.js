@@ -1,4 +1,4 @@
-import { Toast ,MessageBox} from 'mint-ui'
+import { Toast ,MessageBox, Indicator } from 'mint-ui'
 const ToastFun = function(params) {
   return new Promise(reject => {
     let config = {
@@ -22,7 +22,12 @@ const ToastFun = function(params) {
 };
 window.Toast = ToastFun;
 window.Message = MessageBox;
+window.Indicator = Indicator;
 
 // 引入自定义组件
 import Loading from 'components/lmLoading';
 window.Loading = Loading;
+
+import Vue from 'vue'
+import MoreTools from 'components/lmMoreTools';
+Vue.use(MoreTools)

@@ -4,10 +4,33 @@
       <span>订单信息</span>
     </div>
     <div class="order-info-box">
-      <div class="order-info-item" v-for="i in [1,1,1,1,1]">
-        <span>订单编号：2019802915435613</span>
-        <div class="copy-btn">复制</div>
+      <div class="order-info-item">
+        <span>订单编号：{{orderInfor.orderid}}</span>
+        <div class="copy-btn copy-ordersn"
+             data-clipboard-action="copy"
+             :data-clipboard-text="orderInfor.orderid"
+             @click="copyLink('copy-ordersn')">复制</div>
       </div>
+      <div class="order-info-item">
+        <span>支付方式：{{orderInfor.paytypedesc}}</span>
+      </div>
+      <div class="order-info-item">
+        <span>支付单号：{{orderInfor.payno}}</span>
+        <div class="copy-btn copy-payno"
+             data-clipboard-action="copy"
+             :data-clipboard-text="orderInfor.payno"
+             @click="copyLink('copy-payno')">复制</div>
+      </div>
+      <div class="order-info-item">
+        <span>创建时间：{{orderInfor.createtime}}</span>
+      </div>
+      <div class="order-info-item">
+        <span>付款时间：{{orderInfor.paytime}}</span>
+      </div>
+      <div class="order-info-item">
+        <span>发货时间：{{orderInfor.deliverytime}}</span>
+      </div>
+
     </div>
   </div>
 </template>
@@ -15,7 +38,29 @@
 <script>
   export default {
     name: "OrderDetailOrderInfo",
-
+    props: {
+      orderInfor: {
+        type: Object,
+        default() {
+          return {}
+        }
+      }
+    },
+    methods: {
+      copyLink(target) {
+        let _this = this;
+        if(this.clipboard){
+          this.clipboard.destroy();
+        }
+        this.clipboard = new _this.$clipboard(`.${target}`);
+        this.clipboard.on('success', (e)=> {
+          Toast('复制成功')
+        });
+        this.clipboard.on('error', (e)=> {
+          console.log(1)
+        });
+      }
+    }
   }
 </script>
 

@@ -115,3 +115,145 @@ export function orderlistbycondition (params) {  //前台-条件查询订单列�
     catchError: false
   });
 }
+
+export function orderlistbykeywords (params) {  //前台-关键字查询订单列表
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/'
+    ? 'ordercenter/orderlistbykeywords' //成功
+    : 'ordercenter/orderlistbykeywords';
+  return ajax({
+    url,
+    method: 'post',
+    data: params,
+    catchError: false
+  });
+}
+
+export function orderdetailbyid (params) {  // 前台-订单详情
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/5c510e3c-41d8-42e9-acc4-5f121486181b'
+    ? 'ordercenter/orderdetailbyid' //成功
+    : 'ordercenter/orderdetailbyid';
+  return ajax({
+    url,
+    method: 'post',
+    data: params,
+    catchError: true
+  });
+}
+
+export function ordermotifyuser (params) {  // 前台-订单详情
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/5c510e3c-41d8-42e9-acc4-5f121486181b'
+    ? 'ordercenter/ordermotifyuser' //成功
+    : 'ordercenter/ordermotifyuser';
+  return ajax({
+    url,
+    method: 'post',
+    data: params,
+    catchError: true
+  });
+}
+
+export function applyrefundreason (params) {  //
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/'
+    ? 'lm/applyrefundreason.json' //成功
+    : 'lm/applyrefundreason.json';
+  return ajax({
+    url,
+    method: 'get',
+    catchError: false
+  });
+}
+
+export function applyrefundgood (params) {  // 前台-申请商品退款
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/5c510e3c-41d8-42e9-acc4-5f121486181b'
+    ? 'ordercenter/applyrefundgood' //成功
+    : 'ordercenter/applyrefundgood';
+  return ajax({
+    url,
+    method: 'post',
+    data: params,
+    catchError: true
+  });
+}
+
+export function getrefundlist (params) {  // 前台-退款单列表
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/5c510e3c-41d8-42e9-acc4-5f121486181b'
+    ? 'ordercenter/getrefundlist' //成功
+    : 'ordercenter/getrefundlist';
+  return ajax({
+    url,
+    method: 'post',
+    data: params,
+    catchError: true
+  });
+}
+
+export function getrefundinfor (params) {  // 前台-退款单详情
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/5c510e3c-41d8-42e9-acc4-5f121486181b'
+    ? 'ordercenter/getrefundinfor' //成功
+    : 'ordercenter/getrefundinfor';
+  return ajax({
+    url,
+    method: 'post',
+    data: params,
+    catchError: true
+  });
+}
+
+export function getusertradenum (params) {  // 前台-订单量展示
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/5c510e3c-41d8-42e9-acc4-5f121486181b'
+    ? 'ordercenter/getusertradenum' //成功
+    : 'ordercenter/getusertradenum';
+  return ajax({
+    url,
+    method: 'post',
+    data: params,
+    catchError: true
+  });
+}
+
+export function confirmorder (params) {  // 前台-订单量展示
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/5c510e3c-41d8-42e9-acc4-5f121486181b'
+    ? 'ordercenter/confirmorder' //成功
+    : 'ordercenter/confirmorder';
+  return ajax({
+    url,
+    method: 'post',
+    data: params,
+    catchError: true
+  });
+}
+
+export function displayimg (params) {  // 前台-获取图片
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/5c510e3c-41d8-42e9-acc4-5f121486181b'
+    ? 'common/displayimg' //成功
+    : 'common/displayimg';
+  return ajax({
+    url,
+    method: 'post',
+    data: params,
+    catchError: true
+  });
+}
+
+export function getrefundgoodsinfor (params) {  // 前台-获取退款商品信息
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/5c510e3c-41d8-42e9-acc4-5f121486181b'
+    ? 'ordercenter/getrefundgoodsinfor' //成功
+    : 'ordercenter/getrefundgoodsinfor';
+  return ajax({
+    url,
+    method: 'post',
+    data: params,
+    catchError: true
+  });
+}

@@ -60,7 +60,8 @@
         goback(this.backParams)
       },
       handleMoreClick() {
-        this.$emit('handleMoreClick')
+        this.$moreTools.show()
+        // this.$emit('handleMoreClick')
       }
     }
   }
@@ -93,5 +94,11 @@
     @include flex-row(center);
     width: 40px;
     text-align: center;
+  }
+  .click-more-box {
+    position: fixed;
+    width: 375px;
+    height: 150px;
+    background: rgba(0,0,0,0.6);
   }
 </style>

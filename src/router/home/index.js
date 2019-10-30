@@ -28,7 +28,21 @@ export default [{
             isLogin: false,
             home: true
           },
-          component:  r => require.ensure([], () => r(require('views/home/homeCenter/HomeCenter')), 'homeCenter')
+          component:  r => require.ensure([], () => r(require('views/home/homeCenter/HomeCenter')), 'homeCenter'),
+          children: [
+            {
+              path: 'broadBandAddress',
+              name: 'homeCenterBroadBand',
+              meta: {
+                title: '宽带地址查询',
+                keepAlive: true,
+                isLogin: false,
+                pageIn: 'slideInRight',
+                pageOut: 'slideOutRight'
+              },
+              component:  r => require.ensure([], () => r(require('views/order/orderBroadBand/OrderBroadBandAddress')), 'broadBandAddress'),
+            }
+          ]
         }
       ]
     }

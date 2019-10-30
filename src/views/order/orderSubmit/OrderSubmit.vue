@@ -264,12 +264,15 @@
       },
       onSubmit() {// 提交表单
         if(this.checkSubmitParams()){
+          Indicator.open();
           if(this.goodType === '2'){
             createphysicalorder(this.reqSubmitparams).then(rsp => {
+              Indicator.close();
               console.log(rsp)
             })
           }else if(this.goodType === '0' || this.goodType === '1') {
             createorder(this.reqSubmitparams).then(rsp => {
+              Indicator.close();
               console.log('运营商产品下单结果：', rsp)
             })
           }

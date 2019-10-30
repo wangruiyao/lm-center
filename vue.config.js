@@ -53,8 +53,8 @@ module.exports = {
       
       '/api': {
         // target: 'http://api.enms.cn:7001/mock/run',
-        // target:'http://192.168.0.133:9004/',
-        target:'http://192.168.0.127:9004/',
+        target:'http://192.168.0.133:9004/',
+        // target:'http://192.168.0.117:9004/',
         changeOrigin: true,
         pathRewrite:{
           '^/api':''

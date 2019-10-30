@@ -81,7 +81,6 @@
           this.cityList = this.provinceList[0].city;
           this.serialprovince =this.provinceList[0].provicecode;
           this.city = this.provinceList[0].city[0];
-          console.log(this.city)
         })
       },
       handleNumberCheck() {

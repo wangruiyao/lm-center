@@ -1,6 +1,6 @@
 <template>
   <div id="shop-center-button-list">
-    <div class="button-item" v-for="i in iconList" @click="go('shopCenterGoodsList')">
+    <div class="button-item" v-for="i in iconList" @click="go(i.type)">
       <img :src="i.icon">
       <span>{{i.title}}</span>
     </div>
@@ -26,8 +26,14 @@
           this.iconList = data;
         })
       },
-      go(path) {
-        this.$emit('go', path)
+      go(goodstype) {
+        let query = JSON.stringify({
+          goodstype
+        });
+
+        goforward('shopCenterGoodsList', {
+          query
+        });
       }
     }
   }

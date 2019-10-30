@@ -24,7 +24,7 @@
       <div class="scrollInner">
 
         <div class="swipper-inner">
-          <goods-detail-swiper :goods-picture="goodDetail.mainimages"></goods-detail-swiper>
+          <goods-detail-swiper @handleMainImgListVisible="(idx)=> {handleMainImgListVisible(true, idx)}" :goods-picture="goodDetail.mainimages"></goods-detail-swiper>
         </div>
         <!--<lm-dash-board></lm-dash-board>-->
 
@@ -45,6 +45,7 @@
         </div>
       </div>
     </lm-scroll>
+    <!--商品详情弹出框-->
     <goods-detail-popup :popup-visible="popup.visible"
                         :title="popup.title"
                         :goods-info="goodDetail"
@@ -52,6 +53,7 @@
                         @closePop="closePop">
 
     </goods-detail-popup>
+    <!--下单弹出商品规格选择框-->
     <goods-detail-confirm-popup
             :options="goodDetail.total"
             :goods-info="checkedGoodsInfo"
@@ -64,6 +66,11 @@
             @orderSubmit="goodsConfirm"
             :is-shake="isShake">
     </goods-detail-footer>
+    <!--商品图片大图-->
+    <goods-detail-image-list v-if="mainImgListVisible"
+                             :main-img="goodDetail.mainimages"
+                             :default-index="mainImgDefaultIndex"
+                             @handleMainImgListVisible="handleMainImgListVisible"></goods-detail-image-list>
     <transition enter-active-class="`slideInRight`"
                 leave-active-class="`slideOutRight`">
       <router-view></router-view>
@@ -91,10 +98,12 @@
   import FlexBox from "../../../components/flyBox/FlexBox";
   import GoodsDetailConfirmPopup from "./components/GoodsDetailConfirmPopup";
   import GoodsDetailMoreTools from "./components/GoodsDetailMoreTools";
+  import GoodsDetailImageList from "./components/GoodsDetailImageList";
 
   export default {
     name: "GoodsDetail",
     components: {
+      GoodsDetailImageList,
       GoodsDetailMoreTools,
       GoodsDetailConfirmPopup,
       FlexBox,
@@ -123,7 +132,9 @@
         confirmPopup: false,
         showFlyBox: false,  // 购物车飞入
         isShake: false, // 购物车抖动
-        mainImg: ''
+        mainImg: '',
+        mainImgListVisible: false,  // 是否显示放大轮播主图
+        mainImgDefaultIndex: 0  // 轮播主图显示idx
       }
     },
     mounted() {
@@ -295,6 +306,13 @@
       },
       handleConfirmPopup(type) {
         this.confirmPopup = type;
+      },
+      handleMainImgListVisible(type, idx) {
+        if(idx) {
+          this.mainImgDefaultIndex = idx;
+
+        }
+        this.mainImgListVisible = type;
       }
 
     }

@@ -1,9 +1,14 @@
 <template>
   <div id="order-list-tab-bar">
-    <div v-for="(item,idx) in tabList"
-         class="tab-item"
-         :class="actTab === idx?'act':''"
-         @click="changeTab(idx)">{{item}}</div>
+    <nut-scroller>
+
+      <div slot="list"
+           v-for="(item,idx) in tabList"
+           class="tab-item"
+           :class="actTab === idx?'act':''"
+           @click="changeTab(idx)">{{item}}
+      </div>
+    </nut-scroller>
     <span class="lm-icon icon iconfont" @click="handleFilterClick">&#xe6d2;</span>
   </div>
 </template>
@@ -63,7 +68,8 @@
     z-index: 999;
     height: $header-height;
     @include flex-row();
-    >div {
+    .tab-item {
+      width: 65px;
       font-size: 14px;
       @include flex-column(center);
       height: 100%;

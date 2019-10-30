@@ -3,22 +3,31 @@
     <order-detail-header></order-detail-header>
     <div class="order-detail-scroll" ref="orderDetailWarpper">
       <div class="order-detail-scroll-inner">
-        <order-detail-common-info @go="go"></order-detail-common-info>
-        <order-detail-goods-info></order-detail-goods-info>
-        <order-detail-order-info></order-detail-order-info>
+        <order-detail-common-info @go="go"
+                                  :order-infor="orderInfo.orderinfor"
+                                  :delivery="orderInfo.delivery"
+                                  :resinfor="orderInfo.resinfor"></order-detail-common-info>
+        <order-detail-goods-info :order-goods="orderInfo.ordergoods"
+                                 :order-info="orderInfo.orderinfor"
+                                 :close-time="countDownTime"
+                                 :price="orderInfo.price"
+                                 :res-infor="orderInfo.resinfor"></order-detail-goods-info>
+        <order-detail-order-info :order-infor="orderInfo.orderinfor"></order-detail-order-info>
         <order-detail-footer></order-detail-footer>
       </div>
     </div>
     <transition :enter-active-class="$route.meta.pageIn"
                 :leave-active-class="$route.meta.pageOut">
-      <router-view></router-view>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </transition>
   </div>
 </template>
 
 <script>
   import BScroll from 'better-scroll';
-  import {searchorderdetail} from 'api/order.js'
+  import {orderdetailbyid} from 'api/order.js'
   const OrderDetailHeader = r => require(['./components/OrderDetailHeader'], r);
   const OrderDetailCommonInfo = r => require(['./components/OrderDetailCommonInfo'], r);
   const OrderDetailGoodsInfo = r => require(['./components/OrderDetailGoodsInfo'], r);
@@ -30,12 +39,18 @@
     components: {OrderDetailFooter, OrderDetailOrderInfo, OrderDetailGoodsInfo, OrderDetailCommonInfo, OrderDetailHeader},
     data() {
       return {
-        orderInfo: null
+        test: {},
+        orderInfo: {
+          orderinfor: {}
+        },
+        orderid: '',
+        orderType: '', // 订单类型
+        countDownTime: ''  // 订单关闭时间
       }
     },
     mounted() {
       const _this = this;
-      _this.getOrderDetail();
+      _this.getOrderId();
       setTimeout(() => {
         this.scroll = new BScroll(_this.$refs.orderDetailWarpper, {
           mouseWheel: true,
@@ -44,23 +59,34 @@
       }, 20)
     },
     methods: {
-      getOrderDetail() {  //获取订单详情
+      getOrderId() {  // 获取订单id
+        this.orderid = JSON.parse(this.$route.params.orderinfo).orderid;
+        this.getOrderDetail({
+          orderid: this.orderid
+        });
+      },
+      getOrderDetail(params) {  //获取订单详情
         const _this = this;
-        searchorderdetail().then(data=> {
+        orderdetailbyid(params).then(rsp => {
+          _this.orderInfo = rsp.data;
+          _this.orderType = _this.orderInfo.orderinfor.order_type;
+          console.log(JSON.stringify(_this.orderInfo));
+          this.closeTimeCountDown(_this.orderInfo.closetime)
+        });
 
-          if(data.code === '0') {
-            if(data.subcode === '10000') {
-              _this.orderInfo = data.data;
-              console.log(_this.orderInfo)
-            } else {
-              Message(`获取订单详情接口报错：${data.submsg}`)
-            }
-          } else {
-            Message(`获取订单详情接口报错：${data.msg}` )
-          }
-        }).catch(data=> {
-          Message(`调用获取订单详情接口失败,失败原因:${JSON.stringify(data)}`)
-        })
+      },
+      closeTimeCountDown(time) {  // 订单关闭时间-倒计时
+        const _this = this;
+        let min=Math.floor(time%3600);
+        this.countDownTime = Math.floor(time/3600) + ":" + Math.floor(min/60) + ":"+ time%60;
+        if(time > 0) {
+          this.timmer = setTimeout(function() {
+            _this.closeTimeCountDown(time -1)
+          }, 1000);
+        } else {
+          clearTimeout(this.timmer);
+        }
+
       },
       go(path, params) {
         goforward(path, params)
@@ -71,6 +97,7 @@
 
 <style lang="scss" scoped>
   #order-detail {
+    z-index: 999;
     width: 375px;
     background: $bgd-color;
 

@@ -30,7 +30,7 @@
           <img src="../../../../assets/images/center/gongjux_icon_36.png">
           <span>云商城</span>
         </div>
-        <div class="item">
+        <div class="item" @click="go('homeCenterBroadBand')">
           <img src="../../../../assets/images/center/gongjux_icon_37.png">
           <span>宽带地址</span>
         </div>

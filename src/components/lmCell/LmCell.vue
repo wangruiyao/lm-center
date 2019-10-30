@@ -55,7 +55,9 @@
     },
     methods: {
       handleClick() {
-        this.$emit('click')
+        if(!this.disable) {
+          this.$emit('click')
+        }
       }
     }
   }

@@ -451,3 +451,13 @@ input[disabled] {
 .wx-icon {
   color: #40ba49;
 }
+
+.nut-actionsheet-menu>.nut-actionsheet-item {
+  height: 44px !important;
+}
+.nut-imagepicker .img-list {
+  display: flex !important;
+}
+.nut-textinput-disabled input {
+  background: #fff !important;
+}

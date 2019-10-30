@@ -4,26 +4,28 @@
        v-touch:swipe.left="swipeHandler">
     <div class="search-box">
       <div class="input-bgd">
-        <input type="text">
+        <input v-model="keywords" type="text">
       </div>
 
       <div class="search-btn"
            :class="touchItem === 'search' ? touchStyle : ''"
+           @click="orderListByKeyWords"
            @touchstart="touchBtn('search', 'handle-btn-light')"
            @touchend="touchBtn('')">搜订单</div>
     </div>
     <div class="history-box">
       <div class="history-btn">
         <span class="color-light">搜索历史</span>
-        <span>清除</span>
+        <span @click="clearSearchHistory">清除</span>
       </div>
 
       <div class="history-list">
         <div class="history-item"
              :class="touchItem === idx ? touchStyle : ''"
+             @click="searchByHistoryKeyWords(item)"
              @touchstart="touchBtn(idx, 'handle-btn')"
              @touchend="touchBtn('')"
-             v-for="(item, idx) in [1,1,1,1,1,1]">{{item}}</div>
+             v-for="(item, idx) in historyList">{{item}}</div>
       </div>
     </div>
   </div>
@@ -34,9 +36,14 @@
     name: "OrderSearch",
     data() {
       return {
+        keywords: '',
         touchItem: '',
-        touchStyle: ''
+        touchStyle: '',
+        historyList: []
       }
+    },
+    mounted() {
+      this.historyList =getSession('orderSearchHistory') === null ? [] : getSession('orderSearchHistory');
     },
     methods: {
       swipeHandler() {
@@ -46,6 +53,32 @@
         this.touchStyle = sty;
         this.touchItem = i;
 
+      },
+      searchByHistoryKeyWords(keyWords) { // 点击搜索历史查询
+        this.keywords = keyWords;
+        this.orderListByKeyWords();
+
+      },
+      orderListByKeyWords() {
+        let params = {
+          keywords: this.keywords
+        };
+        this.setSearchHistory(this.keywords)
+        this.$emit('searchByKeyWords', params);
+        goback();
+      },
+      setSearchHistory(keyWords) {
+        if(this.historyList.indexOf(keyWords) > -1) {
+          this.historyList.splice(this.historyList.indexOf(keyWords),1)
+        }
+        if(keyWords !== '') {
+          this.historyList.unshift(keyWords);
+          setSession('orderSearchHistory',this.historyList)
+        }
+      },
+      clearSearchHistory() {
+        sessionStorage.removeItem('orderSearchHistory');
+        this.historyList =getSession('orderSearchHistory') === null ? [] : getSession('orderSearchHistory');
       }
     }
   }

@@ -3,29 +3,37 @@
     <div class="header">
       <div class="header-left">
         <img src="../../../../assets/images/logo.png">
-        <span>山东联通</span>
+        <span>{{netLabel}}</span>
         <span class="lm-icon icon iconfont">&#xe66c;</span>
       </div>
       <div class="header-right">
-        <span class="close-time">（交易关闭：05:31:23）</span>
-        <span class="order-type">待付款</span>
+        <span class="close-time" v-show="orderInfo.status === '0'">（交易关闭：{{closeTime}}）</span>
+        <span class="order-type">{{orderInfo.statusdesc}}</span>
       </div>
     </div>
-    <div class="goods-box" v-for="i in [1,1]">
+    <div class="goods-box" v-for="order in orderGoods">
       <div class="center">
-        <img :src="goodImg">
+        <img :src="order.goodspic">
         <div class="order-info">
           <div class="title">
-            99元冰激凌预存300（1元语音包）
-            <span>800分钟通话，国内流量冰激凌</span>
+            {{order.goodsname}}
+            <span>{{order.goodstitle}}</span>
           </div>
 
-          <div class="title">
-            手机地址
-            <span>山东省济南市历下区解放路234号国华经典3号楼401</span>
+          <div class="title" v-show="orderInfo.order_type === 0">
+            开户号码
+            <span>{{order.serialnumber}}</span>
+          </div>
+          <div class="title" v-show="orderInfo.order_type === 1">
+            装机地址
+            <span>{{resInfor.installaddr}}</span>
+          </div>
+          <div class="title" v-show="orderInfo.order_type === 2">
+            商品规格
+            <span v-for="sku in order.specification.cursku">{{sku}}；</span>
           </div>
 
-          <div class="price">￥<span class="red">200.00</span><span>x1</span></div>
+          <div class="price">￥<span class="red">{{(Number(order.price)/100).toFixed(2)}}</span><span>x{{order.amount}}</span></div>
         </div>
       </div>
 
@@ -34,33 +42,29 @@
           [顺丰]121323142154325
           <span class="blue"> 复制单号</span>
         </div>
-        <div class="btn">申请退款</div>
+        <div @click="goRefundApply(order.goodsid)" class="btn" v-show="(!(['0','6','7'].includes(orderInfo.status))) && order.ordergoodsstate === '0'">申请退货</div>
       </div>
     </div>
     <div class="price-box">
       <div class="price-item">
-        <span>套餐价格</span>
-        <span>￥260.00</span>
-      </div>
-      <div class="price-item">
-        <span>号码价格</span>
-        <span>￥-10.00</span>
+        <span>商品总价</span>
+        <span>￥{{acountPrice(price.goods)}}</span>
       </div>
       <div class="price-item">
         <span>新增预存款</span>
-        <span>￥0.00</span>
+        <span>￥{{acountPrice(price.sundry)}}</span>
       </div>
       <div class="price-item">
         <span>优惠金额</span>
-        <span>￥-10.00</span>
+        <span>￥-{{acountPrice(price.discount)}}</span>
       </div>
       <div class="price-item">
         <span>运费</span>
-        <span>￥0.00</span>
+        <span>￥{{acountPrice(price.logistics)}}</span>
       </div>
       <div class="price-total">
         <span>订单金额</span>
-        <span class="price-number">￥250.00</span>
+        <span class="price-number">￥{{acountPrice(price.order)}}</span>
       </div>
     </div>
   </div>
@@ -69,9 +73,58 @@
 <script>
   export default {
     name: "OrderDetailGoodsInfo",
+    props: {
+      closeTime: {
+        type: String,
+        default: ''
+      },
+      orderInfo: {
+        type: Object,
+        default() {
+          return {}
+        }
+      },
+      orderGoods: { // 订单商品列表
+        type: Array,
+        default() {
+          return []
+        }
+      },
+      resInfor: {
+        type: Object,
+        default() {
+          return {}
+        }
+      },
+      price: {
+        type: Object,
+        default() {
+          return {}
+        }
+      }
+    },
     data() {
       return {
+        netLabel: '',
         goodImg: require('assets/images/order/good.png')
+      }
+    },
+    watch: {
+      orderGoods(newVal) {
+        this.netLabel = newVal[0].netlabel === ''? '钟华铭': newVal[0].netlabel;
+      }
+    },
+    methods: {
+      acountPrice(price) {
+        return (Number(price)/100).toFixed(2);
+      },
+      goRefundApply(goodsid) {
+        goforward('orderRefundApply', {
+          orderinfo: JSON.stringify({
+            orderid: this.orderInfo.orderid,
+            goodsid: goodsid
+          })
+        });
       }
     }
   }

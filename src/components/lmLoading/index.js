@@ -1,8 +1,8 @@
 import './loading.css'
 
-const doc = window.document
-const $body = doc.body || doc.head
-const $loading = doc.createElement('div')
+const doc = window.document;
+const $body = doc.body || doc.head;
+const $loading = doc.createElement('div');
 $loading.classList.add('lm-loading')
 $loading.innerHTML = `<div class="out">
                         <div class="fade-in">

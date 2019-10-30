@@ -61,7 +61,7 @@ axios.interceptors.response.use((response) => {
 
 });
 const tookitUrlList = ['/emarketOpenController/addressSearch', '/emarketOpenController/addressResSer'];
-const jsonUrlList = ['lm/indexgoodstype.json', 'lm/hotsale.json', 'lm/hotcategory.json', 'lm/effecttype.json'];
+const jsonUrlList = ['lm/indexgoodstype.json', 'lm/hotsale.json', 'lm/hotcategory.json', 'lm/effecttype.json', 'lm/applyrefundreason.json'];
 // 请求拦截器
 axios.interceptors.request.use((config) => {
   // Loading.show();

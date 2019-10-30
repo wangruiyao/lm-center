@@ -125,11 +125,10 @@ export function sendcodeforlogin(params) {  // 根据用户手机号发送验证
 }
 
 export function searchsendcode(params) {  // 根据用户账号发送验证码
-  // console.log(params);
   const url = process.env.NODE_ENV === 'development'
     // ? '/fdeb6107-1448-48e0-8a1c-914f9f701f66' // 失败
-    ? 'usercenter/searchcodesend' // 成功
-    : 'usercenter/searchcodesend';
+    ? 'usercenter/searchsendcode' // 成功
+    : 'usercenter/searchsendcode';
   return ajax({
     url,
     data: params,
@@ -139,7 +138,6 @@ export function searchsendcode(params) {  // 根据用户账号发送验证码
 }
 
 export function verifyuser(params) {  // 用户验证
-  // console.log(params);
   const url = process.env.NODE_ENV === 'development'
     // ? '/fdeb6107-1448-48e0-8a1c-914f9f701f66' // 失败
     ? 'usercenter/verifyuser' // 成功
@@ -153,11 +151,49 @@ export function verifyuser(params) {  // 用户验证
 }
 
 export function sendcodeforchangephone(params) {  // 更改手机号码发送验证码
-  // console.log(params);
   const url = process.env.NODE_ENV === 'development'
     // ? '/fdeb6107-1448-48e0-8a1c-914f9f701f66' // 失败
     ? 'usercenter/sendcodeforchangephone' // 成功
     : 'usercenter/sendcodeforchangephone';
+  return ajax({
+    url,
+    data: params,
+    method: 'post',
+    catchError: true
+  })
+}
+
+export function checksetpwd(params) {  // 找回密码-验证码验证
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/fdeb6107-1448-48e0-8a1c-914f9f701f66' // 失败
+    ? 'usercenter/checksetpwd' // 成功
+    : 'usercenter/checksetpwd';
+  return ajax({
+    url,
+    data: params,
+    method: 'post',
+    catchError: true
+  })
+}
+
+export function setpwd(params) {  // 找回密码-设置新密码
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/fdeb6107-1448-48e0-8a1c-914f9f701f66' // 失败
+    ? 'usercenter/setpwd' // 成功
+    : 'usercenter/setpwd';
+  return ajax({
+    url,
+    data: params,
+    method: 'post',
+    catchError: true
+  })
+}
+
+export function changepwd(params) {  // 用户修改密码
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/fdeb6107-1448-48e0-8a1c-914f9f701f66' // 失败
+    ? 'usercenter/changepwd' // 成功
+    : 'usercenter/changepwd';
   return ajax({
     url,
     data: params,

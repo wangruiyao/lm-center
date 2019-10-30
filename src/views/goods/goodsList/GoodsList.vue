@@ -133,7 +133,12 @@
           _this.goodsListData = _this.goodsListData.concat(rsp.goodsList.goodslist);
           if(rsp.goodsList.goodslist.length === 0) {
             if(_this.queryParams.pagenum === '0') {
-              this.listTip = `未查询到 ${_this.queryParams.query} 有关的数据，换个关键字试试吧~`
+              if(_this.queryParams.query !== undefined) {
+                this.listTip = `未查询到 ${_this.queryParams.query} 有关的数据，换个关键字试试吧~`
+              } else {
+                this.listTip = `未查询到有关的数据，换个关键字试试吧~`
+              }
+
             } else {
               this.listTip = '—— 已经到底了 ——'
             }
