@@ -89,7 +89,7 @@
   const LmLogo = resolve => require(['components/lmLogo/LmLogo'], resolve);
   const LmCityPicker = resolve => require(['components/lmCityPicker/LmCityPicker'], resolve);
 
-  import {userisexist, userregister} from 'api/user';
+  import {userisexist, userregister,sendcodeforregister} from 'api/user';
   import LmVerifiedCode from "../../../components/lmVerifiedCode/LmVerifiedCode";
   import LmScroll from "../../../components/lmScroll/LmScroll";
   export default {
@@ -109,6 +109,7 @@
           ,intention: ''  // 主营方向
           ,channel: ''  // 用户渠道,
           ,developer: ''  // 发展人账号
+          ,smscode: ''
         },
         isCheckAggrement: [],  // 是否同意协议
         logoStyle: 'row',
@@ -154,11 +155,12 @@
         if(!re.test(userName) || userName.length < 8) {
           this.inputSetting.username.errTip = '账号格式错误 请输入8位及以上数字字母组合';
           this.registerParams.username = '';
+          return false;
         }else {
           const params = {
             username: userName
           };
-          this.checkUserisexist(params)
+          return this.checkUserisexist(params);
         }
       }
       ,checkPassword(password){ // 密码
@@ -196,33 +198,32 @@
       },
       // 取验证码
       getVerifiedCode(val) {
-        this.verifiedCode = val === '123456';
+        this.registerParams.smscode = val;
+        this.verifiedCode = true;
       },
       //选择主营项
       checkIntention(intention) {
         this.registerParams.intention = intention;
       },
+      checkRegisterParams(params) {
+        if(this.isCheckAggrement.length === 0) {
+          Toast('请阅读并勾选《联盟注册协议》');
+          return false;
+        } else {
+          return true;
+        }
+      },
       // 提交注册
       register() {
-        console.log(this.registerParams);
+        if(!this.checkRegisterParams(this.registerParams)) {
+          return false;
+        }
         userregister(this.registerParams).then(data=> {
-          if (data.code === '0') {
-            if(data.subcode === '10000') {
-              Toast({
-                message: '注册成功',
-                duration: 500
-              }).then(()=> {
-                goforward('userLogin')
-              })
-
-            } else {
-
-            }
-          } else {
-            Message(`注册失败，code：${data.code},msg: ${data.msg}`)
-          }
-        }).catch(data=> {
-          Message(`调用注册接口失败，具体原因：${data}`)
+          Toast({
+            message: '注册成功',
+            duration: 500
+          });
+          this.backLogin();
         })
       },
       // 判断用户名是否存在
@@ -232,16 +233,19 @@
           if(data.code === '0') {
             if(data.subcode === '10000') {
               _this.inputSetting.username.errTip = '';
-              _this.registerParams.username = params.username
+              _this.registerParams.username = params.username;
+              return true;
             } else {                                         // 用户名不可用
               _this.registerParams.username = '';
               _this.inputSetting.username.errTip = data.submsg;
+              return false;
+
             }
           } else {
             Message(data.msg)
           }
         }).catch(data => {
-          console.warn(data)
+          _this.inputSetting.username.errTip = '用户名已存在';
         })
       },
 
@@ -253,6 +257,11 @@
         if(this.registerParams.mobile === '') {
           Toast('请输入手机号码')
         } else {
+          sendcodeforregister({
+            phonenumber: this.registerParams.mobile
+          }).then(rsp => {
+            console.log(rsp)
+          })
         }
       },
       backLogin() {

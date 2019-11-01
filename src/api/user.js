@@ -201,3 +201,16 @@ export function changepwd(params) {  // 用户修改密码
     catchError: true
   })
 }
+
+export function sendcodeforregister(params) {  // 找回密码-验证码验证
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/fdeb6107-1448-48e0-8a1c-914f9f701f66' // 失败
+    ? 'usercenter/sendcodeforregister' // 成功
+    : 'usercenter/sendcodeforregister';
+  return ajax({
+    url,
+    data: params,
+    method: 'post',
+    catchError: true
+  })
+}

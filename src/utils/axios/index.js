@@ -5,12 +5,20 @@ let handleError = true;
 let handleSuccess = {
   message: ''
 };
+/* 接口地址 */
+const MAIN_API_ROOT = 'http://192.168.0.210:7700/lmfrontstage';
+/*访问JSON接口地址*/
+const JSON_API_ROOT = 'http://192.168.0.210';
+const tookitUrlList = ['/emarketOpenController/addressSearch', '/emarketOpenController/addressResSer'];
+const jsonUrlList = ['lm/indexgoodstype.json', 'lm/hotsale.json', 'lm/hotcategory.json', 'lm/effecttype.json', 'lm/applyrefundreason.json'];
 
 /*
 *   请求json文件路径
 * */
 
-axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? '/api' : 'http://192.168.0.210:7700/lmusercenter';
+axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? '/api' : MAIN_API_ROOT;
+
+axios.defaults.withCredentials = true;
 // console.log('当前环境：' + process.env.NODE_ENV + ' baseurl:' + axios.defaults.baseURL);
 /* 定义标准的http response格式如下：
  * {code:'0',msg: '', data:{}, subcode: '10000',submsg: ''}
@@ -60,15 +68,14 @@ axios.interceptors.response.use((response) => {
   return Promise.reject(error);
 
 });
-const tookitUrlList = ['/emarketOpenController/addressSearch', '/emarketOpenController/addressResSer'];
-const jsonUrlList = ['lm/indexgoodstype.json', 'lm/hotsale.json', 'lm/hotcategory.json', 'lm/effecttype.json', 'lm/applyrefundreason.json'];
+
 // 请求拦截器
 axios.interceptors.request.use((config) => {
   // Loading.show();
   if(tookitUrlList.includes(config.url)) {
     config.baseURL = process.env.NODE_ENV === 'development' ? '/try' : 'http://kdcx.enms.cn/externallogic/'
   } else if (jsonUrlList.includes(config.url)) {
-    config.baseURL = process.env.NODE_ENV === 'development' ? '/json' : 'http://192.168.0.210:7700/'
+    config.baseURL = process.env.NODE_ENV === 'development' ? '/json' : JSON_API_ROOT
   }
   console.log(config);
   return config;
@@ -101,6 +108,7 @@ export default function ajax ({
     url: url,
     responseType: 'json',
     headers: {
+      'Access-Control-Allow-Origin': '*',
       'X-Requested-With': 'XMLHttpRequest'
     },
     handleError: catchError

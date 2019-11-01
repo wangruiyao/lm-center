@@ -81,8 +81,16 @@ router.afterEach(route => {
     store.commit(types.SET_PAGE_SCROLL_STATE, false);
   },500)
 
-})
+});
 
+router.onError((error) => {
+  const pattern = /Loading chunk (\d)+ failed/g;
+  const isChunkLoadFailed = error.message.match(pattern);
+  const targetPath = router.history.pending.fullPath;
+  if (isChunkLoadFailed) {
+    router.replace(targetPath);
+  }
+});
 
 function goNext(to,from,next) {
   // 更改页面
@@ -106,5 +114,7 @@ function goNext(to,from,next) {
   }
   next();
 }
+
+
 
 export default router

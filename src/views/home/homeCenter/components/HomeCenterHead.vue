@@ -10,7 +10,7 @@
           </div>
 
           <div class="user-info">
-            <span class="username">{{userInfo.name}}</span>
+            <span class="username">{{userInfo.name === '' ? '未设置' : userInfo.name}}</span>
             <div class="user-type">
               <span class="lm-icon icon iconfont">&#xe61d;</span>
               <span>{{userInfo.vipdesc}}</span>

@@ -49,7 +49,7 @@
     methods: {
       getUserInfo() {
         this.$store.dispatch('users/userInfo').then(data=>{
-          goforward('homeCenter');
+          goforward('shopCenter');
           Toast({
             message: '登陆成功',
             position: 'bottom'
@@ -63,7 +63,6 @@
           mobilephone: params.mobilephone
         };
         chooseuser(requestParam).then(data=> {
-          console.log(data);
           _this.getUserInfo();
         }).catch()
       }

@@ -1,7 +1,7 @@
 <template>
   <div id="lm-logo">
-    <img v-if="flexType === 'row'" class="lm-logo-row" src="../../assets/images/row-logo.png" />
-    <img v-if="flexType === 'clumn'" class="lm-logo-clumn" src="../../assets/images/clunm-logo.png" />
+    <img v-if="flexType === 'row'" class="lm-logo-row" :src="require('assets/images/row-logo.png')" />
+    <img v-if="flexType === 'clumn'" class="lm-logo-clumn" :src="require('assets/images/clunm-logo.png')" />
   </div>
 </template>
 

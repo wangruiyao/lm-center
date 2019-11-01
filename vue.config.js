@@ -20,9 +20,10 @@ module.exports = {
   // outputDir: 'dist/' + (process.argv[3] === undefined ? DEFAULT_BUILD_MODULE : process.argv[3]),
   outputDir: './dist',
   publicPath: process.env.NODE_ENV === 'production'
-    ? './'
+    ? '/lianm/'
     : '/',
   css: {
+    extract: false,
     loaderOptions: {
       postcss: { // 配置px2rem
         plugins: [

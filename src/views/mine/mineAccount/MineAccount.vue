@@ -51,8 +51,11 @@
       },
 
       changAccount() {  // 切换账号
-        sessionStorage.clear();
-        goforward('userLogin');
+        Message.confirm('确定退出当前账号？', '提示').then(rsp => {
+          sessionStorage.clear();
+          goforward('userLogin');
+        })
+
       },
       updateUserInfo(params) {  //更新用户信息
         const _this = this;

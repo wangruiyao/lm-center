@@ -52,3 +52,6 @@ Vue.component('lottie', lottie);
 //引入clipboard
 import clipboard from 'clipboard';
 Vue.prototype.$clipboard = clipboard;
+
+
+console.log('11111111111111',process)

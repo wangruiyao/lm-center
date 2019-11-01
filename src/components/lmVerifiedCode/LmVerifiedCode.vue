@@ -71,7 +71,7 @@
             this.section--;
             if (this.section < 0) {
               clearInterval(clock);
-              this.section = 5;
+              this.section = 60;
               this.isTimmer = false;
             }
           },1000)
