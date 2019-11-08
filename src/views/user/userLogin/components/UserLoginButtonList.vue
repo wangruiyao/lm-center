@@ -19,7 +19,7 @@
     components: {LmButton},
     methods: {
       goUserRegister() {
-        goforward('userRegister')
+        goforward('userRegister', {developer: 'def'})
       },
       goPwdFind() {
         goforward('minePasswordFind')

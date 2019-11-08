@@ -2,16 +2,16 @@
   <div id="pay-check-out-counter-result">
     <span class="tips">支付金额</span>
     <div class="pay-price">
-      ￥<span>2000.00</span>元
+      ￥<span>{{(Number(payInfo.price)/100).toFixed(2)}}</span>元
     </div>
 
     <div class="pay-result-point">
       <div class="pay-result-point-desc">
         <span class="lm-icon icon iconfont">&#xe501;</span>
         <div>
-          <p class="result">订单已成功提交！</p>
-          <p>订单号 — 2019490343421830034</p>
-          <p class="tip">订单为您保留24小时，请及时付款。</p>
+          <p class="result">{{payInfo.desc}}</p>
+          <!--<p>订单号 — 2019490343421830034</p>-->
+          <!--<p class="tip">订单为您保留24小时，请及时付款。</p>-->
         </div>
       </div>
       <div class="bottom-border">
@@ -23,7 +23,15 @@
 
 <script>
   export default {
-    name: "PayCheckOutCounterResult"
+    name: "PayCheckOutCounterResult",
+    props: {
+      payInfo: {
+        type: Object,
+        default() {
+          return {}
+        }
+      }
+    }
   }
 </script>
 

@@ -6,7 +6,7 @@
           <img src="../../../../assets/images/center/gongjux_icon_20.png">
           <span>我的店铺</span>
         </div>
-        <div class="item">
+        <div class="item" @click="goUserEnlist()">
           <img src="../../../../assets/images/center/gongjux_icon_23.png">
           <span>我的招募</span>
         </div>
@@ -14,7 +14,7 @@
           <img src="../../../../assets/images/center/gongjux_icon_26.png">
           <span>我的SIM卡</span>
         </div>
-        <div class="item" @click="go('vipHome')">
+        <div class="item" @click="go('vipCenter')">
           <img src="../../../../assets/images/center/gongjux_icon_28.png">
           <span>权益中心</span>
         </div>
@@ -48,6 +48,9 @@
     methods: {
       go(path, params) {
         goforward(path,params)
+      },
+      goUserEnlist() {
+        goforward('userEnlist', {developer: this.$store.state.users.userInfo.developerId})
       }
     }
   }

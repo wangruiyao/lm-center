@@ -68,7 +68,7 @@
           </mt-checklist>
         </div>
 
-        我已阅读，并同意<span class="aggrement">《连萌注册协议》</span>
+        我已阅读，并同意<span class="aggrement" @click="handleAggrement(true)">《连萌注册协议》</span>
       </div>
 
       <div class="user-register-btn">
@@ -77,7 +77,17 @@
       </div>
       <div class="back-login" @click="backLogin">返回登录</div>
     </lm-scroll>
+    <transition :enter-active-class="$route.meta.pageIn"
+                :leave-active-class="$route.meta.pageOut">
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive"
+                     @getAddr="getAddr"></router-view>
+      </keep-alive>
+
+    </transition>
+    <router-view v-if="!$route.meta.keepAlive"/>
     <lm-city-picker ref="citypicker" @handleCheckCity="checkCity"></lm-city-picker>
+    <user-register-aggrement @handleAggrement="handleAggrement" v-show="showAggrement"></user-register-aggrement>
   </div>
 </template>
 
@@ -92,9 +102,12 @@
   import {userisexist, userregister,sendcodeforregister} from 'api/user';
   import LmVerifiedCode from "../../../components/lmVerifiedCode/LmVerifiedCode";
   import LmScroll from "../../../components/lmScroll/LmScroll";
+  import UserRegisterAggrement from "./components/UserRegisterAggrement";
   export default {
     name: "UserRegister",
-    components: {LmScroll, LmVerifiedCode, UserRegisterMainWork, LmButton, LmCityPicker, LmLogo, LmIcon, LmInput},
+    components: {
+      UserRegisterAggrement,
+      LmScroll, LmVerifiedCode, UserRegisterMainWork, LmButton, LmCityPicker, LmLogo, LmIcon, LmInput},
     data() {
       return {
         isPassRegister: false,
@@ -110,7 +123,9 @@
           ,channel: ''  // 用户渠道,
           ,developer: ''  // 发展人账号
           ,smscode: ''
+
         },
+        showAggrement: false,
         isCheckAggrement: [],  // 是否同意协议
         logoStyle: 'row',
         inputSetting: { //输入框设置
@@ -147,7 +162,9 @@
 
       }
     },
-    mounted() {},
+    mounted() {
+      this.registerParams.developer = this.$route.params.developer === 'def' ? '' : this.$route.params.developer;
+    },
     methods: {
       // 表单验证
       checkUserName(userName) { // 用户名
@@ -186,7 +203,8 @@
       },
       // 显示选择城市
       cityInputClick() {
-        this.$refs.citypicker.openTouch()
+        goforward('userRegisterCityPicker')
+        // this.$refs.citypicker.openTouch()
       },
       checkCity(city) {
         const cityNameList = city.province.name + ' - ' + city.city.name + ' - ' +  city.country.name
@@ -266,6 +284,17 @@
       },
       backLogin() {
         goback()
+      },
+      handleAggrement(status) {
+        this.showAggrement = status;
+      },
+      getAddr(city) { // 获取地市信息
+        console.log(city);
+        const cityNameList = city.provence.text + ' - ' + city.city.text + ' - ' +  city.area.text
+        this.$refs.citypickerInput.setInputVal(cityNameList);
+        this.registerParams.province = city.provence.value;
+        this.registerParams.city = city.city.value;
+        this.registerParams.country = city.area.value;
       }
 
     },

@@ -41,6 +41,7 @@
           </div>
 
           <div class="loading-box">
+
             <span>
               {{loadingText}}
             </span>

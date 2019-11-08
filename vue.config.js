@@ -49,13 +49,15 @@ module.exports = {
     }
   },
   devServer: {
+    disableHostCheck: true,
     // historyApiFallback: true, // history模式开启
     proxy: {
       
       '/api': {
-        // target: 'http://api.enms.cn:7001/mock/run',
-        target:'http://192.168.0.133:9004/',
-        // target:'http://192.168.0.117:9004/',
+        // target:'http://juning.ngrok2.xiaomiqiu.cn/',
+        //http://192.168.0.210:7700/lmfrontstage-juning
+        // target:'http://192.168.0.210:7700/lmfrontstage/',
+        target:'http://192.168.0.234:9004/',
         changeOrigin: true,
         pathRewrite:{
           '^/api':''

@@ -363,6 +363,11 @@ input[disabled] {
   border-radius: 0 !important;
 }
 .mint-button--default {
+  font-size: 14px !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+.mint-button--primary {
   background-image: -moz-linear-gradient( 176deg, rgb(64,233,245) 0%, rgb(102,133,251) 52%, rgb(116,96,253) 75%, rgb(124,74,255) 99%);
   background-image: -webkit-linear-gradient( 176deg, rgb(64,233,245) 0%, rgb(102,133,251) 52%, rgb(116,96,253) 75%, rgb(124,74,255) 99%);
   background-image: -ms-linear-gradient( 176deg, rgb(64,233,245) 0%, rgb(102,133,251) 52%, rgb(116,96,253) 75%, rgb(124,74,255) 99%);

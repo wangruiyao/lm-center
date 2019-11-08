@@ -11,7 +11,7 @@
         <span class="order-type">{{orderInfo.statusdesc}}</span>
       </div>
     </div>
-    <div class="goods-box" v-for="order in orderGoods">
+    <div @click="goOrderDetail(order)" class="goods-box" v-for="order in orderGoods">
       <div class="center">
         <img :src="order.goodspic">
         <div class="order-info">
@@ -125,6 +125,15 @@
             goodsid: goodsid
           })
         });
+      },
+      goOrderDetail(order) {
+        goforward('shopCenterDetail', {
+          params: JSON.stringify({
+            goodsid: order.goodsid,
+            productid: order.productId
+          })
+        });
+        console.log(order)
       }
     }
   }

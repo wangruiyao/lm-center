@@ -31,24 +31,24 @@
         </div>
 
       </div>
-      <div class="hot-sale-box">
+      <div class="hot-sale-box" @click="go('shopCenterSaleGuid')">
         <div class="box-header">
-          <img src="1">
+          <img :src="require('assets/images/shop/hot-sale-icon.png')">
           <span>指导销售</span>
         </div>
         <div class="box-main">
-          <div class="box-img">
-            <span>敬请期待</span>
+          <div class="single-img">
+            <img :src="require('assets/images/shop/sale-guide.png')"/>
           </div>
         </div>
 
       </div>
 
-      <div class="hot-sale-box">
-        <div class="box-header">
+      <!--<div class="hot-sale-box">-->
+        <!--<div class="box-header">-->
 
-        </div>
-      </div>
+        <!--</div>-->
+      <!--</div>-->
     </div>
   </div>
 </template>
@@ -166,7 +166,7 @@
         background: #fff;
         .box-header {
           @include flex-row(baseline);
-          padding: 0 10px;
+          padding: 5px 10px;
           color: #202020;
           font-weight: 400;
           >img {
@@ -181,6 +181,14 @@
             height: 70px;
             >img {
               width: 70px;
+              height: 70px;
+            }
+          }
+          .single-img {
+            width: 154px;
+            height: 70px;
+            >img {
+              width: 100%;
               height: 70px;
             }
           }

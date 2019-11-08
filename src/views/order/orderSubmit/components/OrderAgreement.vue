@@ -1,21 +1,32 @@
 <template>
   <div id="order-aggrement">
     <div class="left">
-      <div class="check-box">
-        <span class="lm-icon icon iconfont">&#xe68f;</span>
+      <div class="check-box" @click="handleAggrementType(false)">
+        <span v-show="aggre" class="lm-icon icon iconfont">&#xe68f;</span>
       </div>
-      <span>我已同意并阅读</span>
+      <span>我已阅读并同意</span>
     </div>
     <div class="right">
-      <span>《客户入网服务协议及业务协议》</span>
-      <span>《防范电信诈骗违法犯罪温馨提示》</span>
+      <span @click="handleAggrementType(true,0)">《客户入网服务协议及业务协议》</span>
+      <span @click="handleAggrementType(true,1)">《防范电信诈骗违法犯罪温馨提示》</span>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: "OrderAgreement"
+    name: "OrderAgreement",
+    props: {
+      aggre: {
+        type: Boolean,
+        default: true
+      }
+    },
+    methods: {
+      handleAggrementType(status, type) {
+        this.$emit('handleAggrementPop', status, type)
+      }
+    }
   }
 </script>
 

@@ -6,7 +6,7 @@
     <div class="vip-center-ad" v-show="adShow">
       <div class="lm-icon icon iconfont icon-guanbi" @click="closeAd()"></div>
       <!--<span class="lm-icon icon iconfont">&#xe6e1;</span>-->
-      <img src="../../../assets/images/vip/vip-img-1.png">
+      <img :src="require('assets/images/vip/vip-img-1.png')">
     </div>
     <div class="vip-ad-layout" v-show="adShow"></div>
     <lm-scroll ref="wrapper"
@@ -50,6 +50,11 @@
       return {
         rightBlockImg: require('assets/images/vip/rights_blank.png'),
         adShow: true
+      }
+    },
+    computed: {
+      userInfo() {
+        return this.$store.state.users.userInfo
       }
     },
     methods: {

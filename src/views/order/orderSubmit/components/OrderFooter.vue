@@ -5,7 +5,8 @@
       <span>￥<span>{{intPrice}}</span>.{{decimalPrice}}</span>
     </div>
     <div>
-      <mt-button @click="onSubmit" type="default">提交订单</mt-button>
+      <!--<mt-button type="primary" disabled>primary</mt-button>-->
+      <mt-button @click="onSubmit" type="primary" :disabled="!aggre">提交订单</mt-button>
     </div>
 
   </div>
@@ -18,6 +19,10 @@
       orderPrice: {
         type: String,
         default: ''
+      },
+      aggre: {
+        type: Boolean,
+        default: true
       }
     },
     data() {

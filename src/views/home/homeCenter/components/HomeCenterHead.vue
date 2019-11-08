@@ -19,8 +19,11 @@
           </div>
         </div>
         <div class="head-info-right">
-          <span class="lm-icon icon iconfont">&#xe63b;</span>
-          <span class="lm-icon icon iconfont">&#xe678;</span>
+          <!--消息提示按钮-->
+          <span class="lm-icon icon iconfont" @click.stop="showNotice">&#xe63b;</span>
+          <!--二维码-->
+          <span class="lm-icon icon iconfont" @click.stop="showQRCode">&#xe678;</span>
+          <!--设置-->
           <span class="lm-icon icon iconfont">&#xe6fe;</span>
         </div>
       </div>
@@ -42,7 +45,7 @@
           <span>已领卡券</span>
         </div>
       </div>
-      <div class="head-child head-vip">
+      <div class="head-child head-vip" @click="goVipHome()">
         <div class="vip-1">
           <img src="../../../../assets/images/center/sy_imgtu_10.png">
           <span>积分412</span>
@@ -72,6 +75,15 @@
     methods: {
       go(path) {
         goforward(path)
+      },
+      goVipHome() {
+        goforward('vipHome', {subPath: 'rightsCenter'})
+      },
+      showNotice() {  // 消息通知
+        Message.confirm('暂无消息通知！')
+      },
+      showQRCode() {  // 二维码
+        goforward('commingSoon');
       }
     }
   }

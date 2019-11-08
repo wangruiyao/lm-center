@@ -66,9 +66,16 @@
       }
     },
     mounted() {
-      this.getShowList()
+      this.getUserInfo();
+      this.getShowList();
     },
     methods: {
+      getUserInfo() { // 交纳保证金返回页面重新获取用户信息，vip信息，刷新状态
+        const _this = this;
+        this.$store.dispatch('users/userInfo').then(()=>{
+          _this.$store.dispatch('vip/vipInfo')
+        })
+      },
       getShowList() {
         const _this = this;
         this.depositList.map(item => {
@@ -86,6 +93,8 @@
 
 <style lang="scss" scoped>
   #deposit-pay {
+    z-index: 1000;
+    background: #fff;
     .deposit-pay-bottom {
       img {
         width: 130px;

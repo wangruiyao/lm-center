@@ -3,7 +3,7 @@
     <div class="title">选择支付方式</div>
     <div class="pay-way">
       <div class="pay-way-item"
-           @click="go()"
+           @click="toPay(i.title)"
            v-for="(i, idx) in payList" :style="{borderBottom:idx === (payList.length-1) ? 'none' : 'solid #D9D9D9 1px'}">
         <div class="left">
           <span :style="{color: i.color}" class="lm-icon icon iconfont">{{i.code}}</span>
@@ -45,9 +45,15 @@
       }
     },
     methods: {
-      go() {
-        goforward('payLineAddress')
+      toPay(payType) {
+        if(payType === '微信支付') {
+          this.$emit('wxToPay')
+        }
+
       }
+      // go() {
+      //   goforward('payLineAddress')
+      // }
     }
   }
 </script>

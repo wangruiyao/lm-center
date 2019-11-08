@@ -44,18 +44,18 @@ export default [{
             isLogin: false
           },
           component:  r => require.ensure([], () => r(require('views/pay/payLoading/PayLoading')), 'payLoading')
-        },
-        ,
-        {
-          path: 'result',
-          name: 'payResult',
-          meta: {
-            title: '支付结果',
-            isLogin: false
-          },
-          component:  r => require.ensure([], () => r(require('views/pay/payResult/PayResult')), 'payResult')
         }
+
       ]
+    },
+    {
+      path: 'result',
+      name: 'payResult',
+      meta: {
+        title: '支付结果',
+        isLogin: false
+      },
+      component:  r => require.ensure([], () => r(require('views/pay/payResult/PayResult')), 'payResult')
     }
   ]
 }]

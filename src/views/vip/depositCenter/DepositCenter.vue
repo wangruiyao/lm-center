@@ -11,6 +11,7 @@
                           :despoit = despoitdetail>
 
       </deposit-center-tab>
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -50,7 +51,7 @@
 
 <style lang="scss" scoped>
   .act {
-    color: #000;
+    color: #6d94fd;
   }
   #deposit-center {
     position: relative;

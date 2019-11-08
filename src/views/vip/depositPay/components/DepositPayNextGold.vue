@@ -1,6 +1,6 @@
 <template>
   <div id="next-gold">
-    <div>
+    <div @click="goToPay()">
       <img :src="info.imgurl">
       <div class="desc">
         <span class="desc-1">保证金</span>
@@ -20,7 +20,17 @@
         type: Object
       }
     },
-    mounted() {}
+    mounted() {},
+    methods: {
+      goToPay() {
+        // console.log(this.$store.state.users.userInfo.userId)
+        window.location.href="http://192.168.0.234:9004/pay/topay?paytype=0&vip="+this.info.vip+"&userid="+this.$store.state.users.userInfo.userId
+        // goforward('payCheckOutCounter',{
+        //   paytype: 0,
+        //   vip: this.info.vip
+        // })
+      }
+    }
   }
 </script>
 

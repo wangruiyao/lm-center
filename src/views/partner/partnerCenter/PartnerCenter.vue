@@ -1,7 +1,7 @@
 <template>
   <div id="partner-center" class="lm-container">
     <lm-header :title="`我的合伙人`">
-      <div class="header-right" slot="right" @click="go('partnerEslist')">
+      <div class="header-right" slot="right" @click.stop="go('partnerEslist')">
         <span class="lm-icon icon iconfont">&#xe784;</span>
       </div>
     </lm-header>
@@ -9,9 +9,10 @@
             direction="horizontal"
             :loop="true"
             :canDragging="false"
+            :paginationClickable="true"
             :paginationVisible="false">
-      <div class="nut-swiper-slide gray" >
-        <img class="header-img" :src="headerImg">
+      <div class="nut-swiper-slide gray" @click="goEslint">
+        <img class="header-img" :src="headerImg" >
       </div>
     </nut-swiper>
     <partner-center-tab-bar :act-tab="actTab" @changeTab="changeTab"></partner-center-tab-bar>
@@ -51,6 +52,9 @@
           this.partnerInfo = data.data;
 
         }).catch(data=> {})
+      },
+      goEslint() {  // 去招募页
+        goforward('userEnlist', {developer: this.$store.state.users.userInfo.developerId})
       }
     }
   }

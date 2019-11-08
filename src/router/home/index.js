@@ -25,7 +25,7 @@ export default [{
           name: 'homeCenter',
           meta: {
             title: '连萌首页',
-            isLogin: false,
+            isLogin: true,
             home: true
           },
           component:  r => require.ensure([], () => r(require('views/home/homeCenter/HomeCenter')), 'homeCenter'),
@@ -41,7 +41,17 @@ export default [{
                 pageOut: 'slideOutRight'
               },
               component:  r => require.ensure([], () => r(require('views/order/orderBroadBand/OrderBroadBandAddress')), 'broadBandAddress'),
+            },
+            {
+              path: 'enlist',
+              name: 'homeCenterEnlist',
+              meta: {
+                title: '连萌招募',
+                isLogin: false
+              },
+              component:  r => require.ensure([], () => r(require('views/user/userEnlist/UserEnlist')), 'userEnlist')
             }
+
           ]
         }
       ]

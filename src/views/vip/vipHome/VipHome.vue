@@ -3,8 +3,8 @@
     <router-view />
     <div class="vip-home-tab">
       <span @click="go('depositCenter')" :class="actTab === 'depositCenter' ? 'act' : ''">保证金</span>
-      <span @click="go('rightsCenter')" :class="actTab === 'rightsCenter' ? 'act' : ''">权益</span>
-      <span @click="go('vipCenter')" :class="actTab === 'vipCenter' ? 'act' : ''">VIP</span>
+      <span @click="go('rightsCenter')" :class="actTab === 'rightsCenter' ? 'act' : ''">VIP</span>
+      <span @click="go('vipCenter')" :class="actTab === 'vipCenter' ? 'act' : ''">权益</span>
     </div>
   </div>
 </template>
@@ -18,8 +18,6 @@
       }
     },
     mounted() {
-      this.actTab = this.$route.name;
-      this.getVipInfo();
       this.showSubPath();
     },
     methods: {
@@ -29,18 +27,13 @@
       },
       showSubPath() {
         if(this.$route.query.subPath === undefined) {
-          goforward('vipCenter')
+          goforward('vipCenter');
+          this.actTab = this.$route.name;
         } else {
-          goforward(this.$route.query.subPath)
-        }
-      },
-      getVipInfo() {
-        this.$store.dispatch('vip/vipInfo').then( data => {
+          goforward(this.$route.query.subPath);
+          this.actTab = this.$route.name;
 
-        }).catch( data => {
-          console.log(data)
-          // Message('调用获取用户Vip信息失败：' + JSON.stringify(data));
-        })
+        }
       }
     }
   }
@@ -48,7 +41,8 @@
 
 <style lang="scss" scoped>
   .act {
-    color: #000;
+    color: $blue-color-link;
+    font-weight: 800;
   }
   .vip-home-tab {
     @include flex-row();

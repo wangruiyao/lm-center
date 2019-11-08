@@ -17,7 +17,7 @@
       </div>
       <div class="next-grade-price">
         <span>
-          <span class="price">{{info.nextdesposit}}</span>
+          <span class="price">{{(Number(info.nextdesposit)/100).toFixed(2)}}</span>
           元
         </span>
         <span>直接开通</span>

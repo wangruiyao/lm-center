@@ -26,7 +26,7 @@ export default [{
           name: 'shopCenter',
           meta: {
             title: '云商城',
-            isLogin: false,
+            isLogin: true,
             home: true
           },
           component:  r => require.ensure([], () => r(require('views/shop/shopCenter/ShopCenter')), 'shopCenter'),
@@ -36,7 +36,7 @@ export default [{
               name: 'shopCenterDetail',
               meta: {
                 title: '商品详情',
-                isLogin: false
+                isLogin: true
               },
               component:  r => require.ensure([], () => r(require('views/goods/goodsDetail/GoodsDetail')), 'goodsDetail')
             },
@@ -45,7 +45,7 @@ export default [{
               name: 'shopCenterGoodsList',
               meta: {
                 title: '商品列表',
-                isLogin: false,
+                isLogin: true,
               },
               component:  r => require.ensure([], () => r(require('views/goods/goodsList/GoodsList')), 'goodsList'),
               children: [
@@ -54,13 +54,22 @@ export default [{
                   name: 'shopCenterGoodsDetail',
                   meta: {
                     title: '商品详情',
-                    isLogin: false,
+                    isLogin: true,
                     pageInAnimate: 'slideInRight',
                     pageOutAnimate: 'slideOutRight'
                   },
                   component:  r => require.ensure([], () => r(require('views/goods/goodsDetail/GoodsDetail')), 'goodsDetail'),
                 }
               ]
+            },
+            {
+              path: 'saleGuid',
+              name: 'shopCenterSaleGuid',
+              meta: {
+                title: '销售指导',
+                isLogin: false
+              },
+              component:  r => require.ensure([], () => r(require('views/goods/goodsSaleGuid/GoodsSaleGuid')), 'goodsSaleGuid')
             }
           ]
         }

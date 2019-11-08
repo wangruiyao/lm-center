@@ -25,6 +25,15 @@ export default [{
         isLogin: false
       },
       component:  r => require.ensure([], () => r(require('views/permission/500/error500')), 'error500')
+    },
+    {
+      path: 'commingsoon',
+      name: 'commingSoon',
+      meta: {
+        title: '敬请期待',
+        isLogin: false
+      },
+      component:  r => require.ensure([], () => r(require('views/permission/commingSoon/CommingSoon')), 'commingSoon')
     }
   ]
 }]

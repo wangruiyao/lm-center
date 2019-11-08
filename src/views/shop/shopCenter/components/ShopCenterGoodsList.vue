@@ -1,6 +1,8 @@
 <template>
   <div id="shop-center-goods-list">
+
     <div class="button-list">
+
       <div class="button-item"
            v-for="(item, idx) in hotCategory"
            :class="idx === actButton ? 'act' : ''"
@@ -11,6 +13,10 @@
     </div>
 
     <div class="goods-list">
+      <div class="goods-undefined" v-show="goodsList.length === 0">
+        <img :src="require('assets/images/goods/goods-undefined.png')"/>
+      </div>
+
       <div class="goods-item"
            v-for="item in goodsList"
            @click="go(item)">
@@ -46,7 +52,8 @@
         hotcategoryList: []
       }
     },
-    mounted() {},
+    mounted() {
+    },
     methods: {
       go(params) {
         const reqParams = {
@@ -64,6 +71,7 @@
 
 <style lang="scss" scoped>
   #shop-center-goods-list {
+    min-height: 667px - 2*$header-height -55px;
     border: solid transparent 1px;
     .act {
       .title {
@@ -79,7 +87,9 @@
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       grid-column-gap: 2px;
-      margin: 10px 0;
+      /*margin: 10px 0;*/
+      border-top: solid #f2f2f2 10px;
+      border-bottom: solid #f2f2f2 10px;
       .button-item {
         height: 35px;
         background: $bgd-color;
@@ -101,6 +111,14 @@
 
     .goods-list {
       padding: 0 10px;
+      .goods-undefined{
+        @include flex-column(center);
+        width: 100%;
+        >img {
+          width: 300px;
+        }
+      }
+
       @include flex-row(baseline);
       flex-wrap: wrap;
       .goods-item {

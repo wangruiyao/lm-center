@@ -71,7 +71,6 @@ export default [{
           component:  r => require.ensure([], () => r(require('views/order/orderNumberCheck/OrderNumberCheck')), 'orderNumberCheck')
         }
 
-
       ]
     },
     /* 订单列表 */

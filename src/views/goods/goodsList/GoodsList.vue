@@ -53,6 +53,7 @@
                     @click="goodsDetail({goodsid:item.goodsid, productid: item.productid})">
         </goods-item>
         <div class="goods-list-tip">
+          <img v-show="goodsListData.length === 0" :src="require('assets/images/goods/goods-undefined.png')"/>
           {{listTip}}
         </div>
       </div>
@@ -232,8 +233,12 @@
       }
     }
     .goods-list-tip {
-      height: $header-height;
       @include flex-column(center);
+      color: #a09c9c;
+      font-size: 14px;
+      >img {
+        width: 396px;
+      }
     }
     .goods-list-contain {
        margin-top: $input-height + 5px;

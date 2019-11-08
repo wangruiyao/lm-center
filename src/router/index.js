@@ -55,24 +55,30 @@ const router = new Router({
  */
 router.beforeEach((to, from, next) => {
   store.commit(types.SET_PAGE_SCROLL_STATE, true);
+
   if(to.matched.length === 0) {
     // alert(1)
     goforward('error404');
   } else {
-    goNext(to,from,next);
+    if(!to.meta.isLogin) {
+      goNext(to,from,next);
+    } else {
+      store.dispatch('users/userInfo').then(()=>{ // 已登录
+        store.dispatch('vip/vipInfo').then(() => {
+          if(to.name === 'userLogin') {
+            goforward('shopCenter')
+          } else {
+            goNext(to,from,next);
+          }
+        })
+      })
+    }
   }
-  // if(getSession('lmUserInfo')){ // 已登录
-  //   goNext(to,from,next);
-  // } else {  // 未登录
-  //   if(!to.meta.isLogin) {
-  //     goNext(to,from,next);
-  //   }else {
-  //     goforward('userLogin', {
-  //       redirect: to.name
-  //     })
-  //   }
-  //
-  // }
+
+  /*
+  * 页面是否需要登录 ，不需要登录直接跳转页面,需要登录调用获取用户信息接口(未登录axios拦截)
+  * */
+
 
 });
 

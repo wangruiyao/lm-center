@@ -19,11 +19,26 @@
               <span></span>
             </div>
           </div>
-
           <div class="rules-list">
             <div class="rule-item">
               <div class="badge">1</div>
-              <div class="txt">规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明规则说明</div>
+              <div class="txt">
+                您开通VIP后通过本人的招募链接招募合伙人。
+              </div>
+            </div>
+            <div class="rule-item">
+              <div class="badge">2</div>
+              <div class="txt">
+                合伙人通过您的招募链接注册成为平台会员。
+              </div>
+            </div>
+            <div class="rule-item">
+              <div class="badge">3</div>
+              <div class="txt">
+                您的合伙人在平台首次开通VIP后您即可获得VIP等级对应的奖励金。
+                备注：奖励金仅限首页VIP开通，合伙人后期再开通更高级别VIP不在获得奖励。
+                活动期间开通VIP即可获取奖励金，活动期后需要合伙人成功办理1-2笔业务才可领取。
+              </div>
             </div>
           </div>
         </div>
@@ -138,7 +153,7 @@
           }
           
           .txt {
-            padding: 0 10px;
+            padding: 0 0 0 10px;
             font-size: 14px;
             color: #fff;
             font-weight: 100;

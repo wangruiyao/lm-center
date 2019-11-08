@@ -25,7 +25,7 @@ export default [{
           path: 'vipCenter',
           name: 'vipCenter',
           meta: {
-            title: 'VIP',
+            title: '权益',
             isLogin: true,
             tabOrigin: '/vip/home'
           },
@@ -39,28 +39,19 @@ export default [{
             isLogin: true,
             tabOrigin: '/vip/home'
           },
-          component:  r => require.ensure([], () => r(require('views/vip/depositCenter/DepositCenter')), 'depositCenter')
+          component:  r => require.ensure([], () => r(require('views/vip/depositCenter/DepositCenter')), 'depositCenter'),
         },
         {
           path: 'rightsCenter',
           name: 'rightsCenter',
           meta: {
-            title: '权益',
+            title: 'VIP',
             isLogin: true,
             tabOrigin: '/vip/home'
           },
           component:  r => require.ensure([], () => r(require('views/vip/rightsCenter/RightsCenter')), 'rightsCenter')
         }
       ]
-    },
-    {
-      path: 'depositPay',
-      name: 'depositPay',
-      meta: {
-        title: '缴纳保证金',
-        isLogin: true,
-      },
-      component:  r => require.ensure([], () => r(require('views/vip/depositPay/DepositPay')), 'depositPay')
     },
     {
       path: 'rightsGoldDetail',
@@ -80,5 +71,14 @@ export default [{
       },
       component:  r => require.ensure([], () => r(require('views/vip/rightsDetails/RightsDetails')), 'rightsDetail')
     },
+    {
+      path: 'depositPay',
+      name: 'depositPay',
+      meta: {
+        title: '缴纳保证金',
+        isLogin: true,
+      },
+      component:  r => require.ensure([], () => r(require('views/vip/depositPay/DepositPay')), 'depositPay')
+    }
   ]
 }]

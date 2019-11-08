@@ -10,7 +10,7 @@
     </lm-header>
 
     <div class="deposit-number">
-      <span class="number">99.00</span>
+      <span class="number">{{(Number(userInfo.despoit)/100).toFixed(2)}}</span>
       <span>( 元 )</span>
     </div>
   </div>
@@ -25,7 +25,12 @@
       return {
         headerColor: '#fff'
       }
-    }
+    },
+    computed: {
+      userInfo() {
+        return this.$store.state.users.userInfo
+      }
+    },
   }
 </script>
 

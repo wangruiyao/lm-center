@@ -1,6 +1,10 @@
 <template>
   <div id="partner-center-list" ref="partnerWarpper">
     <div class="scroll-inner">
+      <div class="no-partner">
+        <img :src="require('assets/images/partner/no-partners.png')">
+      </div>
+
       <div class="partner-center-item" v-for="i in partnerList">
         <div class="avatar-box">
           <img :src="i.avatar">
@@ -71,6 +75,12 @@
     bottom: 0;
     overflow: hidden;
     .scroll-inner {
+      .no-partner {
+        @include flex-column(center);
+        img {
+          width: 350px;
+        }
+      }
       .partner-center-item {
         @include flex-row();
         padding: 10px 20px;

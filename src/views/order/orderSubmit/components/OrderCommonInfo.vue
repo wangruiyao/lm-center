@@ -27,9 +27,8 @@
         <lm-cell :title="`查询宽带标准地址`"
                  :disable="true"
                  :font-large="true"
-                 :rightStyle="rightStyle"
-                 @click="go('OrderBroadBand')">
-          <div class="right-info" slot="right-text">
+                 :rightStyle="rightStyle">
+          <div class="right-info" slot="right-text" @click.stop="go('OrderBroadBand')">
             <span class="lm-icon icon iconfont address">&#xe609;</span>
           </div>
         </lm-cell>

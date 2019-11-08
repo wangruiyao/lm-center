@@ -68,6 +68,7 @@
       }
     }
     .good-price-old{
+      color: #999;
       .price{
         text-decoration: line-through;
       }

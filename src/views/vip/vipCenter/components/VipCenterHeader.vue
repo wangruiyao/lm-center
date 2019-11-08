@@ -6,12 +6,12 @@
       </div>
       <div class="header-container">
         <div class="header-img">
-          <img src="../../../../assets/images/default-avatar.png" />
+          <img :src="userInfo.avatar" />
         </div>
         <div class="header-vip-logo">
           <img src="../../../../assets/images/vip/vip-icon-1.png">
         </div>
-        <div class="vip-grade">vip1</div>
+        <div class="vip-grade">{{userInfo.vipdesc}}</div>
       </div>
       <div class="header-icon">
         <span class="lm-icon icon iconfont">&#xe61e;</span>
@@ -23,7 +23,7 @@
         <span>连萌积分</span>
       </div>
       <div>
-        <span>1</span>
+        <span>{{(Number(userInfo.despoit)/100).toFixed(2)}}</span>
         <span>我的保证金</span>
       </div>
       <div>
@@ -37,6 +37,11 @@
 <script>
   export default {
     name: "VipCenterHeader",
+    computed: {
+      userInfo() {
+        return this.$store.state.users.userInfo
+      }
+    },
     methods: {
       back() {
         goback();

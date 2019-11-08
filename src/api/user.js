@@ -32,7 +32,7 @@ export function userloginbyphone (params) {  // 用户手机验证码登录
     // ? '/401c452f-aa46-44f5-aa18-69ae71045268' // 失败
     // ? '/a45b807e-2af6-4302-9fd9-35fd22bb6415' // 成功
     ? 'usercenter/userloginbyphone'
-    : 'authorize/userloginbyphone';
+    : 'usercenter/userloginbyphone';
   return ajax({
     url,
     method: 'post',

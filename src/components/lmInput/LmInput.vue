@@ -127,7 +127,7 @@
     .lm-input-container {
       position: relative;
       @include flex-row(flex-start);
-      height: $input-height;
+      height: 40px;
       background: #fff;
       border-radius:20px;
       overflow: hidden;
@@ -140,7 +140,8 @@
       }
       input {
         width: 100%;
-        height: 100%;
+        height: 80%;
+        background: #fff;
       }
       .lm-input-icon {
         @include input-icon()

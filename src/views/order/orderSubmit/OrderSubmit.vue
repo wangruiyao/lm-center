@@ -52,13 +52,17 @@
                     :serial-price="serialprice"></order-amount>
 
       <!-- 协议 -->
-      <order-agreement v-show="goodType === `0` || goodType === `1`"></order-agreement>
+      <order-agreement :aggre="isAggre"
+                       @handleAggrementPop="handleAggrementPop"
+                       v-show="goodType === `0` || goodType === `1`"></order-agreement>
 
 
     </lm-scroll>
+    <!--协议详情-->
+    <order-aggrement-info @handleAggrement="handleAggrementPop" v-show="isShowAggrementInfo" :aggrement-type="aggrementType"></order-aggrement-info>
 
     <!-- footer -->
-    <order-footer :order-price="orderPrice" @onSubmit="onSubmit"></order-footer>
+    <order-footer :aggre="isAggre" :order-price="orderPrice" @onSubmit="onSubmit"></order-footer>
     <!-- 选择支付方式 -->
     <order-pay-way-check :isVisible="showPopTitle !== ''"
                          :title="showPopTitle"
@@ -75,6 +79,7 @@
             :bill-type="billtype.name"
             @setBillInfo="setBillInfo"
             @closeSelf="showBillCheckPop"></order-bill-check>
+
     <transition :enter-active-class="$route.meta.pageIn"
                 :leave-active-class="$route.meta.pageOut">
       <keep-alive>
@@ -97,6 +102,7 @@
 <script>
   import {ordergoodsinfor, effecttype,createphysicalorder,createorder} from 'api/order';
   import { mapMutations } from 'vuex';
+  import OrderAggrementInfo from "./components/OrderAggrementInfo";
   const LmHeader = resolve => require(['components/lmHeader/LmHeader'], resolve);
   const LmScroll = resolve => require(['components/lmScroll/LmScroll'], resolve);
 
@@ -114,6 +120,7 @@
   export default {
     name: "OrderSubmit",
     components: {
+      OrderAggrementInfo,
       OrderAgreement,
       OrderPayWayCheck,
       OrderBillCheck,
@@ -129,6 +136,9 @@
       LmHeader},
     data() {
       return {
+        isAggre: true,  // 是否同意协议
+        isShowAggrementInfo: false, // 是否展示协议内容
+        aggrementType: 0, // 协议内容
         price: {},
         orderGoodsInfo: {},
         goodsListParams: [],  // 商品 id, 数量， 价格
@@ -263,23 +273,25 @@
         this.imgList = imgList;
       },
       onSubmit() {// 提交表单
-        if(this.checkSubmitParams()){
-          Indicator.open();
-          if(this.goodType === '2'){
-            createphysicalorder(this.reqSubmitparams).then(rsp => {
-              Indicator.close();
-              console.log(rsp)
-            })
-          }else if(this.goodType === '0' || this.goodType === '1') {
-            createorder(this.reqSubmitparams).then(rsp => {
-              Indicator.close();
-              console.log('运营商产品下单结果：', rsp)
-            })
+        if(this.isAggre) {
+          if(this.checkSubmitParams()){
+            Indicator.open();
+            if(this.goodType === '2'){  // 实物商品下单
+              createphysicalorder(this.reqSubmitparams).then(rsp => {
+                Indicator.close();
+                this.gotoPay(); // 订单提交成功，跳转支付页面
+              })
+            }else if(this.goodType === '0' || this.goodType === '1') {  // 运营商商品下单
+              createorder(this.reqSubmitparams).then(rsp => {
+                Indicator.close();
+                this.gotoPay();
+              })
+            }
+          } else {
           }
-
         } else {
-          console.log('nonono')
         }
+
       },
       checkSubmitParams() {
         const _this = this;
@@ -312,6 +324,18 @@
           });
         }
         return flag;
+      },
+      handleAggrement() {
+        this.isAggre = !this.isAggre;
+      },
+      handleAggrementPop(status, aggrementType) { // status:协议显示状态，aggrementType：协议类型（0：客户入网服务协议及业务协议，1：防范电信诈骗违法犯罪温馨提示）
+        this.isShowAggrementInfo = status;
+        if(aggrementType !== undefined) {
+          this.aggrementType = aggrementType
+        }
+      },
+      gotoPay() { // 跳转支付页面
+        goforward('payCheckOutCounter')
       }
     },
     computed: {

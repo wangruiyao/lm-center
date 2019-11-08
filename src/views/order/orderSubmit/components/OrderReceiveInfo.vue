@@ -180,7 +180,7 @@
     width: 375px;
     margin-top: 10px;
     .cell-input {
-      color: #999;
+      color: #666;
       width: 100%;
     }
   }

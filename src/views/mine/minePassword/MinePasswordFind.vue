@@ -22,7 +22,7 @@
       </lm-cell>
       <lm-cell :title="`验证码`" :disable="true" v-show="step === 2">
         <div class="cell-input" slot="cellInput">
-          <input v-model="code" placeholder="填写验证码"/>
+          <input ref="code" v-model="code" placeholder="填写验证码"/>
 
         </div>
         <div class="get-code-btn" slot="right-text">
@@ -33,12 +33,12 @@
       <div class="tip2-info" v-show="step === 3">
         <lm-cell v-show="step === 3" :title="`新密码`" :disable="true">
           <div class="cell-input" slot="cellInput">
-            <input type="password" v-model="newpwd" placeholder="连萌账号"/>
+            <input ref="newpwd" type="password" v-model="newpwd" placeholder="请填写新密码"/>
           </div>
         </lm-cell>
         <lm-cell v-show="step === 3" :title="`确认密码`" :disable="true">
           <div class="cell-input" slot="cellInput">
-            <input type="password" v-model="reNewPwd" placeholder="连萌账号"/>
+            <input ref="reNewPwd" type="password" v-model="reNewPwd" placeholder="再次输入新密码"/>
           </div>
         </lm-cell>
       </div>
@@ -162,7 +162,7 @@
       },
       setPwd() {
         const reqParams = {
-          newpwd: this.newpwd
+          newpwd: this.$RSA(this.newpwd)
         };
         setpwd(reqParams).then(rsp => {
           Toast('修改成功！');

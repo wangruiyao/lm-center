@@ -1,10 +1,9 @@
 <!-- 招募页 -->
 <template>
-  <div id="enlist" class="lm-container-blank">
-    <lm-scroll ref="wrapper"
-               :pullup="true">
+  <div id="enlist" class="lm-container-blank" @click="goUserRegister">
+    <lm-scroll ref="wrapper" :bounce="false">
       <img src="../../../assets/images/zhaomu.png">
-      <div class="enlist-add-btn" @click="goUserRegister"></div>
+      <!--<div class="enlist-add-btn" @click="goUserRegister"></div>-->
     </lm-scroll>
 
   </div>
@@ -17,7 +16,7 @@
     components: {LmScroll},
     methods: {
       goUserRegister() {
-        this.$router.push('register')
+        goforward('userRegister', {developer: this.$route.params.developer})
       }
     }
   }
@@ -25,7 +24,6 @@
 
 <style lang="scss" scoped>
   #enlist {
-    position: relative;
     margin-top: -10px;
     img {
       width: 100%;

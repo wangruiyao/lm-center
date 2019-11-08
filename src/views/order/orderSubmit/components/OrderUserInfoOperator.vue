@@ -44,6 +44,7 @@
 </template>
 
 <script>
+  import {IdCardValidate} from 'utils/validForm/idcardValidate';
   const LmCell = resolve => require(['components/lmCell/LmCell'], resolve);
   export default {
     name: "OrderUserInfoOperator",
@@ -80,8 +81,7 @@
         return {};
       },
       checkCardNumber(idNo) { // 检测身份证
-        const regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-        if(!regIdNo.test(idNo)){
+        if(!IdCardValidate(idNo)){
           Toast('身份证号填写有误');
           return false;
         } else {

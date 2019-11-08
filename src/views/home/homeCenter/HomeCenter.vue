@@ -53,8 +53,8 @@
       this.$store.commit(types.SET_HOME_TAB, 4);
     },
     methods: {
-      goforward(page) {
-        goforward(page)
+      goforward(page,params) {
+        goforward(page,params)
       },
       listenScroll(pos) {
         this.headerOpacity = -pos.y * 0.04;

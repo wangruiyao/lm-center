@@ -25,7 +25,7 @@
     @include flex-column(center);
     background: $bgd-color;
     >img {
-      width: 320px;
+      width: 50%;
     }
     .tips{
       @include flex-column(center);
