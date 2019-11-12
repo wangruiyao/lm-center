@@ -49,7 +49,7 @@
       <div class="btn-list">
         <div class="del-btn" @click="goDetail">查看详情</div>
         <div class="footer-button" v-show="goodsInfo.status === '0'">
-          <div class="btn-inner" >去付款</div>
+          <div class="btn-inner" @click="gotoPay">去付款</div>
         </div>
         <div class="footer-button" v-show="goodsInfo.status === '4'">
           <div class="btn-inner" @click="confirmOrder(goodsInfo.key)">确认收货</div>
@@ -116,6 +116,18 @@
           clearTimeout(this.timmer);
         }
 
+      },
+      gotoPay() { // 跳转支付页面
+        // let goodsidList = '';
+        // for(let i=0;i<this.orderGoodsInfo.goodsinfor.length;i++) {
+        //
+        //   if(i === this.orderGoodsInfo.goodsinfor.length-1) {
+        //     goodsidList += this.orderGoodsInfo.goodsinfor[i].goodsid
+        //   } else {
+        //     goodsidList += this.orderGoodsInfo.goodsinfor[i].goodsid + '|'
+        //   }
+        // }
+        window.location.href="http://192.168.0.210:7700/lmfrontstage/pay/topay?paytype=1&orderids="+this.goodsInfo.key+"&userid="+this.$store.state.users.userInfo.userId
       },
       confirmOrder(orderid) {  // 确认收货
         Message.confirm('确认收货？').then(() => {

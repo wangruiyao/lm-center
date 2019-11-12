@@ -278,13 +278,14 @@
             Indicator.open();
             if(this.goodType === '2'){  // 实物商品下单
               createphysicalorder(this.reqSubmitparams).then(rsp => {
+                console.log(rsp)
                 Indicator.close();
-                this.gotoPay(); // 订单提交成功，跳转支付页面
+                this.gotoPay(rsp.data.orderid); // 订单提交成功，跳转支付页面
               })
             }else if(this.goodType === '0' || this.goodType === '1') {  // 运营商商品下单
               createorder(this.reqSubmitparams).then(rsp => {
                 Indicator.close();
-                this.gotoPay();
+                this.gotoPay(rsp.data.orderid);
               })
             }
           } else {
@@ -334,8 +335,18 @@
           this.aggrementType = aggrementType
         }
       },
-      gotoPay() { // 跳转支付页面
-        goforward('payCheckOutCounter')
+      gotoPay(orderid) { // 跳转支付页面
+        // console.log(orderid)
+        // let goodsidList = '';
+        // for(let i=0;i<this.orderGoodsInfo.goodsinfor.length;i++) {
+        //
+        //   if(i === this.orderGoodsInfo.goodsinfor.length-1) {
+        //     goodsidList += this.orderGoodsInfo.goodsinfor[i].goodsid
+        //   } else {
+        //     goodsidList += this.orderGoodsInfo.goodsinfor[i].goodsid + '|'
+        //   }
+        // }
+        window.location.href="http://192.168.0.210:7700/lmfrontstage/pay/topay?paytype=1&orderids="+orderid+"&userid="+this.$store.state.users.userInfo.userId
       }
     },
     computed: {

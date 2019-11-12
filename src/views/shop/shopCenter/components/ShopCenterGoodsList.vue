@@ -23,7 +23,7 @@
         <img :src="item.pic">
         <div class="price-box">
           <span class="title">{{item.title}}</span>
-          <span class="price">￥<span>{{parseInt(item.price).toFixed(2)}}</span></span>
+          <span class="price">￥<span>{{(Number(item.price)/100).toFixed(2)}}</span></span>
         </div>
       </div>
     </div>

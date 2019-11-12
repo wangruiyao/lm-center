@@ -57,7 +57,6 @@ router.beforeEach((to, from, next) => {
   store.commit(types.SET_PAGE_SCROLL_STATE, true);
 
   if(to.matched.length === 0) {
-    // alert(1)
     goforward('error404');
   } else {
     if(!to.meta.isLogin) {

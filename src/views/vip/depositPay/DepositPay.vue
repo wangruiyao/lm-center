@@ -66,7 +66,7 @@
       }
     },
     mounted() {
-      this.getUserInfo();
+      // this.getUserInfo();
       this.getShowList();
     },
     methods: {

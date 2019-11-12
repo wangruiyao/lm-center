@@ -15,7 +15,7 @@ export default [{
       name: 'userLogin',
       meta: {
         title: '用户登录',
-        isLogin: true
+        isLogin: false
       },
       component:  r => require.ensure([], () => r(require('../../views/user/userLogin/UserLogin')), 'userLogin')
     },

@@ -18,7 +18,7 @@ module.exports = {
     }
   },
   // outputDir: 'dist/' + (process.argv[3] === undefined ? DEFAULT_BUILD_MODULE : process.argv[3]),
-  outputDir: './dist',
+  outputDir: './lianm',
   publicPath: process.env.NODE_ENV === 'production'
     ? '/lianm/'
     : '/',
@@ -54,10 +54,10 @@ module.exports = {
     proxy: {
       
       '/api': {
-        // target:'http://juning.ngrok2.xiaomiqiu.cn/',
+        target:'http://192.168.0.210:7700/lmfrontstage',
         //http://192.168.0.210:7700/lmfrontstage-juning
         // target:'http://192.168.0.210:7700/lmfrontstage/',
-        target:'http://192.168.0.234:9004/',
+        // target:'http://192.168.0.234:9004/',
         changeOrigin: true,
         pathRewrite:{
           '^/api':''
@@ -69,21 +69,22 @@ module.exports = {
         pathRewrite:{
           '^/json':''
         }
-      },
-      '/test': {
-        target:'http://192.168.0.230:9004',
-        changeOrigin: true,
-        pathRewrite:{
-          '^/test':''
-        }
-      },
-      '/try': {
-        target: 'http://kdcx.enms.cn/externallogic/',
-        changeOrigin: true,
-        pathRewrite:{
-          '^/try':''
-        }
       }
+      // ,
+      // '/test': {
+      //   target:'http://192.168.0.230:9004',
+      //   changeOrigin: true,
+      //   pathRewrite:{
+      //     '^/test':''
+      //   }
+      // },
+      // '/try': {
+      //   target: 'http://kdcx.enms.cn/externallogic/',
+      //   changeOrigin: true,
+      //   pathRewrite:{
+      //     '^/try':''
+      //   }
+      // }
     }
   },
   chainWebpack: (config) => {
