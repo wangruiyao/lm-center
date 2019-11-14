@@ -28,9 +28,9 @@
       </div>
       <div class="main-info">
         <p class="delivery-info font-14">
-          快件已被<span>从右数第二棵树下消防栓</span>签收，如有问题请电联业务员：付宝龙【15688889998】。
+          {{orderProgress.statusname}}：{{orderProgress.detail}}
         </p>
-        <p class="delivery-time footer">2019-02-19 12:29:13</p>
+        <p class="delivery-time footer">{{orderProgress.time}}</p>
       </div>
       <div class="right-icon">
         <span class="lm-icon icon iconfont">&#xe66c;</span>
@@ -40,7 +40,7 @@
     <!-- 收件人信息 -->
     <div class="info-box receiver-info">
       <div class="info-icon">
-        <span class="lm-icon icon iconfont">&#xe5ab;</span>
+        <span class="lm-icon icon iconfont">&#xe62c;</span>
       </div>
       <div class="main-info font-14">
         <p>
@@ -67,6 +67,7 @@
 </template>
 
 <script>
+  import {orderprogress} from 'api/order'
   export default {
     name: "OrderDetailCommonInfo",
     props: {
@@ -92,6 +93,7 @@
     data() {
       return {
         countDownTime: '' // 倒计时
+        ,orderProgress: {}
       }
     },
     computed: {
@@ -101,6 +103,11 @@
         } catch (e) {
           return ''
         }
+      }
+    },
+    watch: {
+      orderInfor(newInfo) {
+        this.getOrderprogress(newInfo.orderid)
       }
     },
     methods: {
@@ -116,7 +123,6 @@
         goforward('orderDetailChangeInfo', {flag: JSON.stringify(params)})
       },
       handleOrderTypeImg(order_type) {
-        console.log(order_type);
         if(order_type === '0') {
           return require('assets/images/order/order_res_1.png')
         } else if(['1','2','3'].includes(order_type)) {
@@ -129,8 +135,14 @@
           return require('assets/images/order/order_res_5.png')
         }
         // return require('assets/images/order/order_res_success.png')
+      },
+      getOrderprogress(orderid) {  //前台-订单流程展示
+        orderprogress({
+          orderid
+        }).then(rsp => {
+          this.orderProgress = rsp.data[0].items[0];
+        })
       }
-
     }
   }
 </script>

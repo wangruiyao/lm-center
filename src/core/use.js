@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import 'lib-flexible'
 import 'babel-polyfill'
+// import 'utils/vconsole'
+
 // import style files
 import 'assets'
 import pinyin from 'js-pinyin'
@@ -12,6 +14,9 @@ import 'core/lazy_lib/components_use'
 // 引入ajax
 import ajax from 'utils/axios/index.js'
 window.ajax = ajax;
+
+import jsonp from 'utils/jsonp/index.js'
+window.jsonp = jsonp;
 // 引入并配置全局加密方法
 import {RSA} from 'utils/RSA'
 Vue.prototype.$RSA = RSA;
@@ -53,5 +58,3 @@ Vue.component('lottie', lottie);
 import clipboard from 'clipboard';
 Vue.prototype.$clipboard = clipboard;
 
-
-console.log('11111111111111',process)

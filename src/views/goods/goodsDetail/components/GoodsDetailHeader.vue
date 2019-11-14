@@ -24,7 +24,7 @@
         </div>
         <div class="head-car" @click="go('cartList')">
           <lm-badge>12</lm-badge>
-          <span class="lm-icon icon iconfont">&#xe504;</span>
+          <span class="lm-icon icon iconfont">&#xe604;</span>
         </div>
       </div>
       <div slot="right">

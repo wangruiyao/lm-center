@@ -61,6 +61,7 @@
 </template>
 
 <script>
+  import {gotopay} from 'api/pay'
   import {confirmorder} from 'api/order'
   const LmIcon = resolve => require(['components/lmIcon/LmIcon'], resolve);
   export default {
@@ -118,16 +119,10 @@
 
       },
       gotoPay() { // 跳转支付页面
-        // let goodsidList = '';
-        // for(let i=0;i<this.orderGoodsInfo.goodsinfor.length;i++) {
-        //
-        //   if(i === this.orderGoodsInfo.goodsinfor.length-1) {
-        //     goodsidList += this.orderGoodsInfo.goodsinfor[i].goodsid
-        //   } else {
-        //     goodsidList += this.orderGoodsInfo.goodsinfor[i].goodsid + '|'
-        //   }
-        // }
-        window.location.href="http://192.168.0.210:7700/lmfrontstage/pay/topay?paytype=1&orderids="+this.goodsInfo.key+"&userid="+this.$store.state.users.userInfo.userId
+        gotopay({
+          orderids: this.goodsInfo.key,
+          paytype: 1
+        });
       },
       confirmOrder(orderid) {  // 确认收货
         Message.confirm('确认收货？').then(() => {

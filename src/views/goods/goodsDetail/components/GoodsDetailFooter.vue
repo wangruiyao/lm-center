@@ -2,11 +2,11 @@
   <div id="detail-footer">
     <div class="left">
       <span class="lm-icon icon iconfont">&#xe65f;</span>
-      <span class="lm-icon icon iconfont">&#xe618;</span>
+      <span class="lm-icon icon iconfont">&#xe61a;</span>
     </div>
     <div class="center">
-      <span class="lm-icon icon iconfont" :class="isShake? 'shakeBox': ''" @click="addTocart">&#xe504;</span>
-      <span class="lm-icon icon iconfont">&#xe513;</span>
+      <span class="lm-icon icon iconfont" :class="isShake? 'shakeBox': ''" @click="addTocart">&#xe604;</span>
+      <span class="lm-icon icon iconfont">&#xe61c;</span>
     </div>
     <div class="right" @click="orderSubmit">
       <div>立即购买</div>

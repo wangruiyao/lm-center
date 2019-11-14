@@ -70,7 +70,6 @@
         orderdetailbyid(params).then(rsp => {
           _this.orderInfo = rsp.data;
           _this.orderType = _this.orderInfo.orderinfor.order_type;
-          console.log(JSON.stringify(_this.orderInfo));
           this.closeTimeCountDown(_this.orderInfo.closetime)
         });
 

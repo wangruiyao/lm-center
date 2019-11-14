@@ -3,35 +3,37 @@
     <div class="order-delivery-info-item" v-for="(item,idx) in deliveryInfo">
       <div class="item-info" :class="idx === 0?'act':''">
         <div class="left">
-          <span class="data">{{item.date}}</span>
-          <span class="time">{{item.time}}</span>
+          <!--<span class="data">{{computeDate(item.time)}}</span>-->
+          <!--<span class="time">{{computeTime(item.time)}}</span>-->
         </div>
         <div class="center">
-          <div class="line" v-show="!(idx === (deliveryInfo.length-1))"></div>
+          <div class="line"></div>
           <div class="state-icon" >
-            <div class="icon-inner">收</div>
+            <div class="icon-inner">
+              <span class="icon iconfont">{{statusIcon(item.handlecode)}}</span>
+            </div>
           </div>
         </div>
         <div class="right">
-          <div class="state-text">{{item.state}}</div>
+          <div class="state-text">{{item.handlename}}</div>
           <div>{{item.stateInfo}}</div>
         </div>
       </div>
 
-      <div class="item-info" v-for="(i,d) in item.children">
+      <div class="item-info" v-for="(i,d) in item.items">
         <div class="left">
-          <span class="data">{{i.date}}</span>
-          <span class="time">{{i.time}}</span>
+          <span class="data">{{computeDate(i.time)}}</span>
+          <span class="time">{{computeTime(i.time)}}</span>
         </div>
         <div class="center">
-          <div class="line"></div>
+          <div class="line" v-show="!(idx === deliveryInfo.length-1 && d === item.items.length-1)"></div>
           <div class="state-point" >
             <div class="point-inner"></div>
           </div>
         </div>
         <div class="right">
-          <div class="state-text">{{i.state}}</div>
-          <div>{{i.stateInfo}}</div>
+          <div class="state-text">{{i.statusname}}</div>
+          <div>{{i.detail}}</div>
         </div>
       </div>
     </div>
@@ -39,50 +41,63 @@
 </template>
 
 <script>
+  import {orderprogress} from 'api/order'
+
   export default {
     name: "OrderDeliveryInfoList",
     data() {
       return {
-        deliveryInfo: [
-          {
-            date: '03-12',
-            time: '12:30',
-            state: '确认收货',
-            stateInfo: '[收货地址]山东省济南市历下区国华经典3号楼'
-          },
-          {
-            date: '03-12',
-            time: '12:30',
-            state: '物流信息',
-            stateInfo: '顺风1234567890123',
-            children: [
-              {
-                date: '03-12',
-                time: '12:30',
-                state: '派送中',
-                stateInfo: '[济南市]山东市场部还蓝图服务部派件员 王浩'
-              },
-              {
-                date: '03-12',
-                time: '12:30',
-                state: '运输中',
-                stateInfo: '在山东济南历下区华信商务进行揽件扫描 '
-              },
-              {
-                date: '03-12',
-                time: '12:30',
-                state: '已揽件',
-                stateInfo: '在山东济南历下区华信商务进行揽件扫描 '
-              }
-            ]
-          },
-          {
-            date: '03-12',
-            time: '12:30',
-            state: '已发货',
-            stateInfo: '商家已发货'
-          }
-        ]
+        deliveryInfo: []
+      }
+    },
+    mounted() {
+      this.getOrderprogress()
+    },
+    methods: {
+      getOrderId() {  // 获取订单id
+        return JSON.parse(this.$route.params.orderinfo).orderid;
+      },
+      getOrderprogress() {  //前台-订单流程展示
+        orderprogress({
+          orderid: this.getOrderId()
+        }).then(rsp => {
+          console.log('订单流程', JSON.stringify(rsp.data))
+          this.deliveryInfo = rsp.data;
+        })
+      },
+      computeDate(time) { // 计算日期
+        return time.split(' ')[0]
+      },
+      computeTime(time) { // 计算时间
+        return time.split(' ')[1]
+      },
+      statusIcon(handlecode) {  //计算状态icon
+        switch (handlecode) {
+          // 订单提交
+          case '0':
+            return '\ue637';
+          // 订单支付
+          case '1':
+            return '\ue638';
+          // 订单审核
+          case '2':
+            return '\ue771';
+          // 订单分配
+          case '3':
+            return '\ue674';
+          // 订单发货
+          case '4':
+            return '\ue661';
+          // 订单收货
+          case '5':
+            return '\ue65c';
+          // 订单归档
+          case '6':
+            return '\ue636';
+
+
+        }
+        // return '&#xe7d8;'
       }
     }
   }
@@ -96,9 +111,11 @@
       color: $color-deep !important;
       .left {
         .data {
+          white-space: nowrap;
           font-size: 12px !important;
         }
         .time {
+          white-space: nowrap;
           color: $color-light;
         }
       }
@@ -119,10 +136,11 @@
         padding: 10px;
         .left {
           flex-shrink: 0;
-          width: 40px;
+          width: 60px;
           height: 40px;
           @include flex-column(center,flex-end);
           span {
+            white-space: nowrap;
             font-size: 10px;
             line-height: 12px;
           }

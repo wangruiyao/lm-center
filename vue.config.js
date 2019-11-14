@@ -3,10 +3,16 @@ function resolve (dir) {
   return path.join(__dirname, dir)
 }
 
-// 默认打包模块名
-// const DEFAULT_BUILD_MODULE = require('./src/config/mutation-type').mutaions.DEFAULT_BUILD_MODULE
-// 入口配置
-// let pagesConfig = require('./src/config/pagesSetting').setPages(resolve('src/projects'))
+const isProduction = process.env.NODE_ENV === 'production';
+const cdn = {
+  css: [],
+  js: [
+    'https://cdn.bootcss.com/vue/2.6.10/vue.runtime.min.js',
+    'https://cdn.bootcss.com/vue-router/3.0.3/vue-router.min.js',
+    'https://cdn.bootcss.com/vuex/3.0.1/vuex.min.js',
+    'https://cdn.bootcss.com/axios/0.18.0/axios.min.js',
+  ]
+}
 
 module.exports = {
   // pages: pagesConfig,
@@ -116,5 +122,31 @@ module.exports = {
     // config
     //   .plugin('webpack-bundle-analyzer')
     //   .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+  },
+  configureWebpack: config => {
+    if (isProduction) {
+      // 用cdn方式引入
+      config.externals = {
+        'vue': 'Vue',
+        'vuex': 'Vuex',
+        'vue-router': 'VueRouter',
+        'axios': 'axios'
+      };
+      // 为生产环境修改配置...
+      config.plugins.push(
+        //生产环境自动删除console
+        new UglifyJsPlugin({
+          uglifyOptions: {
+            compress: {
+              warnings: false,
+              drop_debugger: true,
+              drop_console: true,
+            },
+          },
+          sourceMap: false,
+          parallel: true,
+        })
+      );
+    }
   }
 }

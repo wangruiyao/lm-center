@@ -1,7 +1,7 @@
 <template>
   <div id="partner-center-list" ref="partnerWarpper">
     <div class="scroll-inner">
-      <div class="no-partner">
+      <div class="no-partner" v-show="partnerList.length === 0">
         <img :src="require('assets/images/partner/no-partners.png')">
       </div>
 

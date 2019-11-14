@@ -8,16 +8,20 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@nutui/nutui": "^2.1.6",
     "axios": "^0.18.0",
     "clipboard": "^2.0.4",
     "core-js": "^2.6.5",
+    "js-pinyin": "^0.1.9",
     "lib-flexible": "^0.3.2",
     "mint-ui": "^2.2.13",
     "postcss-px2rem": "^0.3.0",
     "vue": "^2.6.10",
+    "vue-jsonp": "^0.1.8",
     "vue-lottie": "^0.2.1",
     "vue-router": "^3.0.3",
     "vue2-animate": "^2.1.0",
+    "vue2-touch-events": "^2.0.1",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

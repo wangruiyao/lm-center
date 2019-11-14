@@ -1,7 +1,7 @@
 <template>
   <div id="partner-center" class="lm-container">
     <lm-header :title="`我的合伙人`">
-      <div class="header-right" slot="right" @click.stop="go('partnerEslist')">
+      <div class="header-right" slot="right" @click.stop="goEslint">
         <span class="lm-icon icon iconfont">&#xe784;</span>
       </div>
     </lm-header>
@@ -11,7 +11,7 @@
             :canDragging="false"
             :paginationClickable="true"
             :paginationVisible="false">
-      <div class="nut-swiper-slide gray" @click="goEslint">
+      <div class="nut-swiper-slide gray" @click.stop="go('partnerEslist')">
         <img class="header-img" :src="headerImg" >
       </div>
     </nut-swiper>

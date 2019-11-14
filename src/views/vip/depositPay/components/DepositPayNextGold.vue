@@ -13,6 +13,8 @@
 </template>
 
 <script>
+  import {gotopay} from "api/pay";
+
   export default {
     name: "DepositPayNextGold",
     props: {
@@ -23,12 +25,10 @@
     mounted() {},
     methods: {
       goToPay() {
-        // console.log(this.$store.state.users.userInfo.userId)
-        window.location.href="http://192.168.0.210:7700/lmfrontstage/pay/topay?paytype=0&vip="+this.info.vip+"&userid="+this.$store.state.users.userInfo.userId
-        // goforward('payCheckOutCounter',{
-        //   paytype: 0,
-        //   vip: this.info.vip
-        // })
+        gotopay({
+          paytype: 0,
+          vip: this.info.vip
+        })
       }
     }
   }

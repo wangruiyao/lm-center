@@ -1,7 +1,7 @@
 <template>
   <div id="order-aggrement">
     <div class="left">
-      <div class="check-box" @click="handleAggrementType(false)">
+      <div class="check-box" @click="handleAggrement()">
         <span v-show="aggre" class="lm-icon icon iconfont">&#xe68f;</span>
       </div>
       <span>我已阅读并同意</span>
@@ -23,6 +23,9 @@
       }
     },
     methods: {
+      handleAggrement() {
+        this.$emit('handleAggrement')
+      },
       handleAggrementType(status, type) {
         this.$emit('handleAggrementPop', status, type)
       }

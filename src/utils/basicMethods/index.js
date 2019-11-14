@@ -35,7 +35,7 @@ export function uploadImg(e,config) { // 上传图片
     const fileSize = file.size/1024;
     // if(type!=".jpg"&&type!=".gif"&&type!=".jpeg"&& type!=".png")
     if(fileSize >= (configParam.sizeLimt*1024)) {
-      Toast(`图片不能大于${configParam.sizeLimt}M`)
+      Toast(`图片不能大于${configParam.sizeLimt}M`);
     }
     let reader = new FileReader();
     reader.onload = function(e) {

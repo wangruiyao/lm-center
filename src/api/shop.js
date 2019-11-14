@@ -22,7 +22,7 @@ export function hotsale (params) {  //
   });
 }
 
-export function hotcategory (params) {  //
+export function hotcategory (params) {  // 热门分类
   const url = process.env.NODE_ENV === 'development'
     // ? '/'
     ? 'lm/hotcategory.json' //成功

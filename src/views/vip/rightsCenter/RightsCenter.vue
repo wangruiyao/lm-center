@@ -20,9 +20,13 @@
         <div class="bottom">
           <div class="bottom-head">
             <rights-saturnus>
-              <div class="saturn-type">
+              <div @click="userUpGrade" class="saturn-type" v-if="vipInfo.nextgold <= vipInfo.gold">
+                <span class="icon iconfont">&#xe685;</span>
+              </div>
+              <div class="saturn-type" v-else>
                 <span>{{vipInfo.nextgold}}升级金</span>
               </div>
+
               <!--<canvas id="wave"></canvas>-->
             </rights-saturnus>
           </div>
@@ -45,6 +49,7 @@
 </template>
 
 <script>
+  import {userupgrade} from 'api/vip'
   import LmHeader from "../../../components/lmHeader/LmHeader";
   import LmScroll from "../../../components/lmScroll/LmScroll";
   import RightsDashBoard from "./components/RightsDashBoard";
@@ -79,27 +84,16 @@
 
     },
     methods: {
-      // setWave() {
-      //   const canvas = document.getElementById('wave');
-      //   const mW = canvas.width = 100;
-      //   const mH =canvas.height = 100;
-      //   const ctx = canvas.getContext('2d');
-      //   const lineWidth = 100;
-      //   const r = mH / 2; //圆心
-      //   const cR = r - 32 * lineWidth; //圆半径
-      //   this.drawCircle(ctx, r, cR);
-      // },
-      // drawCircle(ctx, r, cR) {
-      //   ctx.beginPath();
-      //   ctx.strokeStyle = '#1080d0';
-      //   ctx.arc(r, r, cR+1, 0, 2 * Math.PI);
-      //   ctx.stroke();
-      // },
       goforward(page) {
         goforward(page)
       },
       listenScroll(pos) {
         this.headerOpacity = -pos.y * 0.04;
+      },
+      userUpGrade() {
+        userupgrade().then(rsp =>{
+          console.log(rsp)
+        })
       }
     }
   }
@@ -137,6 +131,9 @@
           font-weight: 100;
           img {
             width: 80%;
+          }
+          >.icon {
+            font-size: 32px;
           }
         }
         .bottom-head {

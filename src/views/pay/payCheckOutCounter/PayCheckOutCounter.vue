@@ -1,8 +1,8 @@
 <template>
   <div id="pay-check-out-counter" class="lm-container">
 
-    <lm-header>
-      <div class="head-left" slot="left">收银台</div>
+    <lm-header :show-back="false">
+      <div @click.stop="backLastPage" class="head-left" slot="left"><span class="icon iconfont">&#xe612;</span>收银台</div>
     </lm-header>
     <lm-scroll ref="wrapper"
                :pullup="true">
@@ -42,6 +42,9 @@
       this.judgeBrowser();
     },
     methods: {
+      backLastPage() {
+        history.go(-1);
+      },
       getUrlParams(name) {  // 获取地址栏参数
         let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
         let r = window.location.search.substr(1).match(reg);
@@ -136,8 +139,15 @@
     width: 375px;
     background: #fff;
     .head-left {
+      @include flex-row();
+      height: $header-height;
+      >span {
+        font-size: 18px;
+        display: inline-block;
+        margin-right: 15px;
+      }
       line-height: 15px;
-      margin-left: 10px;
+      /*margin-left: 10px;*/
     }
 
     .check-out-inner-scroll {

@@ -84,24 +84,24 @@
       return {
         itemList: [
           {
-            icon: '\ue605',
+            icon: '\ue618',
             title: '首页',
             route: 'shopCenter'
           },
           {
             icon: '\ue650',
             title: '运营商',
-            route: ''
+            route: 'commingSoon'
           },
           {
             icon: '\ue66b',
             title: '实物',
-            route: ''
+            route: 'commingSoon'
           },
           {
-            icon: '\ue603',
+            icon: '\ue60f',
             title: '服务',
-            route: ''
+            route: 'commingSoon'
           },
           {
             icon: '\ue64d',

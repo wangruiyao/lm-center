@@ -11,7 +11,7 @@
                 direction="vertical"
                 :autoPlay="3000" ref="hotSaleSwiper">
           <div class="nut-swiper-slide gray" v-for="item in hotSaleScroll">
-            <div class="scroll-item" @click="go('shopCenterGoodsDetail')">
+            <div class="scroll-item" @click="linkTo(item)">
               <span class="tip">热门</span>
               <span>{{item.title}}</span>
             </div>
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+  import {linkto} from 'api/common'
   import {hotsale, hotsalescroll, viewhotsale} from 'api/shop'
   export default {
     name: "ShopCenterHotSale",
@@ -80,6 +81,7 @@
             viewhotsale({
               shelftype: i.type
             }).then(d => {
+              console.log('热销货架商品展示', d)
               flag ++;
               i.viewhotsale = d.data;
               if(flag === 3) {
@@ -101,6 +103,9 @@
         goforward('shopCenterGoodsList', {
           query: queryParams
         });
+      },
+      linkTo(item) {
+        linkto(item.urllocation, item.params)
       }
     }
   }

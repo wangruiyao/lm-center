@@ -120,12 +120,14 @@
       },
       viewSearchCollect() {
         viewsearchcollect().then(data => {
+          console.log('首页热搜显示:',data.data);
           this.hotSearchList = data.data;
         })
       },
       getHotCategory() {
         const _this = this;
         hotcategory().then(data => {
+          console.log('热门分类:', data)
           _this.hotcategoryList = data;
         })
       },

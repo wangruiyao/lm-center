@@ -23,6 +23,7 @@
     methods: {
       getGoodsType() {
         indexgoodstype().then(data => {
+          console.log('首页热门类型',data)
           this.iconList = data;
         })
       },

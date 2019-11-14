@@ -71,7 +71,7 @@ export function createorder (params) {  //运营商产品下单
     url,
     method: 'post',
     data: params,
-    catchError: false
+    catchError: true
   });
 }
 
@@ -84,12 +84,11 @@ export function createphysicalorder (params) {  //实物商产品下单
     url,
     method: 'post',
     data: params,
-    catchError: false
+    catchError: true
   });
 }
 
 export function uploadimage (params) {  //下单-身份证图片上传
-  console.log(params)
   const url = process.env.NODE_ENV === 'development'
     // ? '/'
     ? 'ordercenter/uploadimage' //成功
@@ -250,6 +249,19 @@ export function getrefundgoodsinfor (params) {  // 前台-获取退款商品信�
     // ? '/5c510e3c-41d8-42e9-acc4-5f121486181b'
     ? 'ordercenter/getrefundgoodsinfor' //成功
     : 'ordercenter/getrefundgoodsinfor';
+  return ajax({
+    url,
+    method: 'post',
+    data: params,
+    catchError: true
+  });
+}
+
+export function orderprogress (params) {  // 前台-订单流程展示
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/5c510e3c-41d8-42e9-acc4-5f121486181b'
+    ? 'ordercenter/orderprogress' //成功
+    : 'ordercenter/orderprogress';
   return ajax({
     url,
     method: 'post',

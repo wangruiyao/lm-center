@@ -9,7 +9,7 @@ let handleSuccess = {
 const MAIN_API_ROOT = 'http://192.168.0.210:7700/lmfrontstage';
 // const MAIN_API_ROOT = 'http://192.168.0.234:9004/';
 /*访问JSON接口地址*/
-const JSON_API_ROOT = 'http://192.168.0.210';
+const JSON_API_ROOT = 'http://192.168.0.210:10080';
 
 const tookitUrlList = ['/emarketOpenController/addressSearch', '/emarketOpenController/addressResSer'];
 const jsonUrlList = ['lm/indexgoodstype.json', 'lm/hotsale.json', 'lm/hotcategory.json', 'lm/effecttype.json', 'lm/applyrefundreason.json'];
@@ -37,16 +37,13 @@ let SUBCODE = '10000';
 // 请求失败，返回所有的data数据
 axios.interceptors.response.use((response) => {
   // Loading.hide();
-  // console.log(router.currentRoute.fullpath);
+  console.log('接口返回：',response);
   const currentPath = router.currentRoute.fullPath;
-  console.log(router.currentRoute.fullPath);
 
   const data = response.data;
   if(!response.config.handleError) {
     return response.data;
   }
-
-
   const code = data.code;
   const msg = data.msg;
   const subcode = data.subcode;
@@ -77,12 +74,12 @@ axios.interceptors.response.use((response) => {
 // 请求拦截器
 axios.interceptors.request.use((config) => {
   // Loading.show();
+  console.log('接口请求：',config);
   if(tookitUrlList.includes(config.url)) {
     config.baseURL = process.env.NODE_ENV === 'development' ? '/try' : 'http://kdcx.enms.cn/externallogic/'
   } else if (jsonUrlList.includes(config.url)) {
     config.baseURL = process.env.NODE_ENV === 'development' ? '/json' : JSON_API_ROOT
   }
-  console.log(config);
   return config;
 }, function (error) {
   return Promise.reject(error);

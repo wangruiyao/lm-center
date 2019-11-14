@@ -4,10 +4,9 @@
             direction="horizontal"
             ref="swipper"
             :canDragging="false"
-            :paginationVisible="true"
-
-    >
-      <div  v-for="(item,index) in bannerList" :key="index"  class="nut-swiper-slide">
+            :paginationClickable="true"
+            :paginationVisible="true">
+      <div @click="linkTo(item)"  v-for="(item,index) in bannerList" :key="index"  class="nut-swiper-slide">
         <img :src="item.piclocation">
       </div>
 
@@ -16,6 +15,7 @@
 </template>
 
 <script>
+  import {linkto} from 'api/common'
   import {viewbanner} from 'api/shop'
   export default {
     name: "ShopCenterSlider",
@@ -28,12 +28,16 @@
       this.getViewBanner();
     },
     methods: {
-      getViewBanner() {
+      getViewBanner() { // 获取首页轮播图数据
         const _this = this;
         viewbanner().then(data => {
+          console.log('首页轮播图', data)
           _this.bannerList = data.data;
           _this.$refs.swipper.updateEvent(1)
         })
+      },
+      linkTo(item) {
+        linkto(item.urllocation, item.params)
       }
     }
   }

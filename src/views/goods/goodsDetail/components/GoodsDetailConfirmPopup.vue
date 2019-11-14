@@ -176,6 +176,7 @@
       top: 15px;
       bottom: 50px;
       position: absolute;
+      width: 375px;
       /*bottom: 20px;*/
       .goods-info {
         margin-bottom: 22px;

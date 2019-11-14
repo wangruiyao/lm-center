@@ -49,3 +49,15 @@ export function golddetail (params) {  // 用户升级金明细
     catchError: true
   })
 }
+
+export function userupgrade () {  // 用户升级金升级
+  const url = process.env.NODE_ENV === 'development'
+    ? 'usercenter/userupgrade'
+    : 'usercenter/userupgrade';
+
+  return ajax({
+    url,
+    method: 'post',
+    catchError: true
+  })
+}

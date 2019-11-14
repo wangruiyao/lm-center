@@ -74,23 +74,30 @@
           let imgInfo = data;
           _this.imgList.map(i => {
             if(i.name === e.srcElement.name) {
-              i.url = imgInfo.imgUrl;
-              i.file = imgInfo.file;
-              i.handled = true;
-              this.upLoadImages(i.name, i.file)
+
+              // this.upLoadImages(i, imgInfo)
+              uploadimage({
+                idcard: imgInfo.file
+              }).then(rsp => {
+                Loading.hide();
+
+                console.log('1111111111', rsp);
+                if(rsp.code !== '0') {
+                  Toast('图片上传失败！')
+                } else {
+                  i.url = imgInfo.imgUrl;
+                  i.file = imgInfo.file;
+                  i.handled = true;
+                  this.urlList[i.name] = rsp.data.respidcard;
+                }
+
+              }).catch(err => {
+                Loading.hide();
+              })
             }
           });
 
         });
-      },
-      upLoadImages(name, file) {
-        uploadimage({
-          idcard: file
-        }).then(rsp => {
-          console.log('1111111111', rsp);
-          Loading.hide();
-          this.urlList[name] = rsp.data.respidcard;
-        })
       },
       checkUrlList() {
         let flag = this.imgList.every(i => {
@@ -103,9 +110,9 @@
       },
       onSubmit() {
         if(this.checkUrlList()) {
-         Toast('上传成功');
-         this.$emit('setCustomerImg', this.urlList)
-         goback();
+          Toast('上传成功');
+          this.$emit('setCustomerImg', this.urlList)
+          goback();
         }
       }
     }
@@ -113,53 +120,53 @@
 </script>
 
 <style lang="scss" scoped>
-#update-id-card {
-  background: #fff;
-  z-index: 999;
-
-  .img-item {
-    padding: 15px;
-    position: relative;
-    background: $bgd-color;
-    margin: 10px;
-    @include flex-column(center);
-    >img {
-      width: 236px;
-      margin: 10px 0;
-    }
-    .tips2 {
-      font-size: 9px;
-      color: $color-middle;
-    }
-    .upload-btn {
-      position: absolute;
-      width: 100%;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      background: #000;
-      opacity: 0;
-    }
-    box-shadow:0 2px 2px 0 rgba(4,0,0,0.16);
-  }
-
-  .footer {
-    border:1px solid rgba(34, 122, 255, 1);
-    padding: 5px;
-    color: #58ABF9;
-    margin: 10px;
-  }
-
-  .confirm-btn {
-    width: 375px;
-    position: fixed;
-    bottom: 0;
+  #update-id-card {
+    background: #fff;
     z-index: 999;
-    @include flex-row(center);
-    height: 45px;
-    font-size: 15px;
-    color: #fff;
-    @include blue-gradient()
+
+    .img-item {
+      padding: 15px;
+      position: relative;
+      background: $bgd-color;
+      margin: 10px;
+      @include flex-column(center);
+      >img {
+        width: 236px;
+        margin: 10px 0;
+      }
+      .tips2 {
+        font-size: 9px;
+        color: $color-middle;
+      }
+      .upload-btn {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        background: #000;
+        opacity: 0;
+      }
+      box-shadow:0 2px 2px 0 rgba(4,0,0,0.16);
+    }
+
+    .footer {
+      border:1px solid rgba(34, 122, 255, 1);
+      padding: 5px;
+      color: #58ABF9;
+      margin: 10px;
+    }
+
+    .confirm-btn {
+      width: 375px;
+      position: fixed;
+      bottom: 0;
+      z-index: 999;
+      @include flex-row(center);
+      height: 45px;
+      font-size: 15px;
+      color: #fff;
+      @include blue-gradient()
+    }
   }
-}
 </style>

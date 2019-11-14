@@ -19,9 +19,7 @@
   export default {
     name: "OrderDelivery",
     components: {OrderDeliveryInfoList, LmScroll, LmHeader},
-    mounted() {
-      console.log(this.$route)
-    }
+
   }
 </script>
 

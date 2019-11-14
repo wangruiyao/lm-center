@@ -53,6 +53,7 @@
 
       <!-- 协议 -->
       <order-agreement :aggre="isAggre"
+                       @handleAggrement="handleAggrement"
                        @handleAggrementPop="handleAggrementPop"
                        v-show="goodType === `0` || goodType === `1`"></order-agreement>
 
@@ -80,6 +81,15 @@
             @setBillInfo="setBillInfo"
             @closeSelf="showBillCheckPop"></order-bill-check>
 
+    <!-- 下单提示 -->
+    <div class="order-submit-result" v-show="orderSubmitSesultVisible">
+        <img :src="submitResultPic" />
+        <p>下单成功！</p>
+        <div v-show="!needToPay">您可以<span @click="go('shopCenter')">继续购物</span>或查看<span>该笔订单</span></div>
+        <div v-show="needToPay">正在跳转支付页面...</div>
+
+    </div>
+
     <transition :enter-active-class="$route.meta.pageIn"
                 :leave-active-class="$route.meta.pageOut">
       <keep-alive>
@@ -100,6 +110,7 @@
 </template>
 
 <script>
+  import {gotopay} from 'api/pay'
   import {ordergoodsinfor, effecttype,createphysicalorder,createorder} from 'api/order';
   import { mapMutations } from 'vuex';
   import OrderAggrementInfo from "./components/OrderAggrementInfo";
@@ -162,7 +173,9 @@
           customeridreverseimg: '',//	开户人身份证反面照片	STRING	必填
           customerinhandimg: '',//	开户人手持身份证照片	STRING	必填
         },  // 证件照信息
-        reqSubmitparams: {} // 订单提交参数
+        reqSubmitparams: {}, // 订单提交参数
+        orderSubmitSesultVisible: false,  // 是否展示下单结果
+        needToPay: true // 订单是否需要支付
       }
     },
     mounted() {
@@ -278,14 +291,20 @@
             Indicator.open();
             if(this.goodType === '2'){  // 实物商品下单
               createphysicalorder(this.reqSubmitparams).then(rsp => {
-                console.log(rsp)
                 Indicator.close();
-                this.gotoPay(rsp.data.orderid); // 订单提交成功，跳转支付页面
+                this.gotoPay(rsp.data); // 订单提交成功，跳转支付页面
+              }).catch(err =>{
+                Indicator.close();
+
               })
             }else if(this.goodType === '0' || this.goodType === '1') {  // 运营商商品下单
               createorder(this.reqSubmitparams).then(rsp => {
                 Indicator.close();
-                this.gotoPay(rsp.data.orderid);
+                this.needToPay = rsp.data.needPay;
+                this.gotoPay(rsp.data);
+              }).catch(err => {
+                Indicator.close();
+
               })
             }
           } else {
@@ -307,12 +326,13 @@
                 flag = false;
                 return false;
               }
+            }  else {
+              return true;
             }
           });
 
         } else {  // 运营商
           Object.keys(_this.$refs).every(i => {
-
             if(i !== 'wrapper') {
               if(_this.$refs[i].operatorSubmit()) {
                 Object.assign(_this.reqSubmitparams, _this.$refs[i].operatorSubmit());
@@ -321,6 +341,8 @@
                 flag = false;
                 return false;
               }
+            } else {
+              return true;
             }
           });
         }
@@ -330,23 +352,20 @@
         this.isAggre = !this.isAggre;
       },
       handleAggrementPop(status, aggrementType) { // status:协议显示状态，aggrementType：协议类型（0：客户入网服务协议及业务协议，1：防范电信诈骗违法犯罪温馨提示）
+        console.log(status)
         this.isShowAggrementInfo = status;
         if(aggrementType !== undefined) {
           this.aggrementType = aggrementType
         }
       },
-      gotoPay(orderid) { // 跳转支付页面
-        // console.log(orderid)
-        // let goodsidList = '';
-        // for(let i=0;i<this.orderGoodsInfo.goodsinfor.length;i++) {
-        //
-        //   if(i === this.orderGoodsInfo.goodsinfor.length-1) {
-        //     goodsidList += this.orderGoodsInfo.goodsinfor[i].goodsid
-        //   } else {
-        //     goodsidList += this.orderGoodsInfo.goodsinfor[i].goodsid + '|'
-        //   }
-        // }
-        window.location.href="http://192.168.0.210:7700/lmfrontstage/pay/topay?paytype=1&orderids="+orderid+"&userid="+this.$store.state.users.userInfo.userId
+      gotoPay(order) { // 跳转支付页面
+        this.orderSubmitSesultVisible = true;
+        if(order.needPay) {
+          gotopay({
+            paytype: 1,
+            orderids: order.orderid
+          })
+        }
       }
     },
     computed: {
@@ -367,6 +386,10 @@
 
         return orderPrice.toString();
 
+      },
+      submitResultPic() {  // 订单提交结果图片
+        return this.needToPay ? require('assets/images/pay/pay-result-waiting.png')
+            :  require('assets/images/pay/pay-result-success.png')
       }
     },
     beforeRouteLeave(to,from,next) {  // 监听页面离开
@@ -389,6 +412,29 @@
 
     .order-scroll-inner {
       margin-top: -10px;
+    }
+    .order-submit-result {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      width: 375px;
+      background: #fff;
+      z-index: 2000;
+      @include flex-column(center);
+      >p {
+        font-size: 22px;
+      }
+      >img {
+        width: 186px;
+        margin-bottom: 10px;
+      }
+      >div {
+        margin-top: 10px;
+        >span{
+          color: $blue-color-link;
+          font-size: 14px;
+        }
+      }
     }
   }
 </style>
