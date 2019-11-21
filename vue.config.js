@@ -2,17 +2,19 @@ let path = require('path');
 function resolve (dir) {
   return path.join(__dirname, dir)
 }
-
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
+const productionGzipExtensions = ['js', 'css'];
 const isProduction = process.env.NODE_ENV === 'production';
-const cdn = {
-  css: [],
-  js: [
-    'https://cdn.bootcss.com/vue/2.6.10/vue.runtime.min.js',
-    'https://cdn.bootcss.com/vue-router/3.0.3/vue-router.min.js',
-    'https://cdn.bootcss.com/vuex/3.0.1/vuex.min.js',
-    'https://cdn.bootcss.com/axios/0.18.0/axios.min.js',
-  ]
-}
+// const cdn = {
+//   css: [],
+//   js: [
+//     'https://cdn.bootcss.com/vue/2.6.10/vue.runtime.min.js',
+//     'https://cdn.bootcss.com/vue-router/3.0.3/vue-router.min.js',
+//     'https://cdn.bootcss.com/vuex/3.0.1/vuex.min.js',
+//     'https://cdn.bootcss.com/axios/0.18.0/axios.min.js',
+//   ]
+// }
 
 module.exports = {
   // pages: pagesConfig,
@@ -26,7 +28,7 @@ module.exports = {
   // outputDir: 'dist/' + (process.argv[3] === undefined ? DEFAULT_BUILD_MODULE : process.argv[3]),
   outputDir: './lianm',
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/lianm/'
+    ? '/'
     : '/',
   css: {
     extract: false,
@@ -61,8 +63,8 @@ module.exports = {
       
       '/api': {
         target:'http://192.168.0.210:7700/lmfrontstage',
-        //http://192.168.0.210:7700/lmfrontstage-juning
-        // target:'http://192.168.0.210:7700/lmfrontstage/',
+        // http://192.168.0.210:7700/lmfrontstage-juning，
+        // target:'http://dc.enms.cn/lmfrontstage/',
         // target:'http://192.168.0.234:9004/',
         changeOrigin: true,
         pathRewrite:{
@@ -70,6 +72,7 @@ module.exports = {
         }
       },
       '/json': {
+        // target:'http://dc.enms.cn',
         target:'http://192.168.0.210',
         changeOrigin: true,
         pathRewrite:{
@@ -125,28 +128,20 @@ module.exports = {
   },
   configureWebpack: config => {
     if (isProduction) {
-      // 用cdn方式引入
-      config.externals = {
-        'vue': 'Vue',
-        'vuex': 'Vuex',
-        'vue-router': 'VueRouter',
-        'axios': 'axios'
-      };
-      // 为生产环境修改配置...
+      // 生产环境
       config.plugins.push(
-        //生产环境自动删除console
-        new UglifyJsPlugin({
-          uglifyOptions: {
-            compress: {
-              warnings: false,
-              drop_debugger: true,
-              drop_console: true,
-            },
-          },
-          sourceMap: false,
-          parallel: true,
+        new CompressionWebpackPlugin({
+          filename: '[path].gz[query]', // 提示示compression-webpack-plugin@3.0.0的话asset改为filename
+          algorithm: 'gzip',
+          test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
+          threshold: 10240,
+          minRatio: 0.8
         })
       );
+
+    } else {
+      // 开发环境
+
     }
   }
 }

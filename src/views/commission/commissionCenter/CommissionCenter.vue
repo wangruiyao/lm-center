@@ -3,8 +3,8 @@
     <lm-header :title="`我的佣金`">
       <div class="header-right" slot="right">
         <div class="header-right-icon">
-          <span class="icon iconfont account-icon" @click="go('commissionAccount')">&#xe67a;</span>
-          <span class="icon iconfont" @click="go('commissionPickUpCommission')">&#xe623;</span>
+          <span class="icon iconfont account-icon" @click.stop="go('commissionAccount')">&#xe67a;</span>
+          <span class="icon iconfont" @click.stop="go('commissionPickUpInfo')">&#xe623;</span>
         </div>
       </div>
     </lm-header>
@@ -15,7 +15,7 @@
           <div class="commission-info-top">
             <span class="icon iconfont pay-icon">&#xe625;</span>
             <span>{{showPwd? pwd: secretPwd}}</span>
-            <span class="icon iconfont eye-icon" @click="handleShowPwd">{{showPwd?'&#xe72a;':'&#xe502;'}}</span>
+            <span class="icon iconfont eye-icon" @click="handleShowPwd">{{showPwd?'&#xe72a;':'&#xe620;'}}</span>
           </div>
           <div class="commission-info-center">
             <span>可提现佣金(元)</span>

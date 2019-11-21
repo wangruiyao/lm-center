@@ -15,7 +15,7 @@
         <span></span>
 
       </div>
-      <div class="next-grade-price">
+      <div class="next-grade-price" v-show="info.vip !== '4'">
         <span>
           <span class="price">{{(Number(info.nextdesposit)/100).toFixed(2)}}</span>
           元

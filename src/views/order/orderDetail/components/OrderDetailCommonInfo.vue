@@ -5,7 +5,7 @@
       <div>
         <span class="font-18">
           {{orderInfor.statusdesc}}
-          <span v-show="orderInfor.status === '0' && orderInfor.closetime >0" class="font-14 close-time">({{countDownTime}})</span>
+          <span v-show="orderInfor.status === '0'" class="font-14 close-time">({{closeTime}})</span>
         </span>
         <span>预估佣金: ￥<span class="preaward">{{(Number(orderInfor.preaward)/100).toFixed(2)}}</span></span>
       </div>
@@ -71,6 +71,12 @@
   export default {
     name: "OrderDetailCommonInfo",
     props: {
+      closeTime: {
+        type: String,
+        default() {
+          return '';
+        }
+      },
       orderInfor: { // 订单基本信息
         type: Object,
         default() {

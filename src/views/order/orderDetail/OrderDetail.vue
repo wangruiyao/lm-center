@@ -4,6 +4,7 @@
     <div class="order-detail-scroll" ref="orderDetailWarpper">
       <div class="order-detail-scroll-inner">
         <order-detail-common-info @go="go"
+                                  :close-time="countDownTime"
                                   :order-infor="orderInfo.orderinfor"
                                   :delivery="orderInfo.delivery"
                                   :resinfor="orderInfo.resinfor"></order-detail-common-info>
@@ -77,7 +78,10 @@
       closeTimeCountDown(time) {  // 订单关闭时间-倒计时
         const _this = this;
         let min=Math.floor(time%3600);
-        this.countDownTime = Math.floor(time/3600) + ":" + Math.floor(min/60) + ":"+ time%60;
+        let hours = Math.floor(time/3600).toString().length === 2 ? Math.floor(time/3600) : '0'+Math.floor(time/3600);
+        let minutes = Math.floor(min/60).toString().length === 2?Math.floor(min/60):'0'+Math.floor(min/60);
+        let seconds = (time%60).toString().length ===2?time%60:'0'+time%60;
+        this.countDownTime = hours + ":" + minutes + ":"+ seconds;
         if(time > 0) {
           this.timmer = setTimeout(function() {
             _this.closeTimeCountDown(time -1)

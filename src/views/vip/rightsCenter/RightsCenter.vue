@@ -24,7 +24,9 @@
                 <span class="icon iconfont">&#xe685;</span>
               </div>
               <div class="saturn-type" v-else>
-                <span>{{vipInfo.nextgold}}升级金</span>
+                <span v-if="vipInfo.vip ==='4'">{{vipInfo.nextgold}}</span>
+                <span v-else>{{vipInfo.nextgold}}升级金</span>
+
               </div>
 
               <!--<canvas id="wave"></canvas>-->

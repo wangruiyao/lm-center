@@ -7,7 +7,7 @@
 
     <div class="pay-result-point">
       <div class="pay-result-point-desc">
-        <span class="lm-icon icon iconfont">&#xe501;</span>
+        <span class="lm-icon icon iconfont">&#xe601;</span>
         <div>
           <p class="result">{{payInfo.desc}}</p>
           <!--<p>订单号 — 2019490343421830034</p>-->

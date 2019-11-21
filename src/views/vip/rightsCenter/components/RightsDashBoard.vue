@@ -5,7 +5,10 @@
     <div class="dashboard-data">
       <div class="vip">{{info.vip}}</div>
       <div class="now">{{showNum}}</div>
-      <div class="desc">距离{{info.total}}还差{{info.total-info.now}}</div>
+      <div class="desc">
+        <span v-show="info.vip === 'VIP4'">{{info.total}}</span>
+        <span v-show="info.vip !== 'VIP4'">距离{{info.total}}还差{{info.total-info.now}}</span>
+      </div>
       <div class="total">
         <span>{{info.total}}</span>
       </div>
@@ -31,7 +34,6 @@
     },
     watch: {
       info(newVal) {
-        // console.log(newVal);
         this.dashBoardInfo = newVal
       }
     },

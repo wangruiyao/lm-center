@@ -23,7 +23,7 @@ Vue.use(Router);
 
 
 const router = new Router({
-  mode: "history",
+  // mode: "history",
   scrollBehavior: () => ({ y: 100 }),
   routes: [
     {
@@ -55,6 +55,8 @@ const router = new Router({
  */
 router.beforeEach((to, from, next) => {
   store.commit(types.SET_PAGE_SCROLL_STATE, true);
+  // console.log('To:',to);
+  // console.log('From:',from);
 
   if(to.matched.length === 0) {
     goforward('error404');

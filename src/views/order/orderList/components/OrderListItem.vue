@@ -2,12 +2,13 @@
   <div id="order-list-item">
     <div class="header">
       <div class="header-left">
-        <img :src="require('../../../../assets/images/logo.png')">
-        <span>{{goodsInfo.netlabel === '' ? '钟华铭' : goodsInfo.netlabel}}</span>
+        <span v-show="goodsInfo.netlabel" class="icon iconfont net-label-icon">{{netLabelIcon(goodsInfo.netlabel)}}</span>
+        <img v-show="!goodsInfo.netlabel" :src="require('../../../../assets/images/logo.png')">
+        <span>{{!goodsInfo.netlabel ? '钟华铭' : goodsInfo.netlabel}}</span>
         <span class="lm-icon icon iconfont">&#xe66c;</span>
       </div>
       <div class="header-right">
-        <span class="close-time" v-show="this.countDownTime > 0">（交易关闭：{{countDownTime}}）</span>
+        <span class="close-time" v-show="goodsInfo.closetime > 0">（交易关闭：{{countDownTime}}）</span>
         <span class="order-type">{{goodsInfo.statusdesc}}</span>
       </div>
     </div>
@@ -61,8 +62,9 @@
 </template>
 
 <script>
-  import {gotopay} from 'api/pay'
-  import {confirmorder} from 'api/order'
+  import { gotopay } from 'api/pay'
+  import { confirmorder } from 'api/order'
+
   const LmIcon = resolve => require(['components/lmIcon/LmIcon'], resolve);
   export default {
     name: "OrderListItem",
@@ -80,11 +82,19 @@
         goodImg: require('assets/images/order/good.png'),
         countDownTime: '',
         installaddr: '', // 装机地址 宽带商品显示
+      }
+    },
+    watch: {
+      goodsInfo: {
+        deep: true,
+        immediate:true,
+        handler(newInfo) {
+          this.closeTimeCountDown(newInfo.closetime);
 
+        }
       }
     },
     mounted() {
-      this.closeTimeCountDown(15);
       try {
         this.installaddr = this.goodsInfo.ordergoods[0].resinfor.installaddr;
       } catch (e) {
@@ -92,6 +102,12 @@
       }
     },
     methods: {
+      netLabelIcon(netlabel) {
+        return netlabel === '中国联通' ? '\ue65e'
+          : netlabel === '中国移动' ? '\ue6b6'
+            : netlabel === '中国电信' ? '\ue626'
+              : '';
+      },
       goDetail() {
         this.$emit('goDetail');
       },
@@ -108,7 +124,10 @@
       closeTimeCountDown(time) {
         const _this = this;
         let min=Math.floor(time%3600);
-        this.countDownTime = Math.floor(time/3600) + ":" + Math.floor(min/60) + ":"+ time%60;
+        let hours = Math.floor(time/3600).toString().length === 2 ? Math.floor(time/3600) : '0'+Math.floor(time/3600);
+        let minutes = Math.floor(min/60).toString().length === 2?Math.floor(min/60):'0'+Math.floor(min/60);
+        let seconds = (time%60).toString().length ===2?time%60:'0'+time%60;
+        this.countDownTime = hours + ":" + minutes + ":"+ seconds;
         if(time !== 0) {
           this.timmer = setTimeout(function() {
             _this.closeTimeCountDown(time -1)
@@ -160,6 +179,11 @@
         .iconfont {
           margin-left: 10px;
           color: $color-light;
+        }
+        .net-label-icon {
+          margin-right: 10px;
+          margin-left: 0;
+          color: $blue-color-link;
         }
       }
       .header-right{

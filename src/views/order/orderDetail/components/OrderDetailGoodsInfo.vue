@@ -11,8 +11,8 @@
         <span class="order-type">{{orderInfo.statusdesc}}</span>
       </div>
     </div>
-    <div @click="goOrderDetail(order)" class="goods-box" v-for="order in orderGoods">
-      <div class="center">
+    <div class="goods-box" v-for="order in orderGoods">
+      <div @click="goOrderDetail(order)"  class="center">
         <img :src="order.goodspic">
         <div class="order-info">
           <div class="title">
@@ -37,12 +37,19 @@
         </div>
       </div>
 
-      <div class="footer">
+      <div class="footer" v-show="order.deliverycode">
         <div>
-          [顺丰]121323142154325
-          <span class="blue"> 复制单号</span>
+          [{{order.deliverycom}}]{{order.deliverycode}}
+          <span class="blue copy"
+                data-clipboard-action="copy"
+                :data-clipboard-text="order.deliverycode"
+                @click.stop="copyLink('copy')"> 复制单号</span>
         </div>
-        <div @click="goRefundApply(order.goodsid)" class="btn" v-show="(!(['0','6','7'].includes(orderInfo.status))) && order.ordergoodsstate === '0'">申请退货</div>
+        <div @click.stop="goRefundApply(order.goodsid)" class="btn" v-show="(!(['0','6','7'].includes(orderInfo.status))) && order.ordergoodsstate === '0'">申请退货</div>
+      </div>
+      <div class="footer" v-show="orderInfo.status==='0'">
+        <div></div>
+        <div class="btn to-pay-btn" @click.stop="gotoPay">去付款</div>
       </div>
     </div>
     <div class="price-box">
@@ -71,6 +78,7 @@
 </template>
 
 <script>
+  import {gotopay} from 'api/pay'
   export default {
     name: "OrderDetailGoodsInfo",
     props: {
@@ -133,8 +141,29 @@
             productid: order.productId
           })
         });
-        console.log(order)
-      }
+      },
+      copyLink(target) {
+        let _this = this;
+        if(this.clipboard){
+          this.clipboard.destroy();
+        }
+        this.clipboard = new _this.$clipboard(`.${target}`);
+        this.clipboard.on('success', (e)=> {
+          alert(1)
+          Toast('复制成功')
+        });
+        this.clipboard.on('error', (e)=> {
+          alert(2)
+
+          console.log(1)
+        });
+      },
+      gotoPay() { // 跳转支付页面
+        gotopay({
+          orderids: this.orderInfo.orderid,
+          paytype: 1
+        });
+      },
     }
   }
 </script>
@@ -194,7 +223,7 @@
       @include blue-gradiennt3();
     }
     .goods-box {
-      padding: 0 5px 5px;
+      padding: 0 5px 15px;
       position: relative;
       margin-bottom: 10px;
       .center {
@@ -242,7 +271,10 @@
           border-radius: 4px;
           border: solid $color-middle 1px;
         }
-
+        .to-pay-btn {
+          border: solid $blue-color-link 1px;
+          color: $blue-color-link;
+        }
       }
     }
     .price-box {

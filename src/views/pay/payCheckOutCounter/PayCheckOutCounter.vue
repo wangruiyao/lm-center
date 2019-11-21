@@ -43,7 +43,9 @@
     },
     methods: {
       backLastPage() {
-        history.go(-1);
+        Message.confirm('是否放弃本次订单支付？').then(()=> {
+          goback()
+        })
       },
       getUrlParams(name) {  // 获取地址栏参数
         let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
