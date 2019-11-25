@@ -3,7 +3,7 @@
 * */
 
 import { BlankLayout,HomeLayout, BasicLayout } from 'components/layouts'
-import toolkit from "../../../public/toolkit.umd";
+// import toolkit from "../../../public/toolkit.umd";
 
 export default [{
   path: '/shop',

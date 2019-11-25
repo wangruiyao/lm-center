@@ -15,7 +15,7 @@ import order from './order'
 import partner from './partner'
 import shop from './shop'
 import pay from './pay'
-import tookit from './tookit'
+// import tookit from './tookit'
 import permission from './permission'
 import commission from './commission'
 
@@ -38,7 +38,7 @@ const router = new Router({
     ...cart,
     ...order,
     ...partner,
-    ...tookit,
+    // ...tookit,
     ...permission,
     ...shop,
     ...pay,

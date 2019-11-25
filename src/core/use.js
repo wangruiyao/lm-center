@@ -39,19 +39,12 @@ window.accDiv = accDiv;
 window.accMul = accMul;
 
 
-import mint from 'mint-ui'
-Vue.use(mint);
-
-import NutUI from '@nutui/nutui';
-import '@nutui/nutui/dist/nutui.css';
-NutUI.install(Vue);
-
 import Vue2TouchEvents from 'vue2-touch-events'
 Vue.use(Vue2TouchEvents);
 
 //引入 lottie
-import lottie from 'vue-lottie';
-Vue.component('lottie', lottie);
+// import lottie from 'vue-lottie';
+// Vue.component('lottie', lottie);
 
 //引入clipboard
 import clipboard from 'clipboard';

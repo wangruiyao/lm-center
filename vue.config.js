@@ -79,21 +79,6 @@ module.exports = {
           '^/json':''
         }
       }
-      // ,
-      // '/test': {
-      //   target:'http://192.168.0.230:9004',
-      //   changeOrigin: true,
-      //   pathRewrite:{
-      //     '^/test':''
-      //   }
-      // },
-      // '/try': {
-      //   target: 'http://kdcx.enms.cn/externallogic/',
-      //   changeOrigin: true,
-      //   pathRewrite:{
-      //     '^/try':''
-      //   }
-      // }
     }
   },
   chainWebpack: (config) => {
@@ -129,6 +114,7 @@ module.exports = {
   configureWebpack: config => {
     if (isProduction) {
       // 生产环境
+
       config.plugins.push(
         new CompressionWebpackPlugin({
           filename: '[path].gz[query]', // 提示示compression-webpack-plugin@3.0.0的话asset改为filename

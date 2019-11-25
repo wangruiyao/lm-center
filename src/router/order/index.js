@@ -3,8 +3,8 @@
 * */
 import Vue from 'vue'
 import { BlankLayout, BasicLayout } from 'components/layouts'
-import toolkit from "../../../public/toolkit.umd";
-Vue.use(toolkit)
+// import toolkit from "../../../public/toolkit.umd";
+// Vue.use(toolkit)
 
 export default [{
   path: '/order',
