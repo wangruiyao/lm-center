@@ -42,7 +42,7 @@ export function getPayResult (params) {  // 获取支付结果
 }
 
 export function gotopay(params) { // 调起收银台
-  let goToPayBaseUrl = 'http://192.168.0.210:7700/lmfrontstage/pay/topay?userid='+store.state.users.userInfo.userId;
+  let goToPayBaseUrl = 'http://www.enms.cn/lmfrontstage/pay/topay?userid='+store.state.users.userInfo.userId;
   if(params) {
     Object.keys(params).forEach(key => {
       goToPayBaseUrl += '&'+key+'='+params[key]

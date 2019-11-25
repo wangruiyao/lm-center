@@ -91,7 +91,7 @@
     .change-account-btn {
       height: $input-height;
       width: 315px;
-      position: fixed;
+      position: absolute;
       bottom: 37px;
       left: 30px;
     }

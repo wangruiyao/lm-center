@@ -22,6 +22,7 @@
 </template>
 
 <script>
+  import {goEslint} from 'api/common'
   import {parterinfor} from 'api/partner'
   const LmHeader = resolve => require(['components/lmHeader/LmHeader'], resolve);
   const PartnerCenterTabBar = resolve => require(['./components/PartnerCenterTabBar'], resolve);
@@ -54,7 +55,7 @@
         }).catch(data=> {})
       },
       goEslint() {  // 去招募页
-        goforward('userEnlist', {developer: this.$store.state.users.userInfo.developerId})
+        goEslint()
       }
     }
   }

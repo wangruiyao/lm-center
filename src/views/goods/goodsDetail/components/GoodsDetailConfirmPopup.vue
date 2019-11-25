@@ -170,6 +170,7 @@
   .confirm-popup-box {
     position: relative;
     height: 437px;
+    width: 375px;
     .popup-scroll {
       overflow: hidden;
       padding: 15px 15px 20px;

@@ -41,6 +41,7 @@
 </template>
 
 <script>
+  import {goEslint} from 'api/common'
   import HomeCenterBox from "./HomeCenterBox";
   export default {
     name: "HomeCenterHelper",
@@ -50,7 +51,7 @@
         goforward(path,params)
       },
       goUserEnlist() {
-        goforward('userEnlist', {developer: this.$store.state.users.userInfo.developerId})
+        goEslint();
       }
     }
   }

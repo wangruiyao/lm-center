@@ -24,7 +24,7 @@ export default [{
           path: 'center',
           name: 'homeCenter',
           meta: {
-            title: '连萌首页',
+            title: '我的连萌',
             isLogin: true,
             home: true
           },

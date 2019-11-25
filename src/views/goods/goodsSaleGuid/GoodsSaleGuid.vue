@@ -141,6 +141,7 @@
       position: relative;
       width: 375px;
       height: 375px;
+      overflow: hidden;
       background: #123;
       >img {
         /*width: 375px;*/

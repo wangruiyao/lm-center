@@ -28,6 +28,7 @@
     name: "UserLogin",
     data() {
       return {
+        windowH: 0,
         toPath: 'homeCenter',
         loginWay: 'account',
         loginParams: {  // 登录信息
@@ -44,8 +45,8 @@
     },
     components: {UserLoginButtonList, UserLoginSwipe, LmLogo},
     mounted() {
+      this.windowH =window.innerHeight;
       this.toPath = this.$route.params.redirect === undefined ? 'shopCenter' : this.$route.params.redirect;
-
     },
     methods: {
       getLoginWay(type) {
@@ -64,7 +65,9 @@
       getCode(code) {
         this.loginParams.number.smscode = code
       },
-      login() {
+      login() { // 登录
+        this.$refs.swipe.lmInputBlur();
+        window.innerHeight = this.windowH;
         if(this.loginWay === 'account') {
           const data = {};
           data.username = this.loginParams.account.username;
@@ -77,7 +80,6 @@
             data.password = this.$RSA(data.password);
             this.loginByAccount(data);
           }
-          // console.log(JSON.stringify(this.loginParams.account))
         }else if(this.loginWay === 'number') {
           const data = this.loginParams.number;
           if(data.mobile === '') {
@@ -89,33 +91,43 @@
           }
         }
       },
-      getUserInfo() {
+      getUserInfo() { // 获取登录用户信息
         this.$store.dispatch('users/userInfo').then(data=>{
           goforward(this.toPath);
+          Loading.hide();
           Toast({
             message: '登陆成功',
             position: 'bottom'
           });
+        }).catch(()=>{
+          Loading.hide();
         })
       },
       loginByAccount(params) {
+        Loading.show();
         const _this = this;
         userloginbyname(params).then( data => {
           _this.getUserInfo();
-        }).catch(data => {})
+          Loading.hide();
+        }).catch(()=> {
+          Loading.hide();
+        })
       },
       loginByNumber(params) {
+        Loading.show();
         const _this = this;
         userloginbyphone(params)
           .then( data => {
+            Loading.hide();
             const userInfo = data.data;
             if(userInfo.length >= 2) {
               goforward('userLoginCheckAccount', {userInfo})
             } else {
               _this.getUserInfo();
             }
-          })
-          .catch( data => {});
+          }).catch(()=> {
+            Loading.hide();
+          });
       },
       clearLoginParams() {
         this.loginParams = {  // 登录信息

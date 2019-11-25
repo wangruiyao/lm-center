@@ -89,10 +89,10 @@
     position: fixed;
     top: 0;
     bottom: 0;
-    width: 100%;
+    width: 375px;
     background: $bgd-color;
     z-index: 999;
-
+    border-right: solid #e0e0e0 1px;
     .search-box {
       padding: 0 10px;
       .input-bgd {

@@ -49,7 +49,7 @@
   #order-footer {
     height: 50px;
     border-top: solid $line-deep 1px;
-    width: 100%;
+    width: 375px;
     position: fixed;
     bottom: 0;
     background: $bgd-color;

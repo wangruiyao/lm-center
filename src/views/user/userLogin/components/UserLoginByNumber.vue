@@ -3,7 +3,7 @@
 
     <div class="login-by-Number-inner">
       <!-- 手机号码 -->
-      <lm-input class="number"
+      <lm-input ref="numberInput" class="number"
                 :place-holder="inputSetting.number.placeholder"
                 :err-tip="numberErr"
                 :inputType="inputSetting.number.inputType"
@@ -64,6 +64,11 @@
       }
     },
     methods: {
+      lmInputBlur(){
+        for(let i in this.$refs) {
+          this.$refs[i].lmInputBlur()
+        }
+      },
       checkNumber(number) {
         this.numberInfo = number;
         this.$emit('getNumber', number)

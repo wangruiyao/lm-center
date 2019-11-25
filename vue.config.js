@@ -51,10 +51,10 @@ module.exports = {
   transpileDependencies: [],
   productionSourceMap: false, // 打包时忽略 .js.map文件
   pluginOptions: {
-    'cube-ui': {
-      postCompile: true,
-      theme: true
-    }
+    // 'cube-ui': {
+    //   postCompile: true,
+    //   theme: true
+    // }
   },
   devServer: {
     disableHostCheck: true,
@@ -62,9 +62,9 @@ module.exports = {
     proxy: {
       
       '/api': {
-        target:'http://192.168.0.210:7700/lmfrontstage',
+        // target:'http://192.168.0.210:7700/lmfrontstage',
         // http://192.168.0.210:7700/lmfrontstage-juning，
-        // target:'http://dc.enms.cn/lmfrontstage/',
+        target:'http://m.enms.cn/lmfrontstage/',
         // target:'http://192.168.0.234:9004/',
         changeOrigin: true,
         pathRewrite:{
@@ -72,8 +72,8 @@ module.exports = {
         }
       },
       '/json': {
-        // target:'http://dc.enms.cn',
-        target:'http://192.168.0.210',
+        target:'http://m.enms.cn',
+        // target:'http://192.168.0.210',
         changeOrigin: true,
         pathRewrite:{
           '^/json':''

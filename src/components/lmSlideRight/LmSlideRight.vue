@@ -1,22 +1,25 @@
 <template>
   <transition enter-active-class="fadeIn" leave-active-class="fadeOut">
   <div id="slide-right" v-show="slideVisiblity">
-    <div class="slide-Mask" @click="handleMaskClick"></div>
-    <transition enter-active-class="slideInRight" leave-active-class="slideOutRight">
-      <div class="slider-container" v-show="slideVisiblity">
-        <lm-scroll ref="wrapper"
-                   :pullup="true">
-          <div class="title">筛选</div>
-          <div class="filt-item">
-            <slot></slot>
+    <div class="slider-right-inner">
+      <div class="slide-Mask" @click="handleMaskClick"></div>
+      <transition enter-active-class="slideInRight" leave-active-class="slideOutRight">
+        <div class="slider-container" v-show="slideVisiblity">
+          <lm-scroll ref="wrapper"
+                     :pullup="true">
+            <div class="title">筛选</div>
+            <div class="filt-item">
+              <slot></slot>
+            </div>
+          </lm-scroll>
+          <div class="filter-button">
+            <span class="btn-reset" @click="reset">重置</span>
+            <span class="btn-confirm" @click="confirm">确认</span>
           </div>
-        </lm-scroll>
-        <div class="filter-button">
-          <span class="btn-reset" @click="reset">重置</span>
-          <span class="btn-confirm" @click="confirm">确认</span>
         </div>
-      </div>
-    </transition>>
+      </transition>
+    </div>
+
 
   </div>
   </transition>
@@ -54,6 +57,11 @@
     height: 100%;
     width: 375px;
     top: 0;
+    .slider-right-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
     .slide-Mask {
       height: 100%;
       width: 100%;
@@ -61,7 +69,7 @@
     }
     .slider-container {
       padding: 0 20px;
-      position: fixed;
+      position: absolute;
       z-index: 999;
       height: 100%;
       width: 75%;
@@ -74,7 +82,7 @@
       }
     }
     .filter-button{
-      position: fixed;
+      position: absolute;
       bottom: 20px;
       right: 10px;
       z-index: 999;

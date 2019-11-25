@@ -3,7 +3,9 @@
     <img :src="logo">
     <div class="header-search">
       <span class="lm-icon icon iconfont">&#xe68d;</span>
-      <input v-model="keywords" placeholder="关键字查询"
+      <input v-model="keywords"
+             ref="searchInput"
+             placeholder="关键字查询"
              @keypress="mobileSearch"
              @keyup.enter="pcSearch"/>
     </div>
@@ -28,6 +30,7 @@
         }
       },
       mobileSearch() {
+        this.$refs.searchInput.blur();
         if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端触发搜索
           if(event.keyCode === 13) {
             this.search()

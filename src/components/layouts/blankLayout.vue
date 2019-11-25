@@ -12,6 +12,7 @@
 
 <style lang="scss" scoped>
   #blank-layout {
+    overflow: hidden;
     position: relative;
     width: 375px;
     @include flex-column();

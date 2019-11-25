@@ -49,7 +49,8 @@
       },
       getUrlParams(name) {  // 获取地址栏参数
         let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
-        let r = window.location.search.substr(1).match(reg);
+        let paramsStr = "?"+window.location.href.split('?')[1];
+        let r = paramsStr.substr(1).match(reg);
         if (r != null) return decodeURIComponent(r[2]); return null;
       },
       decodeParams(){ //解密调取支付接口参数

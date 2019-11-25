@@ -11,8 +11,8 @@ let handleSuccess = {
 
 
 /*生产接口地址*/
-const MAIN_API_ROOT = 'http://www.enms.cn/lmfrontstage';
-const JSON_API_ROOT = 'http://www.enms.cn';
+const MAIN_API_ROOT = 'http://m.enms.cn/lmfrontstage';
+const JSON_API_ROOT = 'http://m.enms.cn';
 
 
 const tookitUrlList = ['/emarketOpenController/addressSearch', '/emarketOpenController/addressResSer'];

@@ -233,7 +233,7 @@
     .test {
       position: fixed;
       top: $header-height;
-      width: 100%;
+      width: 375px;
       background: #f2f2f2;
       z-index: 1000;
     }

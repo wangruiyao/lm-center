@@ -5,7 +5,8 @@
       <div class="lm-input-container">
         <slot></slot>
         <div v-if="isReadOnly" class="lm-input-masker" @click.prevent="handleInputClick"></div>
-        <input class="lm-input-input"
+        <input ref="lmInput"
+                class="lm-input-input"
                :type="localInputType"
                v-model="inputInfo"
                :style="{color: (errTip !== ''&& errTip !== undefined) ? ' #ff0018': ''}"
@@ -72,6 +73,10 @@
       this.listen = this.isListen;
     },
     methods: {
+      lmInputBlur(){  //主动触发Input失去焦点
+        console.log(1)
+        this.$refs.lmInput.blur();
+      },
       setInputVal(newVal) {
         this.inputInfo = newVal
       },

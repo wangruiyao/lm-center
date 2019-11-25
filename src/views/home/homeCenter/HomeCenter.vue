@@ -82,9 +82,10 @@
   }
   #home-center {
     width: 375px;
-    height: 400px;
-    background-size: 100%;
+    height: 700px;
+    background-size: auto;
     background-image: url("../../../assets/images/center/center-head.png");
+    background-repeat-y: no-repeat;
     .home-center-container {
       @include flex-column(baseline);
       min-height: 700px;

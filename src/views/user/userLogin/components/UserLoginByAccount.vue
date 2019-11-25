@@ -1,14 +1,14 @@
 <template>
   <div id="login-by-Account">
     <div class="login-by-Account-inner">
-      <lm-input class="username"
+      <lm-input ref="userNameInput" class="username"
                 :place-holder="inputSetting.username.placeholder"
                 :err-tip="usernameErr"
                 @handleInputBlur="checkUserName">
         <lm-icon :icon-class="inputSetting.username.iconClass"></lm-icon>
       </lm-input>
       <!--密码-->
-      <lm-input class="password"
+      <lm-input ref="pwdInput" class="password"
                 :place-holder="inputSetting.password.placeholder"
                 :err-tip="passwordErr"
                 :inputType="inputSetting.password.inputType"
@@ -53,20 +53,17 @@
       }
     },
     methods: {
+      lmInputBlur(){
+        for(let i in this.$refs) {
+          this.$refs[i].lmInputBlur()
+        }
+      },
       checkUserName(userName) {
-        // if(userName === '') {
-        //   this.inputSetting.username.errTip = '登录账号不能为空'
-        // } else {
-        //   this.inputSetting.username.errTip = ''
-        // }
+
         this.$emit('getUserName', userName)
       },
       checkPassword(password) {
-        // if(password === '') {
-        //   this.inputSetting.password.errTip = '请输入登录密码'
-        // } else {
-        //   this.inputSetting.password.errTip = ''
-        // }
+
         this.$emit('getPassword', password)
       }
     }

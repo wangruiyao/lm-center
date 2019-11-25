@@ -1,11 +1,13 @@
 <template>
   <div id="login-swiper">
+
       <user-login-swipe-button
               @toggleLogin="toggleLoginType">
 
       </user-login-swipe-button>
       <transition enter-active-class="slideInLeft" leave-active-class="slideOutLeft">
         <user-login-by-account
+                ref="loginByAccount"
                 v-if="loginType === 'account'"
                 @getUserName="getUserName"
                 @getPassword="getPassword"
@@ -46,6 +48,13 @@
       }
     },
     methods: {
+      lmInputBlur(){  // 登录触发input失去焦点
+        for(let i in this.$refs) {
+          if(this.$refs[i]){
+            this.$refs[i].lmInputBlur();
+          }
+        }
+      },
       sendCode() {
         this.$emit('sendCode')
       },

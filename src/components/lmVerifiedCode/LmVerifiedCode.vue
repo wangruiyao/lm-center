@@ -56,6 +56,9 @@
       }
     },
     methods: {
+      lmInputBlur(){  //主动触发Input失去焦点
+        this.$refs.code.lmInputBlur();
+      },
       handleCountClick() {
         if(this.number === '') {
           Toast('请输入手机号')
