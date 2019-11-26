@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import 'lib-flexible'
 import 'babel-polyfill'
-import 'utils/vconsole'
+// import 'utils/vconsole'
 // import style files
 import 'assets'
 import pinyin from 'js-pinyin'

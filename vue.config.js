@@ -17,7 +17,10 @@ const isProduction = process.env.NODE_ENV === 'production';
 // }
 
 module.exports = {
-  // pages: pagesConfig,
+  // pages: pagesConfig,\
+  // entry:{
+  //   app:['babel-polyfill','']
+  // },
   pages: {
     index: {
       entry: './src/main.js',
@@ -82,18 +85,19 @@ module.exports = {
     }
   },
   chainWebpack: (config) => {
-    config.module
-      .rule('js')
-      .include
-      .add('/packages')
-      .add('/src')
-      .end()
-      .use('babel')
-      .loader('babel-loader')
-      .tap(options => {
-        // 修改它的选项...
-        return options
-      });
+    // config.module
+    //   .rule('js')
+    //   .include
+    //   // .add('/packages')
+    //   .add('/src')
+    //   .add(resolve('node_modules'))
+    //   .end()
+    //   .use('babel')
+    //   .loader('babel-loader')
+    //   .tap(options => {
+    //     // 修改它的选项...
+    //     return options
+    //   });
     config.resolve.alias
       .set('src', resolve('src'))
       .set('public', resolve('public'))

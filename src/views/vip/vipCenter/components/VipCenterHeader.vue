@@ -53,7 +53,7 @@
 <style lang="scss" scoped>
   #vip-header {
     z-index: 777;
-    width: 100%;
+    width: 375px;
     height: $header-height-2;
     background-image: url("../../../../assets/images/vip/vip-header.png");
     background-size: 100%;

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --modern",
+    "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
@@ -25,6 +25,8 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
     "@nutui/babel-plugin-separate-import": "^1.2.0",
     "@vue/cli-plugin-babel": "^3.6.0",
     "@vue/cli-plugin-unit-mocha": "^3.6.0",
@@ -33,6 +35,7 @@
     "babel-plugin-component": "^1.1.1",
     "babel-polyfill": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
     "better-scroll": "^1.15.2",
     "chai": "^4.1.2",
     "compression-webpack-plugin": "^3.0.0",
@@ -49,6 +52,6 @@
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "not ie <= 8"
+    "not ie <= 10"
   ]
 }

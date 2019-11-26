@@ -1,8 +1,12 @@
 module.exports = {
   presets: [
-    '@vue/app', {
-      useBuiltIns: 'entry'
-    }
+    '@vue/app',
+    [
+      '@babel/preset-env',
+      {
+        'useBuiltIns': 'entry'
+      }
+    ]
   ],
   plugins: [
     [
@@ -11,9 +15,6 @@ module.exports = {
         "libraryName": "mint-ui",
         "style": true
       }
-    ],
-    ["@nutui/babel-plugin-separate-import", {
-      "style": "css"
-    }]
+    ]
   ]
 }

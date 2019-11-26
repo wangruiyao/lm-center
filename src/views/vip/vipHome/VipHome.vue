@@ -48,7 +48,7 @@
     @include flex-row();
     position: fixed;
     bottom: 0;
-    width: 100%;
+    width: 375px;
     height: 48px;
     color: #666;
     background: #fff;
