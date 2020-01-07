@@ -15,6 +15,7 @@ import vip from './modules/vip'
 import global from './modules/global'
 import shop from './modules/shop'
 import order from './modules/order'
+import commission from './modules/commission'
 // import common from './modules/common'
 
 const state = {
@@ -79,6 +80,7 @@ export default new Vuex.Store({
     users,
     vip,
     shop,
-    order
+    order,
+    commission
   }
 })

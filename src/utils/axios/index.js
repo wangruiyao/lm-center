@@ -6,18 +6,20 @@ let handleSuccess = {
   message: ''
 };
 /* 测试接口地址 */
-// const MAIN_API_ROOT = 'http://192.168.0.210:7700/lmfrontstage';
-// const JSON_API_ROOT = 'http://192.168.0.210:10080';
+const MAIN_API_ROOT = 'http://192.168.0.210:7700/lmfrontstage';
+const JSON_API_ROOT = 'http://192.168.0.210:10080';
 
 
 /*生产接口地址*/
-const MAIN_API_ROOT = 'http://m.enms.cn/lmfrontstage';
-const JSON_API_ROOT = 'http://m.enms.cn';
+// const MAIN_API_ROOT = 'http://m.enms.cn/lmfrontstage';
+// const JSON_API_ROOT = 'http://m.enms.cn';
 
 
-const tookitUrlList = ['/emarketOpenController/addressSearch', '/emarketOpenController/addressResSer'];
+// const tookitUrlList = ['/emarketOpenController/addressSearch', '/emarketOpenController/addressResSer'];
+/*json 接口*/
 const jsonUrlList = ['lm/indexgoodstype.json', 'lm/hotsale.json', 'lm/hotcategory.json', 'lm/effecttype.json', 'lm/applyrefundreason.json'];
-
+/*调生产接口*/
+const productUrlList = ['awardcenter/getwechatbyopenid']
 /*
 *   请求json文件路径
 * */
@@ -53,10 +55,13 @@ axios.interceptors.response.use((response) => {
   const subcode = data.subcode;
   const submsg = data.submsg;
   if(code !== CODE) {
-    if(code === '404' || code === '500') {
-      goforward(`error${code}`);
+    if(code === '404') {
+      goforward(`error404`);
+    }else if(code === '500') {
+      Toast('网络异常，请检查网络状态');
+    } else {
+      Toast(msg);
     }
-    Toast(msg);
     return Promise.reject(msg);
   } else if(subcode !== SUBCODE) {
     Toast(submsg);
@@ -79,10 +84,10 @@ axios.interceptors.response.use((response) => {
 axios.interceptors.request.use((config) => {
   // Loading.show();
   // console.log('接口请求：',config);
-  if(tookitUrlList.includes(config.url)) {
-    config.baseURL = process.env.NODE_ENV === 'development' ? '/try' : 'http://kdcx.enms.cn/externallogic/'
-  } else if (jsonUrlList.includes(config.url)) {
+  if (jsonUrlList.includes(config.url)) {
     config.baseURL = process.env.NODE_ENV === 'development' ? '/json' : JSON_API_ROOT
+  } else if(productUrlList.includes(config.url)) {
+    config.baseURL = process.env.NODE_ENV === 'development' ? '/product' : 'http://m.enms.cn/lmfrontstage'
   }
   return config;
 }, function (error) {

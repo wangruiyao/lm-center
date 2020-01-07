@@ -214,3 +214,16 @@ export function sendcodeforregister(params) {  // 找回密码-验证码验证
     catchError: true
   })
 }
+
+export function userlogout(params) {  // 用户退出登录
+  const url = process.env.NODE_ENV === 'development'
+    // ? '/fdeb6107-1448-48e0-8a1c-914f9f701f66' // 失败
+    ? 'usercenter/userlogout' // 成功
+    : 'usercenter/userlogout';
+  return ajax({
+    url,
+    data: params,
+    method: 'post',
+    catchError: true
+  })
+}

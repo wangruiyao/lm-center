@@ -192,7 +192,7 @@
         ordergoodsinfor(this.queryOrderDetailParams).then(rsp => {
           // 商品信息
           _this.orderGoodsInfo = rsp.data;
-          console.log('商品信息：', JSON.stringify(_this.orderGoodsInfo));
+          // console.log('商品信息：', JSON.stringify(_this.orderGoodsInfo));
           _this.orderGoodsInfo.goodsinfor.map(i => {
             const paramsItem = {
               goodsid: i.goodsid,

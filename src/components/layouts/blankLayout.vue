@@ -17,7 +17,7 @@
     width: 375px;
     @include flex-column();
     background: $bgd-color;
-    min-height: 667px;
+    height: 100%;
 
     .global-mask {
       position: absolute;

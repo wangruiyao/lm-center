@@ -11,7 +11,7 @@
         <div class="gold-detail-table-item" v-for="item in goldDetail">
           <span class="w-3">{{item.date}}</span>
           <span class="w-3 font-red">{{parseInt(item.gold).toFixed(2)}}</span>
-          <span class="w-4 font-blue">3</span>
+          <span class="w-4 font-blue">{{item.ordersource}}</span>
         </div>
       </div>
     </div>

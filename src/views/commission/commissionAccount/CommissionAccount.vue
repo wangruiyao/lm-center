@@ -2,7 +2,6 @@
   <div id="commission-account" class="lm-container">
     <lm-header :title="`佣金账户`">
       <div class="header-right" slot="right">
-        <span class="icon iconfont">&#xe6d2;</span>
       </div>
     </lm-header>
     <transition :enter-active-class="$route.meta.pageIn"
@@ -12,9 +11,10 @@
     <lm-scroll ref="wrapper"
                :pullup="true">
 
-
-      <commission-account-check v-show="false"></commission-account-check>
-      <commission-account-info></commission-account-info>
+      <!--未绑定佣金账户-->
+      <commission-account-check v-if="module === '0'"></commission-account-check>
+      <!--已绑定佣金账户-->
+      <commission-account-info @changeAccount="changeAccount" v-if="module === '1'"></commission-account-info>
     </lm-scroll>
   </div>
 </template>
@@ -28,7 +28,18 @@
   export default {
     name: "CommissionAccount",
     components: {CommissionAccountInfo, CommissionAccountCheck, LmHeader, LmScroll},
-    mounted() {
+    data() {
+      return {
+        module: 0
+      }
+    },
+    created() {
+      this.module = this.$route.params.module;  // 0: 未绑定 1: 已绑定
+    },
+    methods: {
+      changeAccount() {
+        this.module = '0'
+      }
     }
   }
 </script>

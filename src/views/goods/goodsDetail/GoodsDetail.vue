@@ -193,8 +193,12 @@
         const _this = this;
         goodinfor(params)
           .then(data => {
+            console.log(data.data)
             _this.goodDetail = data.data;
             _this.mainImg = _this.goodDetail.mainimages[0].url;
+            if(_this.goodDetail.selectCity !== '') {  //
+              _this.goodDetail.basicspec = Object.assign(_this.goodDetail.basicspec, {'选号地市': _this.goodDetail.selectCity})
+            }
             this.checkedGoodsid = this.goodDetail.goodsid;
           })
           .catch(data => {

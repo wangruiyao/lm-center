@@ -14,7 +14,11 @@ module.exports = {
       {
         "libraryName": "mint-ui",
         "style": true
-      }
+      },
+      // {
+      //   "libraryName": "element-ui",
+      //   "styleLibraryName": "theme-chalk"
+      // }
     ]
   ]
 }

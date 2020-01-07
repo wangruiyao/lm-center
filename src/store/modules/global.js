@@ -4,7 +4,8 @@ const commonUrl = 'http://m.enms.cn/lmfrontstage/';
 
 const state = {
   avatarImg: commonUrl + 'usercenter/getUserAvatar?userId=',
-  displayImg: commonUrl + 'common/displayimg?fileId='
+  displayImg: commonUrl + 'common/displayimg?fileId=',
+  getOpenIdUrl: 'http://kdcx.enms.cn/externallogic/weixin/getopenid?m=getopenid&appid=wx88811728ad990813&code=lm&redirectcode=lm'
 };
 
 export default {

@@ -17,10 +17,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 // }
 
 module.exports = {
-  // pages: pagesConfig,\
-  // entry:{
-  //   app:['babel-polyfill','']
-  // },
+
   pages: {
     index: {
       entry: './src/main.js',
@@ -65,10 +62,11 @@ module.exports = {
     proxy: {
       
       '/api': {
+
         // target:'http://192.168.0.210:7700/lmfrontstage',
         // http://192.168.0.210:7700/lmfrontstage-juning，
-        target:'http://m.enms.cn/lmfrontstage/',
-        // target:'http://192.168.0.234:9004/',
+        // target:'http://m.enms.cn/lmfrontstage/',
+        target:'http://192.168.0.234:9004/',
         changeOrigin: true,
         pathRewrite:{
           '^/api':''
@@ -80,6 +78,20 @@ module.exports = {
         changeOrigin: true,
         pathRewrite:{
           '^/json':''
+        }
+      },
+      '/mock': {
+        target: 'http://api.enms.cn:7001/mock/run',
+        changeOrigin: true,
+        pathRewrite:{
+          '^/mock':''
+        }
+      },
+      '/product': {
+        target:'http://m.enms.cn/lmfrontstage/',
+        changeOrigin: true,
+        pathRewrite:{
+          '^/product':''
         }
       }
     }

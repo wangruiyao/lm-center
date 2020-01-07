@@ -31,6 +31,19 @@ export default [{
             pageIn: 'slideInRight',
             pageOut: 'slideOutRight'
           },
+          children: [
+            {
+              path: 'commissionInfo/:id',
+              name: 'pickUpCommissionInfo',
+              meta: {
+                title: '佣金明细',
+                isLogin: false,
+                pageIn: 'slideInRight',
+                pageOut: 'slideOutRight'
+              },
+              component:  r => require.ensure([], () => r(require('views/commission/commissionInfo/CommissionInfo')), 'commissionInfo')
+            }
+          ],
           component:  r => require.ensure([], () => r(require('views/commission/commissionPickUpInfo/CommissionPickUpInfo')), 'commissionPickUpInfo')
         },
         {
@@ -45,7 +58,7 @@ export default [{
           component:  r => require.ensure([], () => r(require('views/commission/commissionInfo/CommissionInfo')), 'commissionInfo')
         },
         {
-          path: 'account',
+          path: 'account/:module',
           name: 'commissionAccount',
           meta: {
             title: '佣金账户',
@@ -56,10 +69,10 @@ export default [{
           component:  r => require.ensure([], () => r(require('views/commission/commissionAccount/CommissionAccount')), 'commissionAccount'),
           children: [
             {
-              path: 'change',
+              path: 'change/:awardType',
               name: 'commissionChange',
               meta: {
-                title: '佣金账户',
+                title: '绑定佣金账户',
                 isLogin: false,
                 pageIn: 'slideInRight',
                 pageOut: 'slideOutRight'

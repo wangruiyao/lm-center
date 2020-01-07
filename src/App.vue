@@ -6,7 +6,7 @@
 
 <style lang="scss">
   #app {
-    min-height: 100%;
+    height: 100%;
     @include flex-column(cernter);
   }
 </style>

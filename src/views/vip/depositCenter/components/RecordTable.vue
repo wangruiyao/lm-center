@@ -13,7 +13,7 @@
         <div class="record-table-item" v-for="(item, idx) in despoitdetail" :key="idx">
           <span>{{item.date}}</span>
           <span class="red-color">{{item.value > 0 ? `+${parseInt(item.value).toFixed(2)}` : parseInt(item.value).toFixed(2)}}</span>
-          <span>{{item.value > 0 ? `缴纳` : `提取`}}</span>
+          <span>{{item.changedesc}}</span>
           <span class="red-color">{{parseInt(item.result).toFixed(2)}}</span>
         </div>
       </div>

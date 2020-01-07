@@ -73,7 +73,7 @@
           this.payType = 'PT01'
 
         }
-        console.log(this.payType)
+        // console.log(this.payType)
       },
       wxToPay() {
         const _this = this;

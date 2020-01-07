@@ -22,7 +22,7 @@
 </template>
 
 <script>
-  import {updateuserinfor} from 'api/user.js';
+  import {updateuserinfor, userlogout} from 'api/user.js';
   import LmHeader from "../../../components/lmHeader/LmHeader";
   import LmCell from "../../../components/lmCell/LmCell";
   import MineAccountList from "./components/MineAccountList";
@@ -52,8 +52,11 @@
 
       changAccount() {  // 切换账号
         Message.confirm('确定退出当前账号？', '提示').then(rsp => {
-          sessionStorage.clear();
-          goforward('userLogin');
+          userlogout().then(() => {
+            sessionStorage.clear();
+            goforward('userLogin');
+          })
+
         })
 
       },

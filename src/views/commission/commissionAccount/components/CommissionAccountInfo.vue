@@ -2,36 +2,76 @@
   <div class="account-info">
     <div class="account-info-top">
       <span>当前账户</span>
-
       <!--支付宝-->
-      <div class="account-info-zfb" v-show="false">
+      <div class="account-info-zfb" v-show="userawardaccount.accounttype==='AT00'">
         <span class="icon iconfont zfb-icon">&#xe625;</span>
-        <span class="zfb-account">151****1360</span>
+        <span class="zfb-account">{{userawardaccount.accountno}}</span>
       </div>
 
       <!-- 微信 -->
-      <div class="account-info-wx">
+      <div class="account-info-wx" v-show="userawardaccount.accounttype==='AT01'">
         <span class="icon iconfont wx-icon">&#xe63a;</span>
         <div class="wx-account">
           <div class="wx-account-avatar">
-            <img :src="require('assets/images/avatar.jpg')">
+            <img :src="wechatInfo.headimgurl">
           </div>
-          <span class="wx-account-name">小葱豆腐</span>
+          <span class="wx-account-name">{{wechatInfo.nickname}}</span>
         </div>
       </div>
     </div>
 
-    <div class="change-button" @click="go('commissionChange')">变更佣金账户</div>
+    <div class="change-button" @click="changeCommissionAccount">变更佣金账户</div>
   </div>
 </template>
 
 <script>
+  import {getuserawardaccount, getwechatbyopenid} from 'api/commission'
   export default {
     name: "CommissionAccountInfo",
+    data() {
+      return {
+        // userawardaccount: {},
+        wechatInfo: {}
+      }
+    },
+    mounted() {
+      // this.getUserAwardAccount()
+    },
+    computed: {
+      userawardaccount() {
+        const awardAccount = this.$store.state.commission.userAwardAccount;
+        if(awardAccount.accounttype === 'AT01') {
+          this.getWechatByOpenId(awardAccount.accountno)
+        }
+        return awardAccount;
+      }
+
+    },
     methods: {
       go(path) {
         goforward(path)
+      },
+
+      // getUserAwardAccount() { // 获取登录用户佣金账户
+      //   getuserawardaccount().then(rsp=> {
+      //     console.log('用户账户信息', rsp.data);
+      //     this.userawardaccount = rsp.data;
+      //     if(rsp.data.accounttype === 'AT01') {
+      //       this.getWechatByOpenId(rsp.data.accountno)
+      //     }
+      //   })
+      // },
+      getWechatByOpenId(openid){  // 根据openid获取当前微信用户信息
+        getwechatbyopenid({
+          openid
+        }).then(rsp=> {
+          this.wechatInfo = rsp.data;
+        })
+      },
+      changeCommissionAccount() {
+        this.$emit('changeAccount')
       }
+
     }
   }
 </script>

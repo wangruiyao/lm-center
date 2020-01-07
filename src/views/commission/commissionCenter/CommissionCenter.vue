@@ -3,8 +3,8 @@
     <lm-header :title="`我的佣金`">
       <div class="header-right" slot="right">
         <div class="header-right-icon">
-          <span class="icon iconfont account-icon" @click.stop="go('commissionAccount')">&#xe67a;</span>
-          <span class="icon iconfont" @click.stop="go('commissionPickUpInfo')">&#xe623;</span>
+          <span class="icon iconfont account-icon" >&#xe67a;</span>
+          <span class="icon iconfont" @click.stop="goCommissionAccount">&#xe623;</span>
         </div>
       </div>
     </lm-header>
@@ -13,20 +13,24 @@
       <div class="scroll-inner">
         <div class="commission-info">
           <div class="commission-info-top">
-            <span class="icon iconfont pay-icon">&#xe625;</span>
-            <span>{{showPwd? pwd: secretPwd}}</span>
-            <span class="icon iconfont eye-icon" @click="handleShowPwd">{{showPwd?'&#xe72a;':'&#xe620;'}}</span>
+            <span v-show="!isBinfAccount" @click="goCommissionAccount">点击绑定佣金账号</span>
+
+            <span class="icon iconfont pay-icon" v-show="isBinfAccount && commissionInfo.accounttypedesc ==='支付宝'">&#xe625;</span>
+            <span class="icon iconfont pay-icon" v-show="isBinfAccount && commissionInfo.accounttypedesc ==='微信'">&#xe63a;</span>
+            <!--<span v-show="isBinfAccount">{{showPwd? commissionInfo.accountno: secretPwd}}</span>-->
+            <span v-show="isBinfAccount" class="icon iconfont eye-icon" @click="handleShowPwd">{{showPwd?'&#xe72a;':'&#xe620;'}}</span>
           </div>
           <div class="commission-info-center">
             <span>可提现佣金(元)</span>
-            <span class="commission-num">60.00</span>
+            <span class="commission-num">{{showPwd?(Number(commissionInfo.issuevalue)/100).toFixed(2):secretText}}</span>
           </div>
+
           <div class="commission-info-bottom">
             <span>共领取佣金（元）</span>
-            <span>￥28912.00</span>
+            <span>{{showPwd?`￥${(Number(commissionInfo.issued)/100).toFixed(2)}`:secretText}}</span>
           </div>
         </div>
-        <div class="commission-pick-up">
+        <div class="commission-pick-up" @click="userIssueAward">
           提取佣金
         </div>
         <div class="commission-handle-btn">
@@ -56,6 +60,7 @@
 </template>
 
 <script>
+  import {getuserawardaccount, userissueaward} from 'api/commission'
   import BScroll from 'better-scroll'
   const LmHeader = resolve => require(['components/lmHeader/LmHeader'], resolve);
   export default {
@@ -64,11 +69,24 @@
     data() {
       return {
         pwd: '',
-        showPwd: false,
+        secretText: '******',
+        // commissionInfo: {}, // 佣金账户信息
+        showPwd: true,
+        // isBinfAccount: false  // 时候绑定佣金账号
       }
     },
     mounted() {
-      this.pwd = '123456';
+      console.log(this.$store)
+
+      this.$store.dispatch('commission/getUserAwardAccount');
+      // getuserawardaccount().then(rsp => {
+      //   const commissionInfo = rsp.data;
+      //   this.isBinfAccount = !(!commissionInfo.hasOwnProperty('accounttype')
+      //     || !commissionInfo.hasOwnProperty('accounttypedesc')
+      //     || !commissionInfo.hasOwnProperty('accountno'));
+      //   this.commissionInfo = commissionInfo;
+      //   console.log(JSON.stringify(this.commissionInfo))
+      // });
       this.setScroll();
     },
     computed: {
@@ -77,6 +95,15 @@
           return '*'
         }).join('');
         return secret;
+      },
+      commissionInfo() {
+        return this.$store.state.commission.userAwardAccount;
+      },
+      isBinfAccount() {
+        const awardAccount = this.$store.state.commission.userAwardAccount;
+        return !(!awardAccount.hasOwnProperty('accounttype')
+          || !awardAccount.hasOwnProperty('accounttypedesc')
+          || !awardAccount.hasOwnProperty('accountno'));
       }
     },
     methods: {
@@ -93,6 +120,19 @@
       },
       go(path) {
         goforward(path)
+      },
+      goCommissionAccount() { // 跳转佣金账户
+        goforward('commissionAccount', {
+          module: this.isBinfAccount?'1':'0'
+        })
+      },
+      userIssueAward() {  // 提取佣金
+        Message('确定提取佣金至当前账户？').then(action => {
+          userissueaward().then(rsp => {
+            console.log('',rsp)
+          })
+        })
+
       }
 
     }
@@ -156,7 +196,7 @@
           .commission-info-center {
             @include flex-column(center);
             margin-bottom: 20px;
-            >span {
+            span {
               margin-bottom: 5px;
             }
             .commission-num {

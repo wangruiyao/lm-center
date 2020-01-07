@@ -47,3 +47,18 @@ export function uploadImg(e,config) { // 上传图片
   })
   
 }
+
+export function isWeiXin() {  // 判断是否是微信浏览器
+  const ua = window.navigator.userAgent.toLowerCase();
+  if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+    return true; // 是微信端
+  } else {
+    return false;
+  }
+}
+export function getUrlParams(name) {  // 获取地址栏参数
+  let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
+  let paramsStr = "?"+window.location.href.split('?')[1];
+  let r = paramsStr.substr(1).match(reg);
+  if (r != null) return decodeURIComponent(r[2]); return null;
+}

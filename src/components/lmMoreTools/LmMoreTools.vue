@@ -42,6 +42,8 @@
 
 <style lang="scss" scoped>
   .more-tools {
+    left: 50%;
+    margin-left: -187.5px;
     position: fixed;
     top: 0;
     bottom: 0;

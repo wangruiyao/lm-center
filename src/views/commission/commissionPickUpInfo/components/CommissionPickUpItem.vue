@@ -1,11 +1,11 @@
 <template>
   <div class="pick-up-item">
-    <div class="item-cell pick-up-num">
+    <div class="item-cell pick-up-num" @click="goCommissionInfo">
       <div class="cell-left">
         <span class="icon iconfont">&#xe50e;</span> 提现金额
       </div>
       <div class="cell-right">
-        <span class="pick-up-amount">2130.00</span>
+        <span class="pick-up-amount">{{(Number(awardIssueItem.issuevalue)/100).toFixed(2)}}</span>
         <span>元</span>
         <span class="icon iconfont">&#xe66c;</span>
       </div>
@@ -15,8 +15,8 @@
         <span class="icon iconfont">&#xe67a;</span> 发放账户
       </div>
       <div class="cell-right">
-        <span>支付宝</span>
-        <span>15165111360</span>
+        <span>{{awardIssueItem.accounttypedesc}}</span>
+        <span>{{awardIssueItem.accountno}}</span>
         <span class="icon iconfont">&#xe66c;</span>
       </div>
     </div>
@@ -25,25 +25,59 @@
         <span class="icon iconfont">&#xe619;</span> 申请时间
       </div>
       <div class="cell-right">
-        <span>2018-12-21</span>
+        <span>{{awardIssueItem.createtime}}</span>
         <span>30:31</span>
         <span class="icon iconfont">&#xe66c;</span>
       </div>
     </div>
     <div class="pick-up-result">
       <div class="result">
-        <span>2019-02-12</span>
-        <span class="fail-tip">失败原因</span>
-        <span>审核中</span>
+        <span v-show="!(awardIssueItem.awardstatedesc ==='发放失败')">{{awardIssueItem.updatetime}}</span>
+        <span class="fail-tip" v-show="awardIssueItem.awardstatedesc ==='发放失败'" @click="queryLatestOpertion">点击查看失败原因</span>
+        <span class="award-state-desc" :class="awardIssueItem.awardstatedesc ==='发放失败'?'award-state-desc-err':''">{{awardIssueItem.awardstatedesc}}</span>
       </div>
-      <div class="fail-info">系统超时，该笔金额已返回至待提现佣金，请重新申请提现。</div>
+      <div class="fail-info">{{latestOpertion.handlereason}}</div>
     </div>
   </div>
 </template>
 
 <script>
+  import {querylatestopertion} from 'api/commission'
   export default {
     name: "CommissionPickUpItem"
+    ,props: {
+      awardIssueItem: {
+        type: Object,
+        default() {
+          return {}
+        }
+      }
+    },
+    data() {
+      return {
+        latestOpertion: {
+          opertionid: "",
+          createtime: "",
+          handlereason: ""
+        }
+      }
+    },
+    methods: {
+      queryLatestOpertion() {
+        const queryParams = {
+          issueid: this.awardIssueItem.key
+        };
+        querylatestopertion(queryParams).then(rsp => {
+          console.log(rsp)
+          this.latestOpertion = rsp.data;
+        })
+      },
+      goCommissionInfo() {  // 跳转佣金详情
+        goforward('pickUpCommissionInfo', {
+          id: this.awardIssueItem.key
+        })
+      }
+    }
   }
 </script>
 
@@ -107,6 +141,13 @@
         }
         .fail-tip {
           font-size: 9px;
+        }
+        .award-state-desc {
+          font-size: 14px;
+        }
+        .award-state-desc-err {
+          font-size: 14px;
+          color: #FF0000;
         }
       }
 

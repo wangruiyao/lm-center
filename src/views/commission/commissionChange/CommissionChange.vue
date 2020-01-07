@@ -2,41 +2,86 @@
   <div class="commission-change lm-container" >
     <lm-header :title="`变更佣金账户`">
       <div class="header-right" slot="right">
-        <span class="icon iconfont">&#xe6d2;</span>
+        <!--<span class="icon iconfont">&#xe6d2;</span>-->
       </div>
     </lm-header>
     <div class="account-info-top">
-
       <!--支付宝-->
-      <div class="account-info-zfb" v-show="false">
+      <div class="account-info-zfb" v-show="awardType==='AT00'">
         <span class="icon iconfont zfb-icon">&#xe625;</span>
-        <input placeholder="请输入支付宝账号" type="text" />
+        <input placeholder="请输入支付宝账号" type="text" v-model="alipay"/>
       </div>
 
       <!-- 微信 -->
-      <div class="account-info-wx" >
+      <div class="account-info-wx" v-show="awardType==='AT01'">
         <span class="icon iconfont wx-icon">&#xe63a;</span>
         <div class="wx-account">
           <div class="wx-account-avatar">
-            <img :src="require('assets/images/avatar.jpg')">
+            <img :src="wechatInfo.headimgurl">
           </div>
-          <span class="wx-account-name">小葱豆腐</span>
+          <span class="wx-account-name">{{wechatInfo.nickname}}</span>
         </div>
       </div>
     </div>
 
-    <div class="change-button">确认绑定</div>
+    <div class="change-button" @click="bandAliPayAccount">确认绑定</div>
   </div>
 </template>
 
 <script>
+  import {getUrlParams} from 'utils/basicMethods';
+  import {getwechatbyopenid, bandalipayaccount} from 'api/commission';
   const LmHeader = resolve => require(['components/lmHeader/LmHeader'], resolve);
   export default {
     name: "CommissionChange",
     components: {LmHeader},
+    data() {
+      return {
+        awardType: 'AT00',
+        wechatInfo: {},
+        alipay: '', // 支付宝id
+        openid: ''  // opneid
+      }
+    },
+    mounted() {
+      this.awardType = this.$route.params.awardType;
+      if(this.awardType === 'AT01') {
+        this.openid = getUrlParams('openid');
+        this.getWechatByOpenId(this.openid)
+      }
+    },
     methods: {
-      go(path) {
-        goforward(path)
+      getWechatByOpenId(openid){  // 根据openid获取当前微信用户信息
+        getwechatbyopenid({
+          openid
+        }).then(rsp=> {
+          this.wechatInfo = rsp.data;
+        }).catch(err => {
+          // this.wechatInfo = err;
+        })
+      },
+      bandAliPayAccount() {
+        /*
+        awardtype	AT00：支付宝；AT01：微信	STRING	必填
+        awardaccount	佣金账户，alipay或者openid	STRING	必填
+        */
+        const queryParams = {
+          awardtype: this.awardType,
+          awardaccount: this.awardType ==='AT00'?this.alipay:this.awardType ==='AT01'?this.openid:''
+        };
+        if(queryParams.awardaccount === '') {
+          Toast('请输入绑定账号')
+        } else {
+          Message('确定提交绑定佣金账户？').then(action => {
+            bandalipayaccount(queryParams).then(rsp => {
+              this.$store.dispatch('commission/getUserAwardAccount');
+              Toast('绑定成功!').then(() => {
+                goback();
+              })
+            })
+          })
+        }
+
       }
     }
   }
